@@ -40,6 +40,7 @@ const sendOtpVerificationMail = async ({ email }, res) => {
 
     const saltRounds = 10;
     const hashedOtp = await bcrypt.hash(otp, saltRounds);
+    console.log(hashedOtp);
 
     await Otp.updateOne(
       { email },
@@ -56,8 +57,9 @@ const sendOtpVerificationMail = async ({ email }, res) => {
     await transporter.sendMail(mailoption);
 
     console.log("OTP Email sent successfully");
+    console.log(email);
 
-    res.redirect(`user/verifyotp?email=${email}`);
+    res.render('user/verifyotp', {email: email});
   } catch (error) {
     console.log("Error sending OTP email:", error.message);
   }

@@ -6,6 +6,7 @@ const app = express()
 const nocache = require('nocache')
 const path = require('path')
 const session = require('express-session')
+const port = 3000
 // const bodyparser = require('body-parser')
 app.use(nocache())
 app.use(express.static(path.join(__dirname, 'public')))
@@ -25,6 +26,6 @@ app.set('views', path.join(__dirname,'view'))
 const userRoute = require('./routes/userRoute')
 app.use('/', userRoute)
 
-app.listen(3000, () => {
-    console.log('server running')
+app.listen(port, () => {
+    console.log(`server running on http://localhost:${port}`);
 })

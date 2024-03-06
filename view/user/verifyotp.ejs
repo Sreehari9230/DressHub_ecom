@@ -6,7 +6,7 @@
 
   <meta name="author" content="flexkit">
 
-  <link rel="shortcut icon" href="/user/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.gstatic.com">
 
   <!-- Fonts -->
@@ -26,7 +26,7 @@
   <![endif]-->
 
   <!-- Document Title -->
-  <title>BESPOKE&amp; E commerce Template</title>
+  <title>VerifyOTP</title>
   <style>
     .otp-container {
       display: flex;
@@ -361,7 +361,7 @@
 
       <div class="logo">
         <a href="/">
-          <img src="/images/logo.jpg" alt="Uomo" class="logo__image d-block">
+          <img src="/public/images/logo.png" alt="Uomo" class="logo__image d-block"> 
         </a>
       </div><!-- /.logo -->
 
@@ -606,7 +606,7 @@
     <div class="header-desk header-desk_type_1">
       <div class="logo">
         <a href="/">
-          <img src="/images/logo.jpg" alt="Uomo" class="logo__image d-block">
+          <img src="/images/logo.jpg" alt="Uomo" class="logo__image d-block"> 
         </a>
       </div><!-- /.logo -->
 
@@ -726,7 +726,7 @@
 
       </header>
       <h3 style="margin-bottom: 20px; text-align: center;">Enter OTP Code</h3>
-      <form id="otpForm">
+      <form id="otpForm" >
         <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
           <input type="hidden" id="emailInput" name="email" value="<%= email %>">
           <input type="text" class="otp-input" name="one"
@@ -752,7 +752,7 @@
         <div id="expirationMessage" style="margin-bottom: 10px;"></div>
         <span id="countdown" style="display: block; margin-bottom: 20px;"></span>
         <span class="text-secondary">Didn't receive code?</span>
-        <button class="genric-btn success-border radius" type="button" id="resendLink"
+        <button class="genric-btn success-border radius" type="button" id="resendOTPBtn"
           style="width: 100%; height: 40px; background-color: #ffffff; color: #000000; border: 1px solid #000000; border-radius: 5px; cursor: pointer;">RESEND
           OTP</button>
           
@@ -836,7 +836,7 @@
 
       resendButton.addEventListener('click', function () {
         if (countdown <= 0) {
-          fetch('/sendotp');
+          fetch('/sendOtp');
           countdown = 60;
           updateTimerDisplay();
           resendButton.disabled = true;
@@ -850,98 +850,94 @@
       </script>
     
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const otpForm = document.getElementById('otpForm');
-    const errorMessageElement = document.getElementById('errorMessage');
-    
-    // Add event listener to the form submission
-    otpForm.addEventListener('submit', async function(event) {
-        event.preventDefault(); // Prevent default form submission behavior
-        
-        // Collect form data
-        const formData = new FormData(otpForm);
-        
-        // Create an object to hold the form data
-        const formObject = {};
-        formData.forEach(function(value, key){
-            formObject[key] = value;
-        });
-        
-        try {
-            // Make a fetch request
-            const response = await fetch('/otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formObject) // Convert the form object to JSON string
-            });
-            
-            const data = await response.json(); // Parse response body as JSON
-            
-            if (response.ok) {
-                // Handle successful response, maybe redirect or show a success message
-                console.log('OTP verification successful');
-                window.location.href = '/home';
-            } else {
-                // Handle error response
-                console.error('Failed to verify OTP');
-                if (data.message) {
-                    // Display error message within the form
-                    errorMessageElement.textContent = data.message;
-                }
-                
-                // Highlight the invalid OTP input fields (if needed)
-                const otpInputs = document.querySelectorAll('.otp-input');
-                otpInputs.forEach(input => {
-                    input.style.borderColor = 'red';
-                });
-            }
-        } catch (error) {
-            console.error('Error occurred during OTP verification:', error);
-        }
-    });
-});
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const resendButton = document.getElementById('resendLink');
-    const successMessageElement = document.getElementById('successMessage');
-    
-    // Add event listener to the resend button
-    resendButton.addEventListener('click', async function(event) {
-        // Prevent default button behavior
-        event.preventDefault();
-        
-        // Get the email value from the hidden input field
-        const email = document.getElementById('emailInput').value;
-
-        // Make a fetch request to resend OTP
-        try {
-            const response = await fetch('/resend-otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email: email }) // Include email in the request body
-            });
-
-            if (response.ok) {
-                // Display success message within the form
-                successMessageElement.textContent = 'OTP resent successfully';
-            } else {
-                // Handle error response
-                console.error('Failed to resend OTP');
-            }
-        } catch (error) {
-            console.error('Error occurred while resending OTP:', error);
-        }
-    });
-});
-
-</script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const otpForm = document.getElementById('otpForm');
+          const errorMessageElement = document.getElementById('errorMessage');
+          const resendButton = document.getElementById('resendLink');
+          const successMessageElement = document.getElementById('successMessage');
+          
+          // Add event listener to the form submission
+          otpForm.addEventListener('submit', async function(event) {
+              event.preventDefault(); // Prevent default form submission behavior
+              console.log('kkk');
+              // Collect form data
+              const formData = new FormData(otpForm);
+              
+              // Create an object to hold the form data
+              const formObject = {};
+              formData.forEach(function(value, key){
+                  formObject[key] = value;
+              });
+              console.log(formObject);
+              
+              try {
+                  // Make a fetch request
+                  const response = await fetch(`/verifyotp?email=${email}`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(formObject) // Convert the form object to JSON string
+                  });
+                  
+                  const data = await response.json(); // Parse response body as JSON
+                  
+                  if (response.ok) {
+                      // Handle successful response, maybe redirect or show a success message
+                      console.log('OTP verification successful');
+                      window.location.href = '/';
+                  } else {
+                      // Handle error response
+                      console.error('Failed to verify OTP');
+                      if (data.message) {
+                          // Display error message within the form
+                          errorMessageElement.textContent = data.message;
+                      }
+                      
+                      // Highlight the invalid OTP input fields (if needed)
+                      const otpInputs = document.querySelectorAll('.otp-input');
+                      otpInputs.forEach(input => {
+                          input.style.borderColor = 'red';
+                      });
+                  }
+              } catch (error) {
+                  console.error('Error occurred during OTP verification:', error);
+              }
+          });
+      
+          // Add event listener to the resend button
+          resendButton.addEventListener('click', async function(event) {
+              // Prevent default button behavior
+              event.preventDefault();
+              
+              // Get the email value from the hidden input field
+              const email = document.getElementById('emailInput').value;
+      
+              // Make a fetch request to resend OTP
+              try {
+                  const response = await fetch('/resend-otp', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ email: email }) // Include email in the request body
+                  });
+      
+                  if (response.ok) {
+                      // Display success message within the form
+                      successMessageElement.textContent = 'OTP resent successfully';
+                  } else {
+                      // Handle error response
+                      console.error('Failed to resend OTP');
+                  }
+              } catch (error) {
+                  console.error('Error occurred while resending OTP:', error);
+              }
+          });
+      });
+      </script>
+      
 
   <script>
     const inputs = document.querySelectorAll('.otp-input');
@@ -1122,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </footer><!-- /.footer-mobile container position-fixed d-md-none bottom-0 -->
 
   <!-- Footer Scripts -->
-  <script src="/public/js/theme.js"></script>
+  <script src="/public/"></script>
 </body>
 
 </html>
