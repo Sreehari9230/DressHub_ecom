@@ -200,7 +200,7 @@
           <button class="btn-close-lg js-close-aside ms-auto"></button>
         </div><!-- /.aside-header -->
 
-        <form action="./login_register.html" method="POST" class="aside-content">
+        <form action="/userlogin" method="POST" class="aside-content">
           <div class="form-floating mb-3">
             <input name="email" type="email" class="form-control form-control_gray" id="customerNameEmailInput" placeholder="name@example.com">
             <label for="customerNameEmailInput">Username or email address *</label>
@@ -218,14 +218,15 @@
               <input name="remember" class="form-check-input form-check-input_fill" type="checkbox" value="" id="flexCheckDefault">
               <label class="form-check-label text-secondary" for="flexCheckDefault">Remember me</label>
             </div>
-            <a href="./reset_password.html" class="btn-text ms-auto">Lost password?</a>
+            <a href="/forgotpassword" class="btn-text ms-auto">Lost password?</a>
           </div>
 
-          <button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button>
+          <a href="/userlogin"><button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button></a>
+          
 
           <div class="customer-option mt-4 text-center">
             <span class="text-secondary">No account yet?</span>
-            <a href="./login_register.html#register-tab" class="btn-text js-show-register">Create Account</a>
+            <a href="/userRegister" class="btn-text js-show-register">Create Account</a>
           </div>
         </form>
       </div><!-- /.customer__login -->
@@ -728,7 +729,7 @@
   </div><!-- /.quickview position-fixed -->
   
   <!-- Newsletter Popup -->
-  <div class="modal fade" id="newsletterPopup" tabindex="-1" aria-hidden="true">
+  <!-- <div class="modal fade" id="newsletterPopup" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog newsletter-popup modal-dialog-centered">
       <div class="modal-content">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -750,8 +751,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div><!-- /.newsletter-popup position-fixed -->
+    </div> -->
+  <!-- </div>/.newsletter-popup position-fixed -->
 
   <!-- Go To Top -->
   <div id="scrollTop" class="visually-hidden end-0"></div>
@@ -760,16 +761,17 @@
   <div class="page-overlay"></div><!-- /.page-overlay -->
 
   <!-- External JavaScripts -->
-  <script src="/public/js/jquery.min.js"></script>
-  <script src="/public/js/bootstrap.bundle.min.js"></script>
-  <script src="/public/js/bootstrap-slider.min.js"></script>
-  <!-- <script src="js/plugins/jquery.waypoints.min.js"></script> -->
-  <!-- <script src="js/plugins/sticky.min.js"></script> -->
-  <script src="/public/js/swiper.min.js"></script>
-  <script src="/public/js/countdown.js"></script>
+  <script src="/user/js/jquery.min.js"></script>
+  <script src="/user/js/bootstrap.bundle.min.js"></script>
+  <script src="/user/js/bootstrap-slider.min.js"></script>
+  <!-- <script src="js/plugins/jquery.waypoints.min.js"></script>
+  <script src="js/plugins/sticky.min.js"></script> -->
+  <script src="/user/js/swiper.min.js"></script>
+  <script src="/user/js/countdown.js"></script>
+  <script src="/public/user/js/jquery.fancybox.js"></script>
 
   <!-- Footer Scripts -->
-  <script src="/public/js/theme.js"></script>
+  <script src="/user/js/theme.js"></script>
 
 
 

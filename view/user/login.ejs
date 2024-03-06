@@ -15,16 +15,16 @@
         <div class="tab-content pt-2" id="login_register_tab_content">
           <div class="tab-pane fade show active" id="tab-item-login" role="tabpanel" aria-labelledby="login-tab">
             <div class="login-form">
-              <form name="login-form" class="needs-validation" novalidate="">
+              <form name="login-form" class="needs-validation" novalidate="" method="post">
                 <div class="form-floating mb-3">
-                  <input name="login_email" type="email" class="form-control form-control_gray" id="customerNameEmailInput1" placeholder="Email address *" required="">
+                  <input name="email" type="email" class="form-control form-control_gray" id="email" placeholder="Email address *" required="">
                   <label for="customerNameEmailInput1">Email address *</label>
                 </div>
       
                 <div class="pb-3"></div>
       
                 <div class="form-floating mb-3">
-                  <input name="login_password" type="password" class="form-control form-control_gray" id="customerPasswodInput" placeholder="Password *" required="">
+                  <input name="password" type="password" class="form-control form-control_gray" id="password" placeholder="Password *" required="">
                   <label for="customerPasswodInput">Password *</label>
                 </div>
       
@@ -37,6 +37,11 @@
                 </div>
       
                 <button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button>
+                <% if (typeof message !=='undefined' ) { %>
+                  <h5 style="color: red; text-align: center;">
+                    <%= message %>
+                  </h5>
+                  <% } %>
       
                 <div class="customer-option mt-4 text-center">
                   <span class="text-secondary">No account yet?</span>

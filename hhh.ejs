@@ -1,0 +1,1077 @@
+<div class="form-group">
+    <label for="exampleInputCity1">Category</label>
+    <select class="form-control" name="productcategory" id="exampleInputCity1">
+        <option value="">Select Category</option>
+        <% productData.forEach(productData => { %>
+        <option value="<%= productData.name %>"><%= productData.name %></option>
+        <% }) %>
+    </select>
+</div>
+
+
+<div class="col-md-9">
+    <% if(Category.length > 0) %>
+    <% for(let i=0; i<Category.length;i++){ %>
+    <div class="mb-2 form-check form-check-inline" style="width: 45%;">
+        <input class="form-check-input" checked="" name="mycategory" type="radio" name="productcategory">
+        <span class="form-check-label"> <%= Category[i].name %> </span>
+    </div>
+    <% } %>
+    <%  %>
+</div>
+
+
+
+
+<div class="col-lg-2 col-sm-2 col-4 col-status">
+    <span class="badge rounded-pill alert-success">List</span>
+</div>
+
+
+
+<td>
+    <% if (Products[i].is_Listed == false) { %>
+      <form action="/admin/Listproduct" method="post">
+        <input type="hidden" name="id" value="<%= Products[i]._id %>">
+        <button type="submit" class="btn btn-light rounded btn-sm font-sm" style="background-color: #3bff09;">
+          <i>List</i>
+        </button>
+      </form>
+    <% } else { %>
+      <form action="/admin/Unlistproduct" method="post">
+        <input type="hidden" name="id" value="<%= Products[i]._id %>">
+        <button type="submit" class="btn btn-light rounded btn-sm font-sm" style="background-color: rgb(231, 14, 14);">
+          <i>Unlist</i>
+        </button>
+      </form>
+    <% } %>
+    
+</td>
+
+
+
+<% if (Datas.Image && Array.isArray(Datas.Image) && Datas.Image.length > 0) { %>
+  <% for (let i = 0; i < Datas.Image.length; i++) { %>
+      <div class="image-container" id="pdtImage_<%= i %>">
+          <img src="/proImage/<%= Datas.Image[i] %>" alt="product Image" width="100" height="100">
+          <button style="background-color: red;" onclick="deleteImage(event, '<%= Datas.Image[i] %>', '<%= Datas._id %>')"><a href="#">Delete</a></button>
+      </div>
+  <% } %>
+<% } else { %>
+  <p>No images available</p>
+<% } %>
+
+
+<div class="form-group">
+  <label for="exampleInputName1">Product Name</label>
+  <input type="hidden" class="form-control" name="id" value="<%=Datas._id %>">
+  <input type="text" class="form-control" name="productName" id="exampleInputName1"
+      value="<%=Datas.name %>" placeholder="Product Name" required>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======================================
+
+
+
+
+    <!-- Customer Login Form -->
+    <div class="aside aside_right overflow-hidden customer-forms" id="customerForms">
+      <div class="customer-forms__wrapper d-flex position-relative">
+        <div class="customer__login">
+          <div class="aside-header d-flex align-items-center">
+            <h3 class="text-uppercase fs-6 mb-0">Login</h3>
+            <button class="btn-close-lg js-close-aside ms-auto"></button>
+          </div><!-- /.aside-header -->
+
+          <form action="/login" method="post" class="aside-content">
+            <div class="form-floating mb-3">
+              <input name="email" type="email" class="form-control form-control_gray" id="customerNameEmailInput"
+                placeholder="name@example.com">
+              <label for="customerNameEmailInput">Username or email address *</label>
+            </div>
+
+            <div class="pb-3"></div>
+
+            <div class="form-label-fixed mb-3">
+              <label for="customerPasswordInput" class="form-label">Password *</label>
+              <input name="password" id="customerPasswordInput" class="form-control form-control_gray" type="password"
+                placeholder="********">
+            </div>
+
+            <div class="d-flex align-items-center mb-3 pb-2">
+              <div class="form-check mb-0">
+              </div>
+              <a href="/forgetpass" class="btn-text ms-auto">Lost password?</a>
+            </div>
+
+            <button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button>
+
+            <div class="customer-option mt-4 text-center">
+              <span class="text-secondary">No account yet?</span>
+              <a href="/register" class="btn-text js-show-register">Create Account</a>
+            </div>
+          </form>
+        </div><!-- /.customer__login -->
+      </div><!-- /.customer-forms__wrapper -->
+    </div><!-- /.aside aside_right -->
+
+
+    <!-- login ---------- -->
+
+    <!-- Cart Drawer -->
+    <div class="aside aside_right overflow-hidden cart-drawer" id="cartDrawer">
+      <div class="aside-header d-flex align-items-center">
+        <h3 class="text-uppercase fs-6 mb-0">SHOPPING BAG ( <span class="cart-amount js-cart-items-count">1</span> )
+        </h3>
+        <button class="btn-close-lg js-close-aside btn-close-aside ms-auto"></button>
+      </div><!-- /.aside-header -->
+      <% if (cartdata && cartdata.product.length> 0) { %>
+        <div class="aside-content cart-drawer-items-list">
+          <% cartdata.product.forEach(product=> { %>
+            <hr class="cart-drawer-divider">
+            <div class="cart-drawer-item d-flex position-relative">
+              <div class="position-relative">
+                <img loading="lazy" class="cart-drawer-item__img"
+                  src="/public/uploadImg/<%= product.productId.Image[0] %>" height="80px" width="80px" alt="">
+              </div>
+              <div class="cart-drawer-item__info flex-grow-1">
+                <button class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
+                <h6 class="cart-drawer-item__title fw-normal">
+                  <%= product.productId.name %>
+                </h6>
+                <!-- <p class="cart-drawer-item__option text-secondary">Color: Yellow</p>
+          <p class="cart-drawer-item__option text-secondary">Size: L</p> -->
+                <div class="d-flex align-items-center justify-content-between mt-1">
+                  <div class="qty-control position-relative">
+                    <input type="number" name="quantity" value="1" min="1"
+                      class="qty-control__number border-0 text-center">
+                    <div class="qty-control__reduce text-start">-</div>
+                    <div class="qty-control__increase text-end">+</div>
+                  </div><!-- .qty-control -->
+                  <span class="cart-drawer-item__price money price">$<%= product.productId.price %></span>
+                </div>
+              </div>
+
+            </div><!-- /.cart-drawer-item d-flex -->
+            <% }) %>
+              <% } else { %>
+                <h3>Cart is empty</h3>
+                <% } %>
+
+
+
+
+
+        </div><!-- /.aside-content -->
+        <% if (cartdata && cartdata.product.length> 0) { %>
+          <div class="cart-drawer-actions position-absolute start-0 bottom-0 w-100">
+            <hr class="cart-drawer-divider">
+            <div class="d-flex justify-content-between">
+              <h6 class="fs-base fw-medium">SUBTOTAL:</h6>
+              <span class="cart-subtotal fw-medium">$176.00</span>
+            </div><!-- /.d-flex justify-content-between -->
+            <a href="/cart" class="btn btn-light mt-3 d-block">View Cart</a>
+            <a href="./shop_checkout.html" class="btn btn-primary mt-3 d-block">Checkout</a>
+          </div><!-- /.aside-content -->
+          <% } else { %>
+            <div></div>
+            <% } %>
+    </div><!-- /.aside -->
+
+
+    <!-- aside ----------- -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- PRODUCT DETAILS PAGE -->
+
+
+    <!-- ======================================================== -->
+    <%- include("../layouts/header.ejs") %>
+
+
+  <main>
+
+    <div class="mb-md-1 pb-md-3"></div>
+    <section class="product-single container">
+
+      <div class="card-wrapper">
+
+        <div class="product-single__details-tab">
+          <div class="card">
+            <!-- card left -->
+            <div class="product-imgs">
+              <div class="img-display">
+                <div class="img-showcase">
+                  <% for (let i=0; i < data.Image.length; i++) { %>
+                    <img src="/public/productImages/<%= data.Image[i] %> %> " alt="shoe image">
+                    <!-- <img src = "/public/images/shoe_2.jpg" alt = "shoe image">
+                <img src = "/public/images/shoe_3.jpg" alt = "shoe image">
+                <img src = "/public/images/shoe_4.jpg" alt = "shoe image"> -->
+                    <% }%>
+                </div>
+              </div>
+              <div class="img-select">
+
+                <div class="img-item">
+                  <a href="#" data-id="1">
+                    <img src="/public/productImages/<%= data.Image[0] %> " alt="image">
+                  </a>
+                </div>
+                <div class="img-item">
+                  <a href="#" data-id="2">
+                    <img src="/public/productImages/<%= data.Image[1] %> " alt="image">
+                  </a>
+                </div>
+                <div class="img-item">
+                  <a href="#" data-id="3">
+                    <img src="/public/productImages/<%= data.Image[2] %> " alt="image">
+        
+                </div>
+                <div class="img-item">
+                  <a href="#" data-id="4">
+                    <img src="/public/productImages/<%= data.Image[3] %> " alt="image">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- card right -->
+            
+            <div class="product-content">
+              <br>
+              <h6 class="title" style="font-size: 30px;">
+                <%= data.name %>
+              </h6>
+
+              <div class="product-single__rating">
+                <div class="reviews-group d-flex">
+                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_star"></use>
+                  </svg>
+                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_star"></use>
+                  </svg>
+                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_star"></use>
+                  </svg>
+                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_star"></use>
+                  </svg>
+                  <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_star"></use>
+                  </svg>
+                </div>
+                <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
+              </div>
+
+              <div class="product-price">
+                <!-- <p class = "last-price">Old Price: <span>$257.00</span></p> -->
+                <h3> <span class="current-price">$<%= data.price%></span></h3>
+              </div>
+
+              <div class="product-detail">
+                <h4>about this item: </h4>
+                <p>
+                  <%= data.description %>
+                </p>
+
+                <% if(data.quantity>0){ %>
+                  <form name="addtocart-form" method="post">
+                    <div class="product-single__addtocart">
+                      <div class="qty-control position-relative">
+                        <input type="number" name="quantity" value="1" min="1" class="qty-control__number text-center">
+                        <div class="qty-control__reduce">-</div>
+                        <div class="qty-control__increase">+</div>
+                      </div><!-- .qty-control -->
+                      <button type="button" 
+                        class="btn btn-primary btn-addtocart js-open-aside" data-aside="cartDrawer">Add to Cart</button>
+                    </div>
+                  </form>
+                  <% }else{ %>
+                    <form name="addtocart-form" method="post">
+                      <div class="product-single__addtocart">
+                        <button type="submit" class="btn btn-primary btn-addtocart btn-outofstock">Out of Stock</button>
+                      </div>
+
+                    </form>
+
+                    <% } %>
+                      <div class="product-single__addtolinks">
+                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16" height="16"
+                            viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <use href="#icon_heart"></use>
+                          </svg><span>Add to Wishlist</span></a>
+                        <share-button class="share-button">
+                          <button
+                            class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
+                            <svg width="16" height="19" viewBox="0 0 16 19" fill="none"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_sharing"></use>
+                            </svg>
+                            <span>Share</span>
+                          </button>
+                          <details id="Details-share-template__main" class="m-1 xl:m-1.5" hidden="">
+                            <summary class="btn-solid m-1 xl:m-1.5 pt-3.5 pb-3 px-5">+</summary>
+                            <div id="Article-share-template__main"
+                              class="share-button__fallback flex items-center absolute top-full left-0 w-full px-2 py-4 bg-container shadow-theme border-t z-10">
+                              <div class="field grow mr-4">
+                                <label class="field__label sr-only" for="url">Link</label>
+                                <input type="text" class="field__input w-full" id="url"
+                                  value="https://uomo-crystal.myshopify.com/blogs/news/go-to-wellness-tips-for-mental-health"
+                                  placeholder="Link" onclick="this.select();" readonly="">
+                              </div>
+                              <button class="share-button__copy no-js-hidden">
+                                <svg class="icon icon-clipboard inline-block mr-1" width="11" height="13" fill="none"
+                                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+                                  viewBox="0 0 11 13">
+                                  <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M2 1a1 1 0 011-1h7a1 1 0 011 1v9a1 1 0 01-1 1V1H2zM1 2a1 1 0 00-1 1v9a1 1 0 001 1h7a1 1 0 001-1V3a1 1 0 00-1-1H1zm0 10V3h7v9H1z"
+                                    fill="currentColor"></path>
+                                </svg>
+                                <span class="sr-only">Copy link</span>
+                              </button>
+                            </div>
+                          </details>
+                        </share-button>
+                        <script src="js/details-disclosure.js" defer="defer"></script>
+                        <script src="js/share.js" defer="defer"></script>
+                      </div>
+                      <div class="meta-item">
+                        <label>Category:</label>
+                        <span>
+                          <%= data.category %>
+                        </span>
+                      </div>
+
+              </div>
+            </div>
+          </div>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+            <li class="nav-item" role="presentation">
+
+              <div class="tab-content">
+
+                <!-- <div class="tab-pane fade show active" id="tab-description" role="tabpanel" aria-labelledby="tab-description-tab">
+                <div class="product-single__description"> -->
+
+                <!-- <p class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
+                <!-- <div class="row"> -->
+                <!-- <div class="col-lg-6">
+                      <h3 class="block-title">Why choose product?</h3>
+                      <ul class="list text-list">
+                        <li>Creat by cotton fibric with soft and smooth</li>
+                        <li>Simple, Configurable (e.g. size, color, etc.), bundled</li>
+                        <li>Downloadable/Digital Products, Virtual Products</li>
+                      </ul>
+                    </div> -->
+                <!-- <div class="col-lg-6">
+                      <h3 class="block-title">Sample Number List</h3>
+                      <ol class="list text-list">
+                        <li>Create Store-specific attrittbutes on the fly</li>
+                        <li>Simple, Configurable (e.g. size, color, etc.), bundled</li>
+                        <li>Downloadable/Digital Products, Virtual Products</li>
+                      </ol>
+                    </div> -->
+                <!-- </div> -->
+                <!-- <h3 class="block-title mb-0">Lining</h3>
+                  <p class="content">100% Polyester, Main: 100% Polyester.</p> -->
+                <!-- </div>
+              </div> -->
+                <!-- <div class="tab-pane fade" id="tab-additional-info" role="tabpanel" aria-labelledby="tab-additional-info-tab"> -->
+                <!-- <div class="product-single__addtional-info">
+                  <div class="item">
+                    <label class="h6">Weight</label>
+                    <span>1.25 kg</span>
+                  </div>
+                  <div class="item">
+                    <label class="h6">Dimensions</label>
+                    <span>90 x 60 x 90 cm</span>
+                  </div>
+                  <div class="item">
+                    <label class="h6">Size</label>
+                    <span>XS, S, M, L, XL</span>
+                  </div>
+                  <div class="item">
+                    <label class="h6">Color</label>
+                    <span>Black, Orange, White</span>
+                  </div>
+                  <div class="item">
+                    <label class="h6">Storage</label>
+                    <span>Relaxed fit shirt-style dress with a rugged</span>
+                  </div>
+                </div>
+              </div> -->
+                <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews-tab">
+                  <h2 class="product-single__reviews-title">Reviews</h2>
+                  <div class="product-single__reviews-list">
+                    <div class="product-single__reviews-item">
+                      <div class="customer-avatar">
+                        <img loading="lazy" src="images/avatar.jpg" alt="">
+                      </div>
+                      <div class="customer-review">
+                        <div class="customer-name">
+                          <h6>Janice Miller</h6>
+                          <div class="reviews-group d-flex">
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                          </div>
+                        </div>
+                        <div class="review-date">April 06, 2023</div>
+                        <div class="review-text">
+                          <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id
+                            quod maxime placeat facere possimus, omnis voluptas assumenda est…</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="product-single__reviews-item">
+                      <div class="customer-avatar">
+                        <img loading="lazy" src="images/avatar.jpg" alt="">
+                      </div>
+                      <div class="customer-review">
+                        <div class="customer-name">
+                          <h6>Benjam Porter</h6>
+                          <div class="reviews-group d-flex">
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                            <svg class="review-star" viewBox="0 0 9 9" xmlns="http://www.w3.org/2000/svg">
+                              <use href="#icon_star"></use>
+                            </svg>
+                          </div>
+                        </div>
+                        <div class="review-date">April 06, 2023</div>
+                        <div class="review-text">
+                          <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id
+                            quod maxime placeat facere possimus, omnis voluptas assumenda est…</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="product-single__review-form">
+                    <form name="customer-review-form">
+                      <h5>Be the first to review “Message Cotton T-Shirt”</h5>
+                      <p>Your email address will not be published. Required fields are marked *</p>
+                      <div class="select-star-rating">
+                        <label>Your rating *</label>
+                        <span class="star-rating">
+                          <svg class="star-rating__star-icon" width="12" height="12" fill="#ccc" viewBox="0 0 12 12"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M11.1429 5.04687C11.1429 4.84598 10.9286 4.76562 10.7679 4.73884L7.40625 4.25L5.89955 1.20312C5.83929 1.07589 5.72545 0.928571 5.57143 0.928571C5.41741 0.928571 5.30357 1.07589 5.2433 1.20312L3.73661 4.25L0.375 4.73884C0.207589 4.76562 0 4.84598 0 5.04687C0 5.16741 0.0870536 5.28125 0.167411 5.3683L2.60491 7.73884L2.02902 11.0871C2.02232 11.1339 2.01563 11.1741 2.01563 11.221C2.01563 11.3951 2.10268 11.5558 2.29688 11.5558C2.39063 11.5558 2.47768 11.5223 2.56473 11.4754L5.57143 9.89509L8.57813 11.4754C8.65848 11.5223 8.75223 11.5558 8.84598 11.5558C9.04018 11.5558 9.12054 11.3951 9.12054 11.221C9.12054 11.1741 9.12054 11.1339 9.11384 11.0871L8.53795 7.73884L10.9688 5.3683C11.0558 5.28125 11.1429 5.16741 11.1429 5.04687Z">
+                            </path>
+                          </svg>
+                          <svg class="star-rating__star-icon" width="12" height="12" fill="#ccc" viewBox="0 0 12 12"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M11.1429 5.04687C11.1429 4.84598 10.9286 4.76562 10.7679 4.73884L7.40625 4.25L5.89955 1.20312C5.83929 1.07589 5.72545 0.928571 5.57143 0.928571C5.41741 0.928571 5.30357 1.07589 5.2433 1.20312L3.73661 4.25L0.375 4.73884C0.207589 4.76562 0 4.84598 0 5.04687C0 5.16741 0.0870536 5.28125 0.167411 5.3683L2.60491 7.73884L2.02902 11.0871C2.02232 11.1339 2.01563 11.1741 2.01563 11.221C2.01563 11.3951 2.10268 11.5558 2.29688 11.5558C2.39063 11.5558 2.47768 11.5223 2.56473 11.4754L5.57143 9.89509L8.57813 11.4754C8.65848 11.5223 8.75223 11.5558 8.84598 11.5558C9.04018 11.5558 9.12054 11.3951 9.12054 11.221C9.12054 11.1741 9.12054 11.1339 9.11384 11.0871L8.53795 7.73884L10.9688 5.3683C11.0558 5.28125 11.1429 5.16741 11.1429 5.04687Z">
+                            </path>
+                          </svg>
+                          <svg class="star-rating__star-icon" width="12" height="12" fill="#ccc" viewBox="0 0 12 12"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M11.1429 5.04687C11.1429 4.84598 10.9286 4.76562 10.7679 4.73884L7.40625 4.25L5.89955 1.20312C5.83929 1.07589 5.72545 0.928571 5.57143 0.928571C5.41741 0.928571 5.30357 1.07589 5.2433 1.20312L3.73661 4.25L0.375 4.73884C0.207589 4.76562 0 4.84598 0 5.04687C0 5.16741 0.0870536 5.28125 0.167411 5.3683L2.60491 7.73884L2.02902 11.0871C2.02232 11.1339 2.01563 11.1741 2.01563 11.221C2.01563 11.3951 2.10268 11.5558 2.29688 11.5558C2.39063 11.5558 2.47768 11.5223 2.56473 11.4754L5.57143 9.89509L8.57813 11.4754C8.65848 11.5223 8.75223 11.5558 8.84598 11.5558C9.04018 11.5558 9.12054 11.3951 9.12054 11.221C9.12054 11.1741 9.12054 11.1339 9.11384 11.0871L8.53795 7.73884L10.9688 5.3683C11.0558 5.28125 11.1429 5.16741 11.1429 5.04687Z">
+                            </path>
+                          </svg>
+                          <svg class="star-rating__star-icon" width="12" height="12" fill="#ccc" viewBox="0 0 12 12"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M11.1429 5.04687C11.1429 4.84598 10.9286 4.76562 10.7679 4.73884L7.40625 4.25L5.89955 1.20312C5.83929 1.07589 5.72545 0.928571 5.57143 0.928571C5.41741 0.928571 5.30357 1.07589 5.2433 1.20312L3.73661 4.25L0.375 4.73884C0.207589 4.76562 0 4.84598 0 5.04687C0 5.16741 0.0870536 5.28125 0.167411 5.3683L2.60491 7.73884L2.02902 11.0871C2.02232 11.1339 2.01563 11.1741 2.01563 11.221C2.01563 11.3951 2.10268 11.5558 2.29688 11.5558C2.39063 11.5558 2.47768 11.5223 2.56473 11.4754L5.57143 9.89509L8.57813 11.4754C8.65848 11.5223 8.75223 11.5558 8.84598 11.5558C9.04018 11.5558 9.12054 11.3951 9.12054 11.221C9.12054 11.1741 9.12054 11.1339 9.11384 11.0871L8.53795 7.73884L10.9688 5.3683C11.0558 5.28125 11.1429 5.16741 11.1429 5.04687Z">
+                            </path>
+                          </svg>
+                          <svg class="star-rating__star-icon" width="12" height="12" fill="#ccc" viewBox="0 0 12 12"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M11.1429 5.04687C11.1429 4.84598 10.9286 4.76562 10.7679 4.73884L7.40625 4.25L5.89955 1.20312C5.83929 1.07589 5.72545 0.928571 5.57143 0.928571C5.41741 0.928571 5.30357 1.07589 5.2433 1.20312L3.73661 4.25L0.375 4.73884C0.207589 4.76562 0 4.84598 0 5.04687C0 5.16741 0.0870536 5.28125 0.167411 5.3683L2.60491 7.73884L2.02902 11.0871C2.02232 11.1339 2.01563 11.1741 2.01563 11.221C2.01563 11.3951 2.10268 11.5558 2.29688 11.5558C2.39063 11.5558 2.47768 11.5223 2.56473 11.4754L5.57143 9.89509L8.57813 11.4754C8.65848 11.5223 8.75223 11.5558 8.84598 11.5558C9.04018 11.5558 9.12054 11.3951 9.12054 11.221C9.12054 11.1741 9.12054 11.1339 9.11384 11.0871L8.53795 7.73884L10.9688 5.3683C11.0558 5.28125 11.1429 5.16741 11.1429 5.04687Z">
+                            </path>
+                          </svg>
+                        </span>
+                        <input type="hidden" id="form-input-rating" value="">
+                      </div>
+                      <div class="mb-4">
+                        <textarea id="form-input-review" class="form-control form-control_gray"
+                          placeholder="Your Review" cols="30" rows="8"></textarea>
+                      </div>
+                      <div class="form-label-fixed mb-4">
+                        <label for="form-input-name" class="form-label">Name *</label>
+                        <input id="form-input-name" class="form-control form-control-md form-control_gray">
+                      </div>
+                      <div class="form-label-fixed mb-4">
+                        <label for="form-input-email" class="form-label">Email address *</label>
+                        <input id="form-input-email" class="form-control form-control-md form-control_gray">
+                      </div>
+                      <div class="form-check mb-4">
+                        <input class="form-check-input form-check-input_fill" type="checkbox" value=""
+                          id="remember_checkbox">
+                        <label class="form-check-label" for="remember_checkbox">
+                          Save my name, email, and website in this browser for the next time I comment.
+                        </label>
+                      </div>
+                      <div class="form-action">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <a class="nav-link nav-link_underscore active" id="tab-description-tab" data-bs-toggle="tab" href="#tab-description" role="tab" aria-controls="tab-description" aria-selected="true">Description</a> -->
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+            <a class="nav-link nav-link_underscore" id="tab-additional-info-tab" data-bs-toggle="tab" href="#tab-additional-info" role="tab" aria-controls="tab-additional-info" aria-selected="false">Additional Information</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link nav-link_underscore" id="tab-reviews-tab" data-bs-toggle="tab" href="#tab-reviews" role="tab" aria-controls="tab-reviews" aria-selected="false">Reviews (2)</a>
+          </li> -->
+          </ul>
+
+        </div>
+    </section>
+    <section class="products-carousel container">
+      <h2 class="h3 text-uppercase mb-4 pb-xl-2 mb-xl-4">Related <strong>Products</strong></h2>
+
+      <div id="related_products" class="position-relative">
+        <div class="swiper-container js-swiper-slider">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide product-card">
+              <div class="pc__img-wrapper">
+                <a href="./product1_simple.html">
+                  <img loading="lazy" src="/public/images/product-3-1.jpg" width="330" height="400"
+                    alt="Cropped Faux leather Jacket" class="pc__img">
+                  <img loading="lazy" src="/public/images/product-3-2.jpg" width="330" height="400"
+                    alt="Cropped Faux leather Jacket" class="pc__img pc__img-second">
+                </a><button 
+                  class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
+                  data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+              </div>
+
+              <div class="pc__info position-relative">
+                <p class="pc__category">Dresses</p>
+                <h6 class="pc__title"><a href="./product1_simple.html">Kirby T-Shirt</a></h6>
+                <div class="product-card__price d-flex">
+                  <span class="money price">$17</span>
+                </div>
+
+                <button class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                  title="Add To Wishlist">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#icon_heart"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <!-- Repeat the above swiper-slide elements for each product -->
+          </div>
+        </div>
+
+        <div class="products-carousel__prev position-absolute top-50 d-flex align-items-center justify-content-center">
+          <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_prev_md"></use>
+          </svg>
+        </div><!-- /.products-carousel__prev -->
+        <div class="products-carousel__next position-absolute top-50 d-flex align-items-center justify-content-center">
+          <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+            <use href="#icon_next_md"></use>
+          </svg>
+        </div><!-- /.products-carousel__next -->
+
+        <div class="products-pagination mt-4 mb-5 d-flex align-items-center justify-content-center"></div>
+        <!-- /.products-pagination -->
+      </div><!-- /.position-relative -->
+    </section><!-- /.products-carousel container -->
+
+    <style>
+      .swiper-wrapper {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .swiper-slide {
+        flex: 0 0 auto;
+        margin-right: 15px;
+        min-width: 330px;
+        /* Set minimum width to ensure each card has enough space */
+      }
+
+      .pc__img-wrapper {
+        position: relative;
+      }
+
+      .pc__img {
+        width: 100%;
+        height: auto;
+      }
+
+      .pc__atc {
+        bottom: 10px;
+      }
+    </style>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Image Zoom functions go here
+      function zoomIn(event, zoomFactor) {
+        const image = event.target;
+        image.style.transform = `scale(${zoomFactor})`;
+      }
+
+      function resetZoom(event) {
+        const image = event.target;
+        image.style.transform = 'scale(1)';
+      }
+
+      const productImages = document.querySelectorAll('.zoom-in img');
+
+      productImages.forEach(img => {
+        img.addEventListener('mouseover', function () {
+          img.style.transform = 'scale(2.0)';
+          img.style.transition = 'transform 0.3s ease';
+        });
+
+        img.addEventListener('mousemove', function (e) {
+          const boundingBox = img.getBoundingClientRect();
+          const offsetX = (e.clientX - boundingBox.left) / boundingBox.width;
+          const offsetY = (e.clientY - boundingBox.top) / boundingBox.height;
+
+          img.style.transformOrigin = `${offsetX * 100}% ${offsetY * 100}%`;
+        });
+
+        img.addEventListener('mouseleave', function () {
+          img.style.transform = 'scale(1)';
+        });
+
+        img.addEventListener('mousemove', function (e) {
+          zoomIn(e, 1.5);
+        });
+
+        img.addEventListener('mouseout', resetZoom);
+      });
+    });
+  </script>
+  <!-- Include jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Include Elevate Zoom -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
+  <script>
+    const imgs = document.querySelectorAll('.img-select a');
+    const imgBtns = [...imgs];
+    let imgId = 1;
+
+    imgBtns.forEach((imgItem) => {
+      imgItem.addEventListener('click', (event) => {
+        event.preventDefault();
+        imgId = imgItem.dataset.id;
+        slideImage();
+      });
+    });
+
+    function slideImage() {
+      const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
+
+      document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+    }
+
+    window.addEventListener('resize', slideImage);
+  </script>
+
+
+
+  <!-- <script>
+    function openCartDrawer() {
+      updateCartDrawer(); // Call the function to update the cart drawer
+      // Add code to open the cart drawer if it's not already open
+    }
+
+    function addToCart(id) {
+      console.log("vutuyvj", id);
+      $.ajax({
+        url: "/cart",
+        method: "post",
+        data: {
+          productId: id,
+        },
+      })
+        .done((data) => {
+          if (data.success) {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Product added to cart",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            // Update both cart and drawer
+            updateCart();
+            console.log("the updat cart");
+          } else {
+            if (data.redirectTologin) {
+              // Redirect to login page if necessary
+            } else {
+              console.error("Failed to add to cart", data.error);
+            }
+          }
+        })
+        .fail((xhr, status, error) => {
+          console.error("An error occurred", error);
+        });
+    }
+
+    function updateCart() {
+      console.log("the function isworkinh");
+      $.ajax({
+        url: "/cart",
+        method: "get",
+        dataType: "html",
+      })
+        .done((cartData) => {
+          $(".cart").html(cartData); // Replace entire cart content with fetched HTML
+          $('#cartDrawer').load('/productdetail #cartDrawer')
+          console.log("the srt");
+          // After updating cart, update the cart drawer
+        })
+        .fail((xhr, status, error) => {
+          console.error("An error occurred while updating cart", error);
+        });
+    }
+
+    function updateCartDrawer() {
+      $.ajax({
+        url: "/cart/drawer", // Assuming you have an endpoint to fetch the cart drawer content
+        method: "get",
+        dataType: "html",
+      })
+        .done((drawerData) => {
+
+          $(".cart-drawer").html(drawerData); // Replace entire cart drawer content with fetched HTML
+
+
+        })
+        .fail((xhr, status, error) => {
+          console.error("An error occurred while updating cart drawer", error);
+        });
+    }
+
+  </script> -->
+
+
+
+
+
+
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    body {}
+
+    .card-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .img-display {
+      overflow: hidden;
+    }
+
+    .img-showcase {
+      display: flex;
+      width: 100%;
+      transition: all 0.5s ease;
+    }
+
+    .img-showcase img {
+      min-width: 100%;
+    }
+
+    .img-select {
+      display: flex;
+    }
+
+    .img-item {
+      margin: 0.3rem;
+    }
+
+    .img-item:nth-child(1),
+    .img-item:nth-child(2),
+    .img-item:nth-child(3) {
+      margin-right: 0;
+    }
+
+    .img-item:hover {
+      opacity: 0.8;
+    }
+
+    .product-content {
+      padding: 2rem 1rem;
+    }
+
+    .product-title {
+      font-size: 1.5rem;
+
+      font-weight: 400;
+      position: relative;
+      color: #12263a;
+      margin: 1rem 0;
+    }
+
+    .product-title::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: 80px;
+      background: #12263a;
+    }
+
+    .product-link {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      background: #256eff;
+      color: #fff;
+      padding: 0 0.3rem;
+      transition: all 0.5s ease;
+    }
+
+    .product-link:hover {
+      opacity: 0.9;
+    }
+
+    .product-rating {
+      color: #ffc107;
+    }
+
+    .product-rating span {
+      font-weight: 600;
+      color: #252525;
+    }
+
+    .product-price {
+      margin: 1rem 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .product-price span {
+      font-weight: 400;
+    }
+
+    .last-price span {
+      color: #f64749;
+      text-decoration: line-through;
+    }
+
+    .new-price span {
+      color: #256eff;
+    }
+
+    .product-detail h2 {
+      text-transform: capitalize;
+      color: #12263a;
+      padding-bottom: 0.6rem;
+    }
+
+    .product-detail p {
+      font-size: 0.9rem;
+      padding: 0.3rem;
+      opacity: 0.8;
+    }
+
+    .product-detail ul {
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .product-detail ul li {
+      margin: 0;
+      list-style: none;
+      background: url(shoes_images/checked.png) left center no-repeat;
+      background-size: 18px;
+      padding-left: 1.7rem;
+      margin: 0.4rem 0;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .product-detail ul li span {
+      font-weight: 400;
+    }
+
+    .purchase-info {
+      margin: 1.5rem 0;
+    }
+
+    .purchase-info input,
+    .purchase-info .btn {
+      border: 1.5px solid #ddd;
+      border-radius: 25px;
+      text-align: center;
+      padding: 0.45rem 0.8rem;
+      outline: 0;
+      margin-right: 0.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .purchase-info input {
+      width: 60px;
+    }
+
+    .purchase-info .btn {
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .purchase-info .btn:first-of-type {
+      background: #256eff;
+    }
+
+    .purchase-info .btn:last-of-type {
+      background: #f64749;
+    }
+
+    .purchase-info .btn:hover {
+      opacity: 0.9;
+    }
+
+    .social-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: #000;
+      border: 1px solid #000;
+      margin: 0 0.2rem;
+      border-radius: 50%;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: all 0.5s ease;
+    }
+
+    .social-links a:hover {
+      background: #000;
+      border-color: transparent;
+      color: #fff;
+    }
+
+    @media screen and (min-width: 992px) {
+      .card {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1.5rem;
+      }
+
+      .card-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .product-imgs {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .product-content {
+        padding-top: 0;
+      }
+    }
+  </style>
+
+
+
+
+
+<%- include("../layouts/footer.ejs") %>
+
+<!-- =========================================================== -->

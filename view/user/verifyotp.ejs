@@ -26,7 +26,7 @@
   <![endif]-->
 
   <!-- Document Title -->
-  <title>VerifyOTP</title>
+  <title>DressHub</title>
   <style>
     .otp-container {
       display: flex;
@@ -614,13 +614,8 @@
         <ul class="navigation__list list-unstyled d-flex">
           <li class="navigation__item">
             <a href="/home" class="navigation__link">Home</a>
-            <div class="box-menu" style="width: 600px;">
-
-
-
-
-
-            </div><!-- /.box-menu -->
+            <!-- <div class="box-menu" style="width: 600px;">
+            </div>/.box-menu -->
           </li>
           <li class="navigation__item">
 
@@ -749,16 +744,46 @@
           style="width: 100%; height: 40px; background-color: #000000; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;"
           >VERIFY OTP</button>
 
-        <div id="expirationMessage" style="margin-bottom: 10px;"></div>
+          <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
+          <span id="timerDisplay"></span> seconds remaining
+          <div id="successMessage" style="color: green; margin-top: 10px;"></div>
+
+        <!-- <div id="expirationMessage" style="margin-bottom: 10px;"></div>
         <span id="countdown" style="display: block; margin-bottom: 20px;"></span>
         <span class="text-secondary">Didn't receive code?</span>
         <button class="genric-btn success-border radius" type="button" id="resendOTPBtn"
           style="width: 100%; height: 40px; background-color: #ffffff; color: #000000; border: 1px solid #000000; border-radius: 5px; cursor: pointer;">RESEND
-          OTP</button>
+          OTP</button> -->
+
+          <!-- <div id="expirationMessage" style="margin-bottom: 10px; display: none;">Your message here</div>
+<span id="countdown" style="display: block; margin-bottom: 20px;"></span>
+<span class="text-secondary">Didn't receive code?</span>
+<button class="genric-btn success-border radius" type="button" id="resendOTPBtn" style="width: 100%; height: 40px; background-color: #ffffff; color: #000000; border: 1px solid #000000; border-radius: 5px; cursor: pointer;">RESEND OTP</button> -->
           
-         <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
+         <!-- <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
         <span id="timerDisplay"></span> seconds remaining
-        <div id="successMessage" style="color: green; margin-top: 10px;"></div>
+        <div id="successMessage" style="color: green; margin-top: 10px;"></div> -->
+
+        <div id="expirationMessage" style="margin-bottom: 10px; display: none;">
+        <span id="countdown" style="display: block; margin-bottom: 20px;"></span>
+        <span class="text-secondary">Didn't receive code?</span>
+        <button class="genric-btn success-border radius" type="button" id="resendOTPBtn" style="width: 100%; height: 40px; background-color: #ffffff; color: #000000;border: 1px solid #000000; border-radius: 5px; cursor: pointer;">RESEND OTP</button>
+      </div>
+
+        <script>
+          // Wait for the DOM content to be loaded
+          document.addEventListener("DOMContentLoaded", function() {
+            console.log('script is working');
+            // Function to show the expiration message after 1 minute (60000 milliseconds)
+            setTimeout(function() {
+              console.log('settimeout is also working');
+              document.getElementById("expirationMessage").style.display = "block";
+            }, 60000); // 60000 milliseconds = 1 minute
+          });
+
+        </script>
+
+
    
         <% if (typeof message !=='undefined' ) { %>
           <h5 style="color: red; text-align: center;">
@@ -775,29 +800,39 @@
 
   
 
+    <script>
+      //wai
+      // Wait for the DOM content to be loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to show the expiration message after 1 minute (60000 milliseconds)
+    setTimeout(function() {
+        document.getElementById("expirationMessage").style.display = "block";
+    }, 6000); // 60000 milliseconds = 1 minute
+});
+    </script>
 
 
-  <script>
-    function handleInput(currentInput, nextInputName, prevInputName) {
-      const maxlength = parseInt(currentInput.getAttribute('maxlength'), 10);
-      const inputValue = currentInput.value;
-
-      if (inputValue.length >= maxlength) {
-        const nextInput = document.getElementsByName(prevInputName)[0];
-
-        if (nextInput) {
-          nextInput.focus();
+    <script>
+      function handleInput(currentInput, nextInputName, prevInputName) {
+        const maxlength = parseInt(currentInput.getAttribute('maxlength'), 10);
+        const inputValue = currentInput.value;
+  
+        if (inputValue.length >= maxlength) {
+          const nextInput = document.getElementsByName(prevInputName)[0];
+  
+          if (nextInput) {
+            nextInput.focus();
+          }
+        } else if (inputValue.length === 0) {
+          const prevInput = document.getElementsByName(prevInputName)[0];
+  
+          if (prevInput) {
+            prevInput.focus();
+          }
+  
         }
-      } else if (inputValue.length === 0) {
-        const prevInput = document.getElementsByName(prevInputName)[0];
-
-        if (prevInput) {
-          prevInput.focus();
-        }
-
       }
-    }
-  </script>
+    </script>
 
 
   <script>
@@ -836,7 +871,7 @@
 
       resendButton.addEventListener('click', function () {
         if (countdown <= 0) {
-          fetch('/sendOtp');
+          fetch('/sendOtp');   
           countdown = 60;
           updateTimerDisplay();
           resendButton.disabled = true;
@@ -854,13 +889,11 @@
       document.addEventListener('DOMContentLoaded', function() {
           const otpForm = document.getElementById('otpForm');
           const errorMessageElement = document.getElementById('errorMessage');
-          const resendButton = document.getElementById('resendLink');
-          const successMessageElement = document.getElementById('successMessage');
           
           // Add event listener to the form submission
           otpForm.addEventListener('submit', async function(event) {
               event.preventDefault(); // Prevent default form submission behavior
-              console.log('kkk');
+              
               // Collect form data
               const formData = new FormData(otpForm);
               
@@ -869,11 +902,10 @@
               formData.forEach(function(value, key){
                   formObject[key] = value;
               });
-              console.log(formObject);
               
               try {
                   // Make a fetch request
-                  const response = await fetch(`/verifyotp?email=${email}`, {
+                  const response = await fetch('/verifyotp', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
@@ -905,7 +937,14 @@
                   console.error('Error occurred during OTP verification:', error);
               }
           });
+      });
       
+      
+      
+      document.addEventListener('DOMContentLoaded', function() {
+          const resendButton = document.getElementById('resendLink');
+          const successMessageElement = document.getElementById('successMessage');
+          
           // Add event listener to the resend button
           resendButton.addEventListener('click', async function(event) {
               // Prevent default button behavior
@@ -936,56 +975,57 @@
               }
           });
       });
+      
       </script>
       
 
-  <script>
-    const inputs = document.querySelectorAll('.otp-input');
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', function () {
-        if (this.value.length === 1) {
-
-          if (index < inputs.length - 1) {
-            inputs[index + 1].removeAttribute('disabled');
-            inputs[index + 1].focus();
-          }
-        } else if (this.value.length === 0) {
-
-          if (index > 0) {
-            inputs[index - 1].focus();
-            inputs[index].removeAttribute('required');
-          }
-        }
-
-        for (let i = index + 1; i < inputs.length; i++) {
-          inputs[i].setAttribute('required', 'true');
-        }
-      });
-
-      input.addEventListener('keydown', function (event) {
-        if (event.key === 'Backspace' && this.value.length === 0 && index > 0) {
-          inputs[index - 1].focus();
-          inputs[index - 1].value = '';
-          inputs[index].removeAttribute('required');
-          inputs[index].removeAttribute('disabled');
-        } else if (event.key === 'Backspace' && index < inputs.length - 1 && inputs[index + 1].disabled) {
-          inputs[index + 1].removeAttribute('disabled');
-        } else if (event.key === 'Enter' && this.value.length === 1) {
-
-          let nextIndex = index + 1;
-          while (nextIndex < inputs.length && inputs[nextIndex].disabled) {
-            nextIndex++;
-          }
-          if (nextIndex < inputs.length) {
-            inputs[nextIndex].focus();
-          }
-          event.preventDefault();
-        } else if (event.key === ' ') {
-          event.preventDefault();
-        }
-      });
-    });
-  </script>
+      <script>
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+          input.addEventListener('input', function () {
+            if (this.value.length === 1) {
+    
+              if (index < inputs.length - 1) {
+                inputs[index + 1].removeAttribute('disabled');
+                inputs[index + 1].focus();
+              }
+            } else if (this.value.length === 0) {
+    
+              if (index > 0) {
+                inputs[index - 1].focus();
+                inputs[index].removeAttribute('required');
+              }
+            }
+    
+            for (let i = index + 1; i < inputs.length; i++) {
+              inputs[i].setAttribute('required', 'true');
+            }
+          });
+    
+          input.addEventListener('keydown', function (event) {
+            if (event.key === 'Backspace' && this.value.length === 0 && index > 0) {
+              inputs[index - 1].focus();
+              inputs[index - 1].value = '';
+              inputs[index].removeAttribute('required');
+              inputs[index].removeAttribute('disabled');
+            } else if (event.key === 'Backspace' && index < inputs.length - 1 && inputs[index + 1].disabled) {
+              inputs[index + 1].removeAttribute('disabled');
+            } else if (event.key === 'Enter' && this.value.length === 1) {
+    
+              let nextIndex = index + 1;
+              while (nextIndex < inputs.length && inputs[nextIndex].disabled) {
+                nextIndex++;
+              }
+              if (nextIndex < inputs.length) {
+                inputs[nextIndex].focus();
+              }
+              event.preventDefault();
+            } else if (event.key === ' ') {
+              event.preventDefault();
+            }
+          });
+        });
+      </script>
 
 
 

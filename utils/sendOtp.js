@@ -52,14 +52,17 @@ const sendOtpVerificationMail = async ({ email }, res) => {
       { upsert: true }
     );
 
-    //   await newotpverification.save();
+      // await newotpverification.save();
 
     await transporter.sendMail(mailoption);
 
     console.log("OTP Email sent successfully");
     console.log(email);
 
-    res.render('user/verifyotp', {email: email});
+    res.redirect(`/verifyotp?email=${email}`);
+    console.log("checkin");
+
+
   } catch (error) {
     console.log("Error sending OTP email:", error.message);
   }

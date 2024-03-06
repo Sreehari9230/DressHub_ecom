@@ -1,14 +1,19 @@
 const User = require("../model/userModel");
+const products = require("../model/productModel");
+const category = require("../model/categoryModel");
 const otpVerification = require("../model/otpVerification");
 const bcrypt = require("bcrypt");
 // const { TopologyDescription } = require("mongodb")
 const nodemailer = require("nodemailer");
 const { sendOtpVerificationMail } = require("../utils/sendOtp");
+const randomstring = require("randomstring")
 
 // LOAD HOME PAGE
 const loadHome = async (req, res) => {
   try {
-    res.render("user/home");
+    const userIn = req.session.userId;
+
+    res.render("user/home", { userIn, user: req.session.userId });
   } catch (error) {
     console.log(error.message);
   }
@@ -46,13 +51,16 @@ const securePassword = async (password) => {
 const verifyRegister = async (req, res) => {
   try {
     const exitUser = await User.findOne({ email: req.body.email });
+    let message = "";
     // console.log("id",req.body)
     if (exitUser && exitUser.is_Verified) {
       const message = "Email already Registerd";
+      console.log("Message:", message); // Debugging statement
       res.render("user/Register", { message });
     } else if (exitUser && !exitUser.is_Verified) {
       const message =
         "Email already registerd but not varified. So send OTP to email and verify the email";
+        console.log("Message:", message);
       res.render("user/Register", { message });
     } else {
       const bodypassword = req.body.password;
@@ -89,7 +97,7 @@ const verifyRegister = async (req, res) => {
 //SENT OTP IMPORTED FROM UTILS
 const getSentOtp = async (req, res) => {
   try {
-    console.log(req.session.email);
+    console.log(req.session.email,'this is email');
     await sendOtpVerificationMail({ email: req.session.email }, res);
   } catch (error) {
     console.log(error.message);
@@ -129,7 +137,7 @@ const verifyOtp = async (req, res) => {
 
     const expiresAt = OtpRecord.expiresAt;
 
-    if ((expiresAt < Date, now())) {
+    if ((expiresAt < Date.now())) {
       return res.render("user/verifyotp", {
         message: "otp expired",
         email,
@@ -141,7 +149,7 @@ const verifyOtp = async (req, res) => {
     console.log(validOTP);
     if (validOTP) {
       const userData = await User.findOne({ email: email });
-      console.log(userData);
+      // console.log(userData);
       if (!userData) {
         return res
           .status(400)
@@ -156,9 +164,10 @@ const verifyOtp = async (req, res) => {
 
       await otpVerification.deleteOne({ email: email });
 
-      // console.log("hell");
+      console.log("hello");
 
       res.json({ success: true });
+      // res.redirect('user/login')
     } else {
       //JSON RESPONSE FORINVALID OTP
       return res.status(400).json({ success: false, message: "Invalid OTP" });
@@ -196,52 +205,247 @@ const loadLogin = async (req, res) => {
 
 // //VERIFY LOGIN
 
-// const verifyLogin = async (req,res) => {
-//   try {
-//     const user = await User.findOne({ email: req.body.email });
-//     // console.log("")
+const verifyLogin = async (req,res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email});
+    console.log(req.body.email)
 
-//     if(user) {
-//       const passwordMatch = await bcrypt.compare(
-//         req.body.password,
-//         user.password
-//       )
+    if(user) {
+      const passwordMatch = await bcrypt.compare(
+        req.body.password,
+        user.password
+      )
+      console.log(req.body.password);
+      if(passwordMatch){
+        if(user.is_Verified === 1) {
+          req.session.userId = user._id;
+          console.log(req.session.userId)
+            return res.redirect("/")
+        } else{
+          await user.deleteOne({ is_Verified:0 })
+          const message = "user not verified please verify your email "
+          return res.render("user/login", { message })
+        }
+      } else{
+        const message = 'paswword is incorrect'
+        return res.render("user/login", {message})
+      }
+    }
+    else{
+      const message = "";
+      return res.render('user/login', { message })
+    }
+    }
+    catch(error){
+      console.log(error.message);
+      res.status(500).end("internal server error")
+    }
+  }
 
-//       if(passwordMatch){
-//         if(user.is_Verified === 1) {
-//           req.session.userId = user._id;
-//           console.log(req.session.userId)
-//             return res.redirect("/")
-//         } else{
-//           await user.deleteOne({ is_Verified:0 })
-//           const message = "user not verified please verify your email "
-//           return res.render("user/login", { message })
-//         }
-//       } else{
-//         const message = 'paswword is incorrect'
-//         return res.render("user/login", {message})
-//       }
-//     }
-//     else{
-//       const mesage = "register your email";
-//       return res.render('user/login', { message })
-//     }
-//     }
-//     catch(error){
-//       console.log(error.message);
-//       res.status(500).end("internal server error")
-//     }
-//   }
+
+
+  const userlogout = async (req,res)=>{
+    try{
+      req.session.destroy()
+      res.redirect('/userlogin')
+    } catch(error){
+      console.log(error.message);
+    }
+  }
 
 //   //home page after login
 
-//   const afterlogin = async (req,res) => {
-//     try{
-//       res.render("user/home")
-//     } catch(error){
-//       console.log(error.message);
-//     }
-//   }
+  const afterlogin = async (req,res) => {
+    try{
+      res.render("user/home")
+    } catch(error){
+      console.log(error.message);
+    }
+  }
+
+
+
+  //LOAD PASSWORD
+
+  const loadforgotpassword = async (req,res)=>{
+    try{
+      res.render('user/forgotpassword')
+    } catch(error){
+      console.log(error.messsage);
+    } 
+  }
+
+  //VERIFY PASSWORD
+  const forgetPasswordverify = async (req,res)=>{
+    try {
+      const email = req.body.email
+      const userDetails = await User.findOne({email:email})
+      if(userDetails){
+        if(userDetails.is_Verified === 0){
+          res.render('user/forgotpassword',{message:"Please verify your email"})
+        }
+        else{
+          const randomString = randomstring.generate()
+
+          const updatedData = await User.updateOne({email:email},{$set:{token:randomString}})
+          if(updatedData){
+            console.log("hello")
+          }
+          sendResetPasswordEmail(userDetails.name,userDetails.email,randomString)
+          res.render('user/forgotpassword',{message:"please check your mail to reset your password"})
+
+        }
+      }
+      else{
+        res.render('user/forgotpassword',{message:"User email is incorrect"})
+      }
+
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+//for reset password sent mail
+const sendResetPasswordEmail = async (name, email, token) => {
+  try {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.Email_USERNAME,
+        pass: process.env.Email_Password,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.Email_USERNAME,
+      to: email,
+      subject: "For Password Reset",
+      html: `<p>Hello ${name}, please click <a href="http://127.0.0.1:3000/resetpassword?token=${token}">here</a> to reset your password.</p>`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email has been sent:", info.response);
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+const loadResetPassword = async (req,res)=>{
+  try {
+    
+    const token = req.query.token
+    console.log(token);
+    const tokenData = await User.findOne({token:token})
+    console.log(tokenData);
+    if(tokenData){
+      res.render('user/resetpassword', { message: "", tokenData: tokenData });
+    }
+    else{
+      res.redirect('/error404')
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+const verifyResetPassword = async (req,res)=>{
+  try {
+    const password = req.body.password;
+    const confirm_Password = req.body.confirmpassword
+    const user_id = req.body.user_id
+
+    if(password === confirm_Password && user_id){
+      const secure_password = await securePassword(password)
+      // const secure_confirm = await securePassword(confirm_Password)
+      const updatedData = await User.findByIdAndUpdate({_id:user_id},{$set:{password:secure_password,confirmPassword:confirm_Password, token:''} });
+      console.log(updatedData);
+      res.redirect('/userlogin')
+    }
+    
+
+
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+
+
+  //load user dashboard
+   
+  const userDashboard = async (req,res)=>{
+    try{
+      console.log('id:',req.session.userId);
+      const userData = await User.findById({_id:req.session.userId})
+      console.log('udata:',userData);
+      res.render('user/myaccount', { user:userData})
+      // , { user:userData } give it inside re.render
+    } catch(error){
+      console.log(error.message);
+    }
+  }
+
+  //load shop
+  const loadShop = async(req,res)=>{
+    try {
+      let query = { is_Listed: true };
+      // if (req.query.category) {
+      //     query.category = req.query.category;
+      // }
+
+      // for search
+    //   if (req.query.search) {
+    //     query.name = { $regex: new RegExp(req.query.search, 'i') };
+    // }
+
+      // const productdetail = await products.find(query).populate({
+      //   path: 'category',
+      //   populate: { path: 'offers' }
+      // }).populate("offers"); 
+      //      const products = productdetail.filter(product => {
+      //     if (product.category && product.category.is_Listed == 1) {
+      //         return product;
+      //     }
+      // });
+
+      // Fetch categories for dropdown
+      // const product = await products.find()
+      // const categories = await category.find();
+      const [product, categories] = await Promise.all([
+        products.find(),
+        category.find()
+      ]);
+
+      res.render("user/shop", { product, categories });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  const loadproductdeatils = async(req,res)=>{
+    try {
+      const productId = req.query.id
+      console.log('this is product id', productId);
+      const product = await products.findOne({ _id:productId })
+        res.render('user/productdetails', { data: product })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
+
 
 
 
@@ -257,8 +461,20 @@ module.exports = {
   loadOtp,
   verifyOtp,
   resentOtp,
-  loadLogin
-  // verifyLogin
+  loadLogin,
+  verifyLogin,
+  afterlogin,
+  loadforgotpassword,
+  userDashboard,
+  userlogout,
+  forgetPasswordverify,
+  sendResetPasswordEmail,
+  loadResetPassword,
+  verifyResetPassword,
+  loadShop,
+  loadproductdeatils
+  
+
 };
 
 
