@@ -65,7 +65,7 @@ adminRoute.get('/logout',adminAuth.isLogin, adminController.adminlogout)
 
 adminRoute.get("/editproduct", adminAuth.isLogin, productController.LoadEditProduct);
 adminRoute.post("/editproduct", adminAuth.isLogin, upload.array("image", 4), productController.editProduct);
-adminRoute.delete("/deleteimage", productController.deleteimage);
+adminRoute.delete("/deleteimage", adminAuth.isLogin, productController.deleteimage);
 
 adminRoute.post("/Listproduct", adminAuth.isLogin, productController.listproduct);
 adminRoute.post("/Unlistproduct", adminAuth.isLogin, productController.unlistedproduct);

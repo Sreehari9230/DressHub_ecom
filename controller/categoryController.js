@@ -23,7 +23,7 @@ const loadcategory = async (req, res) => {
       const Category = await category.findOne({ name: name });
   
       if (Category) {
-        return res.render("admin/category", {
+        return res.render("admin/categorymanagement", {
           messages: { message: "This category already exists" },
         });
       } else {
@@ -36,7 +36,7 @@ const loadcategory = async (req, res) => {
         res.redirect("/admin/category");
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
   
       res.status(500).send("Internal Server Error");
     }

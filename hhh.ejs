@@ -73,6 +73,19 @@
 
 
 
+<div class="qty-control position-relative">
+                                                 
+  <div class="qty-control__reduce"
+      onclick="updatecount('<%= product.productId._id %>',-1) ">-
+  </div>
+  <input type="number" name="quantity" value="<%= product.quantity %>" min="1"
+  class="qty-control__number text-center" onchange="Total(this,'<%=product.productId._id %>', '<%=product.productId.price %>')">
+  <div class="qty-control__increase"
+      onclick="updatecount('<%= product.productId._id %>',+1) ">+
+  </div>
+</div><!-- .qty-control -->
+
+
 
 
 
@@ -1075,3 +1088,158 @@
 <%- include("../layouts/footer.ejs") %>
 
 <!-- =========================================================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--       =======================product details cart naz   aside parts full====================-->
+    <!-- Customer Login Form -->
+    <div class="aside aside_right overflow-hidden customer-forms" id="customerForms">
+      <div class="customer-forms__wrapper d-flex position-relative">
+        <div class="customer__login">
+          <div class="aside-header d-flex align-items-center">
+            <h3 class="text-uppercase fs-6 mb-0">Login</h3>
+            <button class="btn-close-lg js-close-aside ms-auto"></button>
+          </div><!-- /.aside-header -->
+
+          <form action="/login" method="post" class="aside-content">
+            <div class="form-floating mb-3">
+              <input name="email" type="email" class="form-control form-control_gray" id="customerNameEmailInput"
+                placeholder="name@example.com">
+              <label for="customerNameEmailInput">Username or email address *</label>
+            </div>
+
+            <div class="pb-3"></div>
+
+            <div class="form-label-fixed mb-3">
+              <label for="customerPasswordInput" class="form-label">Password *</label>
+              <input name="password" id="customerPasswordInput" class="form-control form-control_gray" type="password"
+                placeholder="********">
+            </div>
+
+            <div class="d-flex align-items-center mb-3 pb-2">
+              <div class="form-check mb-0">
+              </div>
+              <a href="/forgetpass" class="btn-text ms-auto">Lost password?</a>
+            </div>
+
+            <button class="btn btn-primary w-100 text-uppercase" type="submit">Log In</button>
+
+            <div class="customer-option mt-4 text-center">
+              <span class="text-secondary">No account yet?</span>
+              <a href="/register" class="btn-text js-show-register">Create Account</a>
+            </div>
+          </form>
+        </div><!-- /.customer__login -->
+      </div><!-- /.customer-forms__wrapper -->
+    </div><!-- /.aside aside_right -->
+
+
+    <!-- login ---------- -->
+
+    <!-- Cart Drawer -->
+    <div class="aside aside_right overflow-hidden cart-drawer" id="cartDrawer">
+      <div class="aside-header d-flex align-items-center">
+        <h3 class="text-uppercase fs-6 mb-0">SHOPPING BAG ( <span class="cart-amount js-cart-items-count">1</span> )
+        </h3>
+        <button class="btn-close-lg js-close-aside btn-close-aside ms-auto"></button>
+      </div><!-- /.aside-header -->
+      <% if (cartdata && cartdata.product.length> 0) { %>
+        <div class="aside-content cart-drawer-items-list">
+          <% cartdata.product.forEach(product=> { %>
+            <hr class="cart-drawer-divider">
+            <div class="cart-drawer-item d-flex position-relative">
+              <div class="position-relative">
+                <img loading="lazy" class="cart-drawer-item__img"
+                  src="/public/uploadImg/<%= product.productId.Image[0] %>" height="80px" width="80px" alt="">
+              </div>
+              <div class="cart-drawer-item__info flex-grow-1">
+                <button class="btn-close-xs position-absolute top-0 end-0 js-cart-item-remove"></button>
+                <h6 class="cart-drawer-item__title fw-normal">
+                  <%= product.productId.name %>
+                </h6>
+                <!-- <p class="cart-drawer-item__option text-secondary">Color: Yellow</p>
+          <p class="cart-drawer-item__option text-secondary">Size: L</p> -->
+                <div class="d-flex align-items-center justify-content-between mt-1">
+                  <div class="qty-control position-relative">
+                    <input type="number" name="quantity" value="1" min="1"
+                      class="qty-control__number border-0 text-center">
+                    <div class="qty-control__reduce text-start">-</div>
+                    <div class="qty-control__increase text-end">+</div>
+                  </div><!-- .qty-control -->
+                  <span class="cart-drawer-item__price money price">$<%= product.productId.price %></span>
+                </div>
+              </div>
+
+            </div><!-- /.cart-drawer-item d-flex -->
+            <% }) %>
+              <% } else { %>
+                <h3>Cart is empty</h3>
+                <% } %>
+
+
+
+
+
+        </div><!-- /.aside-content -->
+        <% if (cartdata && cartdata.product.length> 0) { %>
+          <div class="cart-drawer-actions position-absolute start-0 bottom-0 w-100">
+            <hr class="cart-drawer-divider">
+            <div class="d-flex justify-content-between">
+              <h6 class="fs-base fw-medium">SUBTOTAL:</h6>
+              <span class="cart-subtotal fw-medium">$176.00</span>
+            </div><!-- /.d-flex justify-content-between -->
+            <a href="/cart" class="btn btn-light mt-3 d-block">View Cart</a>
+            <a href="./shop_checkout.html" class="btn btn-primary mt-3 d-block">Checkout</a>
+          </div><!-- /.aside-content -->
+          <% } else { %>
+            <div></div>
+            <% } %>
+    </div><!-- /.aside -->
+
+
+    <!-- aside ----------- -->
+
+
+    <!--       =======================product details cart naz   aside parts full====================-->
+
+
+
+
+
+
+
+
+
+
+    <!-- Bootstrap CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+		<link href="css/tiny-slider.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+        <link href="css/pdetails.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

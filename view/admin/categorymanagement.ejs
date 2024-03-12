@@ -221,10 +221,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <form method="post">
+                                <form method="post" onsubmit="validateForm()">
                                     <div class="mb-4">
-                                        <label for="product_name" class="form-label" >Name</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="product_name" name="categoryname"/>
+                                        <label for="product_name" class="form-label" io >Name</label>
+                                        <input type="text" placeholder="Type here" class="form-control" id="categoryName" name="categoryname"/>
+                                        <div id="categoryNameError" class="text-danger"></div>
                                     </div>
                                     <!-- <div class="mb-4">
                                         <label for="product_slug" class="form-label">Slug</label>
@@ -239,11 +240,17 @@
                                     </div> -->
                                     <div class="mb-4">
                                         <label class="form-label" >Description</label>
-                                        <textarea placeholder="Type here" class="form-control" name="categorydescription"></textarea>
+                                        <textarea placeholder="Type here" class="form-control" name="categorydescription" id="categoryDescription"></textarea>
+                                        <div id="categoryDescriptionError" class="text-danger"></div>
                                     </div>
                                     <div class="d-grid">
                                         <button class="btn btn-primary">Create category</button>
                                     </div>
+                                    <% if (typeof message !== 'undefined') { %>
+                                        <h5 style="color: red; text-align: center;">
+                                            <%= message %>
+                                        </h5>
+                                    <% } %>
                                 </form>
                             </div>
                             <div class="col-md-9">
@@ -487,6 +494,38 @@
                 </div> -->
             </footer>
         </main>
+        <script>
+            function validateForm() {
+                const categoryName = document.getElementById('categoryName').value.trim();
+                const categoryDescription = document.getElementById('categoryDescription').value.trim();
+                const categoryNameError = document.getElementById('categoryNameError');
+                const categoryDescriptionError = document.getElementById('categoryDescriptionError');
+        
+                // Reset error messages
+                categoryNameError.textContent = '';
+                categoryDescriptionError.textContent = '';
+        
+                let isValid = true;
+        
+                // Validate name
+                if (categoryName === '') {
+                    categoryNameError.textContent = 'Name is required';
+                    isValid = false;
+                }
+        
+                // Validate description
+                if (categoryDescription === '') {
+                    categoryDescriptionError.textContent = 'Description is required';
+                    isValid = false;
+                }
+        
+                // // Add your validation for category existence here
+                // // This could be an AJAX call to check if the category already exists
+        
+                // return isValid;
+            }
+        </script>
+        
         <script src="/admin/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="/admin/js/vendors/bootstrap.bundle.min.js"></script>
         <script src="/admin/js/vendors/select2.min.js"></script>

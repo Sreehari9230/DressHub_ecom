@@ -1,0 +1,12 @@
+.icon-hover:hover {
+    border-color: #3b5d50 !important;
+    background-color: white !important;
+    color: #3b5d50 !important;
+  }
+  
+  .icon-hover:hover i {
+    color: #3b5d50 !important;
+  }
+ #wishlistbtn{
+  margin-left: 80%;
+ }

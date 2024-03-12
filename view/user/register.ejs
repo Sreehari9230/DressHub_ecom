@@ -1,5 +1,5 @@
 <%- include("../layouts/header.ejs") %>
-  
+  <br><br>
     <main>
       <div class="mb-4 pb-4"></div>
       <section class="login-register container">
@@ -14,12 +14,12 @@
         </ul>
         <div class="tab-content pt-2" id="login_register_tab_content">
             <div class="login-form">
-              <form name="register-form" class="needs-validation" novalidate action="" method="post" onsubmit="return validateForm()"  >
+              <form name="register-form" class="needs-validation" novalidate action="" method="post"   >
                 <!--  -->
                 <div class="form-floating mb-3">
                     <input name="name" type="text" class="form-control form-control_gray" id="name" placeholder="Username" required>
                     <label for="name">Username</label>
-                    <div id="nameError" class="invalid-feedback"></div>
+                    <div id="nameError" class="invalid-feedback" ></div>
                 </div>
                 <div class="form-floating mb-3">
                     <input name="mobile" type="tel" class="form-control form-control_gray" id="mobileNumber" placeholder="Phone" required>

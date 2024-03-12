@@ -3,6 +3,8 @@ const userRoute = express.Router()
 const userController = require('../controller/userController');
 const userAuth = require('../middlewares/userAuth')
 const productController = require('../controller/productController')
+const cartController = require('../controller/cartController')
+const addressController = require('../controller/addressController')
 // const app = express()
 // const path = require('path')
 
@@ -16,6 +18,7 @@ userRoute.use(express.urlencoded({ extended: true }));
 
 
 userRoute.get('/', userController.loadHome)
+// userRoute.get('/home',userAuth.isLogin, userController.afterlogin)
 
 userRoute.get('/userRegister',userAuth.isLogout, userController.loadRegister)
 userRoute.post('/userRegister',userController.verifyRegister)
@@ -45,6 +48,18 @@ userRoute.get('/userlogout', userAuth.isLogin, userController.userlogout )
 
 
 userRoute.get('/productdetails', userController.loadproductdeatils)
+
+
+userRoute.get('/cart', userAuth.isLogin, cartController.loadCart)
+userRoute.post('/cart',userAuth.isLogin, cartController.AddtoCart);
+
+userRoute.get('/orderlist', userAuth.isLogin, userController.loadOrderlist)
+
+userRoute.post("/updatecart",userAuth.isLogin, cartController.UpdateCart);
+userRoute.delete("/removecart", userAuth.isLogin, cartController.removeCart);
+
+
+userRoute.get('/myaddress', userAuth.isLogin, addressController.loadAddress)
 
 
 

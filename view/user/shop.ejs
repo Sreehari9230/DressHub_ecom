@@ -69,33 +69,36 @@
           </div><!-- /.col-size d-flex align-items-center ms-auto ms-md-3 -->
         </div><!-- /.shop-acs -->
       </div><!-- /.d-flex justify-content-between -->
-
+      
       <div class="products-grid">
+        
         <!-- <h2 class="section-title fw-normal mb-3 pb-2">List Style v1</h2> -->
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4" id="products-grid-1">
+          <% if(product.length > 0){ %>
+            <% for(let i=0;i<product.length;i++){ %>
           <div class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper">
                 <div class="swiper-container background-img js-swiper-slider" data-settings="{" resizeobserver":="" true}"="">
                   <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <!-- <div class="swiper-slide">
                       <a href="./product1_simple.html"><img loading="lazy" src="images/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
-                    </div><!-- /.pc__img-wrapper -->
+                    </div>/.pc__img-wrapper -->
                     <div class="swiper-slide">
-                      <a href="./product1_simple.html"><img loading="lazy" src="images/product_1-1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
+                      <a href="/productdetails?id=<%= product[i]._id %>"><img loading="lazy" src="productImages/<%= product[i].Image[0]%>" width="330" height="400" alt="Product image" class="pc__img"></a>
                     </div><!-- /.pc__img-wrapper -->
                   </div>
                   <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm"></use></svg></span>
                   <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm"></use></svg></span>
                 </div>
-                <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
+                <!-- <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> -->
               </div>
 
               <div class="pc__info position-relative">
-                <p class="pc__category">Dresses</p>
-                <h6 class="pc__title"><a href="./product1_simple.html">Cropped Faux Leather Jacket</a></h6>
+                <p class="pc__category"><%= product[i].category %></p>
+                <h6 class="pc__title"><a href="./product1_simple.html"><%= product[i].name %></a></h6>
                 <div class="product-card__price d-flex">
-                  <span class="money price">$29</span>
+                  <span class="money price">$<%= product[i].price %></span>
                 </div>
                 <div class="product-card__review d-sm-flex align-items-center">
                   <div class="reviews-group d-flex">
@@ -114,11 +117,17 @@
               </div>
             </div>
           </div>
+          <% } %>
+        <% } else { %>
+          <h3>No product found</h3>
+          <% } %>
         </div>
+        
 
 
 
         </div>
+        
 
         <div class="mb-4 mb-xl-5"></div>
     </section><!-- /.shop-main container -->

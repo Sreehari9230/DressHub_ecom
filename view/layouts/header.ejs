@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/user/css/swiper.min.css" type="text/css">
     <link rel="stylesheet" href="/user/css/jquery.fancybox.css" type="text/css">
     <link rel="stylesheet" href="/user/css/style.css" type="text/css">
+    <!-- <link href="/user/css/pdetails.css" rel="stylesheet"> -->
   
   
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -648,30 +649,49 @@
   
           <div class="header-tools__item hover-container">
             <% if(locals.userIn){ %>
+              <!-- req.session.userId  -->
             <a href="/userdashboard" >
               <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_user"></use></svg>
             </a>
             <% }else{ %>
-              <a class="header-tools__item js-open-aside" href="/userlogin" data-aside="customerForms">
+              <a class="header-tools__item " href="/userlogin" >
                 <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_user"></use></svg>
               </a>
               <% } %>
           </div>
-  
+
+          <% if(locals.userIn){ %>
           <a class="header-tools__item" href="./account_wishlist.html">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart"></use></svg>
           </a>
-  
-          <a href="#" class="header-tools__item header-tools__cart js-open-aside" data-aside="cartDrawer">
+          <% }else{ %>
+            <a class="header-tools__item" href="/userlogin">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_heart"></use></svg>
+            </a>
+            <% } %>
+            
+
+
+
+
+
+            <% if(locals.userIn){ %>  
+          <a href="/cart" class="header-tools__item header-tools__cart " data-aside="cartDrawer">
             <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_cart"></use></svg>
-            <span class="cart-amount d-block position-absolute js-cart-items-count">3</span>
           </a>
+          <% }else{ %>
+            <a href="/cart" class="header-tools__item header-tools__cart " data-aside="cartDrawer">
+              <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_cart"></use></svg>
+            </a>
+            <% } %>
+
+
   
-          <a class="header-tools__item" href="#" data-bs-toggle="modal" data-bs-target="#siteMap">
+          <!-- <a class="header-tools__item" href="#" data-bs-toggle="modal" data-bs-target="#siteMap">
             <svg class="nav-icon" width="25" height="18" viewBox="0 0 25 18" xmlns="http://www.w3.org/2000/svg">
               <rect width="25" height="2"></rect><rect y="8" width="20" height="2"></rect><rect y="16" width="25" height="2"></rect>
             </svg>
-          </a>
+          </a> -->
         </div><!-- /.header__tools -->
       </div><!-- /.header-desk header-desk_type_1 -->
     </header>

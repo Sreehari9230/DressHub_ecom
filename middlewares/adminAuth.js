@@ -1,8 +1,10 @@
 const isLogin = async(req,res,next)=>{
     try {
         if(req.session.admin_id){
+            console.log("next in ad");
             next()
         }else{
+            console.log("redirect in ad");
             res.redirect('/admin')
         }
     } catch (error) {
@@ -14,8 +16,10 @@ const isLogin = async(req,res,next)=>{
 const isLogout = async(req,res,next)=>{
     try {
        if(req.session.admin_id){
-        res.redirect('/admin')
+        console.log("redidt log ad");
+        res.redirect('/admin/dashboard')
        } else {
+        console.log("next logout");
         next();
        }
     } catch (error) {
