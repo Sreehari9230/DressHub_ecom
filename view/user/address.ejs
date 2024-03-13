@@ -1,53 +1,129 @@
-
 <%- include("../layouts/header.ejs") %>
-<br><br>
-<main>
+
+<link rel="shortcut icon" type="image/x-icon" href="/">
+      <!-- bootstrap min-->
+      <!-- <link rel="stylesheet" type="text/css" href="/public/assets/bootstrap.min.css"> -->
+      <!-- fontawesome -->
+
+    
+      <!-- fancybox -->
+
+      <!-- style -->
+
+      <!-- responsive -->
+   
+      <!-- googleapis -->
+
+
+      
+      
+<body>
+
+
+  <main>
     <div class="mb-4 pb-4"></div>
     <section class="my-account container">
+      
+  <div class="mb-5 pb-xl-5"></div>
       <h2 class="page-title">Addresses</h2>
       <div class="row">
         <div class="col-lg-3">
           <ul class="account-nav">
             <li><a href="./account_dashboard.html" class="menu-link menu-link_us-s">Dashboard</a></li>
             <li><a href="./account_orders.html" class="menu-link menu-link_us-s">Orders</a></li>
-            <li><a href="./account_edit_address.html" class="menu-link menu-link_us-s menu-link_active">Addresses</a></li>
+            <li><a href="./account_edit_address.html" class="menu-link menu-link_us-s menu-link_active">Addresses</a>
+            </li>
             <li><a href="./account_edit.html" class="menu-link menu-link_us-s">Account Details</a></li>
             <li><a href="./account_wishlist.html" class="menu-link menu-link_us-s">Wishlist</a></li>
             <li><a href="./login_register.html" class="menu-link menu-link_us-s">Logout</a></li>
           </ul>
         </div>
-        <div class="col-lg-9">
-          <div class="page-content my-account__address">
+        <div class="col-lg-9" id="reload">
+         <div class="my-account__address-item">
+          <div class="my-account__address-item__title">
+            <h5></h5>
+            <a href="/addaddress">Add New Address</a>
+          </div>
+          <div class="page-content my-account__address" id="addressSec">
             <p class="notice">The following addresses will be used on the checkout page by default.</p>
             <div class="my-account__address-list">
+              <div id = "user-delete-address" class="user-message text-dark" style="display: none;">Address Deleted Successfully</div>
+              <%if(userAddress&&userAddress.address.length > 0){%>
+                <% userAddress.address.forEach((address,index)=> { %>
               <div class="my-account__address-item">
-                <div class="my-account__address-item__title">
-                  <h5>Billing Address</h5>
-                  <a href="#">Edit</a>
-                </div>
-                <div class="my-account__address-item__detail">
-                  <p>Daniel Robinson</p>
-                  <p>1418 River Drive, Suite 35 Cottonhall, CA 9622</p>
-                  <p>United States</p>
-                  <br>
-                  <p>sale@uomo.com</p>
-                  <p>+1 246-345-0695</p>
-                </div>
+            
+                  <div class="card mb-3" id="address-card-<%= index %>">
+                    <div class="card-body address-card">
+                      <!-- Address Details -->
+                      <h5 class="card-title fw-bold">SHIPPING ADDRESS <%=index+1%></h5>
+                      <div class="mb-1 pb-xl-1"></div>
+                      <div id="user-edit-address" class="user-message text-dark" style="display: none;">Address Updated Successfully</div>
+                      <!-- Editable Input Fields -->
+                      <div class="row mb-2">
+                        <div class="col">
+                          <label for="addressFname">First Name</label>
+                          <input type="text" id="addressFname" class="form-control input-border input-small" placeholder="First Name" value="<%=address.fname%>" disabled>
+                        </div>
+                        <div class="col">
+                          <label for="addresslname">Last Name</label>
+                          <input type="text" id="addressLname" class="form-control input-border input-small" placeholder="Last Name" value="<%=address.lname%>" disabled>
+                        </div>
+                        <div class="col">
+                          <label for="addressValue">Address</label>
+                          <input type="text" id="addressValue" class="form-control input-border input-small" placeholder="Street Address" value="<%=address.address%>" disabled>
+                        </div>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col">
+                          <label for="addressCity">City</label>
+                          <input type="text" id="addressCity" class="form-control input-border input-small" placeholder="City" value="<%=address.city %>" disabled>
+                        </div>
+                        <div class="col">
+                          <label for="addressEmail">Email</label>
+                          <input type="text" id="addressEmail" class="form-control input-border input-small" placeholder="Email" value="<%=address.email %>" disabled>
+                        </div>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col">
+                          <label for="addressNumber">Mobile</label>
+                          <input type="text" id="addressNumber" class="form-control input-border input-small" placeholder="Postal Code" value="<%=address.mobile %>" disabled>
+                        </div>
+                        <div class="col">
+                          <label for="addressPost">Post Code</label>
+                          <input type="tel" id="addressPost" class="form-control input-border input-small" placeholder="Mobile Number" value="<%=address.pin %>" disabled>
+                        </div>
+                      </div>
+                      <div class="mb-1 pb-xl-1"></div>
+                      <div class="mt-auto text-end">
+                        <!-- Buttons for Address Actions -->
+                        <button class="btn btn-primary btn-sm text-white" id="address-btn" onclick="editAddress('address-card-<%= index %>','<%=address._id%>')">Edit Address</button>
+                        <button class="btn delete-address-button btn-danger float-right btn-sm text-white" style="background-color: red;"  onclick="deleteAddress('<%=address._id%>')">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+              
+                <%})%>
+                <% }else{%>
+                  <h4>Address Not Found</h4>
+                  <% } %>
               </div>
-              <div class="my-account__address-item">
-                <div class="my-account__address-item__title">
-                  <h5>Shipping Address</h5>
-                  <a href="#">Edit</a>
-                </div>
-                <div class="my-account__address-item__detail">
-                  <p>Daniel Robinson</p>
-                  <p>1418 River Drive, Suite 35 Cottonhall, CA 9622</p>
-                  <p>United States</p>
-                  <br>
-                  <p>sale@uomo.com</p>
-                  <p>+1 246-345-0695</p>
-                </div>
+          
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- "Delete address modal" -->
+      <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Address?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn modal-add-btn">Confirm</button>
             </div>
           </div>
         </div>
@@ -56,5 +132,154 @@
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
-  <%- include("../layouts/footer.ejs") %>
+
+
   
+
+  <!-- Footer Type 1 -->
+
+  <!-- End Footer Type 1 -->
+
+  <!-- Mobile Fixed Footer -->
+
+
+  <!-- Customer Login Form -->
+ 
+  <!-- Go To Top -->
+  <div id="scrollTop" class="visually-hidden end-0"></div>
+
+  <!-- Page Overlay -->
+  <div class="page-overlay"></div><!-- /.page-overlay -->
+
+  <!-- External JavaScripts -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/bootstrap-slider.min.js"></script>
+
+  <script src="js/swiper.min.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/jquery.fancybox.js"></script>
+
+  <!-- Footer Scripts -->
+  <script src="js/theme.js"></script>
+
+
+  <script>
+function editAddress(card, id) {
+    console.log("uukkuku", id);
+    $(`#${card} #user-edit-address`).css('display', 'none');
+    if ($(`#${card} #address-btn`).text() === 'Edit Address') {
+        $(`#${card} #address-btn`).text('Save Changes');
+        $(`#${card}`).find('*').prop('disabled', false);
+        $(`#${card}`).find('*').prop('color', '#67865');
+    } else {
+        const addressFname = $(`#${card} #addressFname`).val();
+        const addressLname = $(`#${card} #addressLname`).val();
+        const addressValue = $(`#${card} #addressValue`).val();
+        const addressCity = $(`#${card} #addressCity`).val();
+        const addressEmail = $(`#${card} #addressEmail`).val();
+        const addressPost = $(`#${card} #addressPost`).val();
+        const addressNumber = $(`#${card} #addressNumber`).val();
+
+        fetch('/editaddress', { // Corrected endpoint name to match server
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id,
+                addressFname,
+                addressLname,
+                addressValue,
+                addressCity,
+                addressEmail,
+                addressNumber,
+                addressPost
+            })
+        }).then((response) => {
+            console.log("opop", response);
+            if (response.status === 200) {
+                $(`#${card} #user-edit-address`).css('display', 'block');
+                $(`#${card}`).find('*').prop('disabled', 'true');
+                $(`#${card} #address-btn`).text('Edit Address');
+                setTimeout(() => {
+                    $('#addressSec').load('/address #addressSec');
+                }, 1000);
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+}
+
+
+function deleteAddress(id) {
+    console.log("Deleting address with id:", id);
+    $('#user-delete-address').css('display', 'none');
+    $('#addressModal').modal('show');
+
+    $('#addressModal').click(() => {
+        fetch('/deleteaddress', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete address');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Address deleted successfully');
+            $('#addressModal').modal('hide');
+            $('#user-delete-address').css('display', 'block');
+            setTimeout(() => {
+                $('#reload').load(`/address #reload`);
+            }, 1000);
+        })
+        .catch(error => {
+            console.error('Error deleting address:', error);
+            // Handle error
+        });
+    });
+}
+
+
+  </script>
+
+
+
+<!-- external scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script src="/public/mainassets/jquery-3.4.1.min.js"></script>
+<!-- owl.carousel -->
+<script src="/public/mainassets/owl.carousel.js"></script>
+<!-- bootstrap.min -->
+<script src="/public/mainassets/bootstrap.min.js"></script>
+<!-- slick -->
+<script  src="/public/mainassets/slick.js"></script>
+<!-- popper.min -->
+<script src="/public/mainassets/popper.min.js"></script>
+<!-- moment js -->
+<script src="/public/mainassets/moment.min.js"></script>
+<!-- daterangepicker js -->
+<script src="/public/mainassets/daterangepicker.min.js"></script>
+<!-- wow.js - v1.2.1 -->
+<script src="/public/mainassets/wow.min.js"></script>
+<!-- Font Awesome Free 5.15.1 -->
+<script src="/public/mainassets/all.min.js"></script>
+<!--   fancybox -->
+<script  src="/public/mainassets/jquery.fancybox.min.js"></script>
+<!-- custom js -->
+<script src="/public/mainassets/custom.js"></script>
+
+
+
+
+</body>
+
+<%- include("../layouts/footer.ejs") %>

@@ -52,14 +52,17 @@ userRoute.get('/productdetails', userController.loadproductdeatils)
 
 userRoute.get('/cart', userAuth.isLogin, cartController.loadCart)
 userRoute.post('/cart',userAuth.isLogin, cartController.AddtoCart);
-
-userRoute.get('/orderlist', userAuth.isLogin, userController.loadOrderlist)
-
 userRoute.post("/updatecart",userAuth.isLogin, cartController.UpdateCart);
 userRoute.delete("/removecart", userAuth.isLogin, cartController.removeCart);
 
+userRoute.get('/orderlist', userAuth.isLogin, userController.loadOrderlist)
 
-userRoute.get('/myaddress', userAuth.isLogin, addressController.loadAddress)
+
+userRoute.get('/address', userAuth.isLogin, addressController.loadAddress)
+userRoute.get('/addaddress',userAuth.isLogin, addressController.loadAddAddress)
+userRoute.post('/addaddress', userAuth.isLogin, addressController.postAddress)
+userRoute.patch('/editaddress', userAuth.isLogin, addressController.editAddress)
+userRoute.delete('/deleteaddress', userAuth.isLogin, addressController.deleteAddress)
 
 
 
