@@ -395,28 +395,10 @@ const loadShop = async (req, res) => {
   try {
     let query = { is_Listed: true };
     const userIn = req.session.userId;
-    // if (req.query.category) {
-    //     query.category = req.query.category;
-    // }
-
-    // for search
-    //   if (req.query.search) {
-    //     query.name = { $regex: new RegExp(req.query.search, 'i') };
-    // }
-
-    // const productdetail = await products.find(query).populate({
-    //   path: 'category',
-    //   populate: { path: 'offers' }
-    // }).populate("offers");
-    //      const products = productdetail.filter(product => {
-    //     if (product.category && product.category.is_Listed == 1) {
-    //         return product;
-    //     }
-    // });
-
-    // Fetch categories for dropdown
-    // const product = await products.find()
-    // const categories = await category.find();
+    if(req.query.category) {
+      query.category = req.query.category
+      console.log('lol', req.quer.category); 
+    }
     const [product, categories] = await Promise.all([
       products.find(),
       category.find(),
@@ -440,14 +422,7 @@ const loadproductdeatils = async (req, res) => {
   }
 };
 
-const loadOrderlist = async (req, res) => {
-  try {
-    const userIn = req.session.userId;
-    res.render("user/orders", { userIn });
-  } catch (error) {
-    console.log(error);
-  }
-};
+
 
 module.exports = {
   loadHome,
@@ -470,5 +445,5 @@ module.exports = {
   verifyResetPassword,
   loadShop,
   loadproductdeatils,
-  loadOrderlist,
+
 };

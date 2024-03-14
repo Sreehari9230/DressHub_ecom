@@ -1,6 +1,6 @@
 <%- include("../layouts/header.ejs") %>
 <br><br>
-<main >
+<main  id="reload">
     <div class="mb-4 pb-4"></div>
     <section class="shop-checkout container">
       <h2 class="page-title">Cart</h2>
@@ -28,7 +28,7 @@
         </a> -->
       </div>
       <div class="shopping-cart" >
-        <div class="cart-table__wrapper" id="reload">
+        <div class="cart-table__wrapper" >
           <table class="cart-table">
             <thead>
               <tr>
@@ -151,8 +151,8 @@
               </table>
             </div>
             <div class="mobile_fixed-btn_wrapper">
-              <div class="button-wrapper container">
-                <button class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</button>
+              <div class="button-wrapper container"  \>
+               <a href="/checkout"><button class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</button></a> 
               </div>
             </div>
           </div>

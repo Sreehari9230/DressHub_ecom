@@ -76,10 +76,11 @@
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4" id="products-grid-1">
           <% if(product.length > 0){ %>
             <% for(let i=0;i<product.length;i++){ %>
+              <% if(product[i].is_Listed == true){ %>
           <div class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper">
-                <div class="swiper-container background-img js-swiper-slider" data-settings="{" resizeobserver":="" true}"="">
+                <div class="swiper-container background-img js-swiper-slider" data-settings='{"resizeObserver": true}'>
                   <div class="swiper-wrapper">
                     <!-- <div class="swiper-slide">
                       <a href="./product1_simple.html"><img loading="lazy" src="images/product_1.jpg" width="330" height="400" alt="Cropped Faux leather Jacket" class="pc__img"></a>
@@ -117,6 +118,8 @@
               </div>
             </div>
           </div>
+          <% } %>
+          <h3>the second condition is wrong2</h3>
           <% } %>
         <% } else { %>
           <h3>No product found</h3>

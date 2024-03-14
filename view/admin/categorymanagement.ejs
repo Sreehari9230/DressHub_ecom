@@ -221,7 +221,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <form method="post" onsubmit="validateForm()">
+                                <form method="post" onsubmit="validateForm()" >
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label" io >Name</label>
                                         <input type="text" placeholder="Type here" class="form-control" id="categoryName" name="categoryname"/>
@@ -273,7 +273,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% if (Category.length > 0) { %>
+                                            <% if (Category && Category.length > 0) { %>
                                                 <% for(let i=0;i<Category.length;i++) { %>
                                     
                                             <tr>
@@ -288,7 +288,7 @@
                                                 <!-- <td><a href="">Edit</a></td> -->
                                                 <td><a href="/admin/editcategory?id=<%= Category[i]._id %>" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a></td>
                                                 <!-- <td><a href="">Delete</a></td> -->
-                                                <td><a href="/admin/deletecategory?id=<%= Category[i]._id %>" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a></td>
+                                                <td><a href="/admin/deletecategory?id=<%= Category[i]._id %>" class="btn btn-sm font-sm btn-light rounded" ><i class="material-icons md-delete_forever"></i> Delete</a></td>
                                                 <!-- <td>1</td> -->
                                                 <td class="text-end">
                                                     
@@ -311,7 +311,7 @@
                                             <% } %>
                                             <% } else { %>
                                                 <tr>
-                                                    <td colspan="5">category not Found</td>
+                                                    <td colspan="5"><h1>category not Found</h1></td>
                                                 </tr>
                                                 <% } %>
                                             <!-- <tr>
@@ -494,37 +494,92 @@
                 </div> -->
             </footer>
         </main>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>        
         <script>
-            function validateForm() {
-                const categoryName = document.getElementById('categoryName').value.trim();
-                const categoryDescription = document.getElementById('categoryDescription').value.trim();
-                const categoryNameError = document.getElementById('categoryNameError');
-                const categoryDescriptionError = document.getElementById('categoryDescriptionError');
-        
-                // Reset error messages
-                categoryNameError.textContent = '';
-                categoryDescriptionError.textContent = '';
-        
-                let isValid = true;
-        
-                // Validate name
-                if (categoryName === '') {
-                    categoryNameError.textContent = 'Name is required';
-                    isValid = false;
-                }
-        
-                // Validate description
-                if (categoryDescription === '') {
-                    categoryDescriptionError.textContent = 'Description is required';
-                    isValid = false;
-                }
-        
-                // // Add your validation for category existence here
-                // // This could be an AJAX call to check if the category already exists
-        
-                // return isValid;
+            function confirmDelete(categoryId) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this item!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        // Redirect to the delete URL
+                        window.location.href = "/admin/deletecategory?id=" + categoryId;
+                    } 
+                    //     swal("Your item is safe!");
+                    // }
+                });
             }
         </script>
+        
+        
+        <script>
+            function validateForm() {
+                let isValid = true;
+
+              var categoryName = document.getElementById("categoryName").value;
+              var categoryDescription = document.getElementById("categoryDescription").value;
+        
+              if (/^\s*$/.test(categoryName)) {
+                isValid = false
+                document.getElementById("categoryNameError").innerText = "category name is required";
+                return false;
+              } else {
+                document.getElementById("categoryNameError").innerText = "";
+              }
+        
+              if (/^\s*$/.test(categoryDescription)) {
+                isValid = false
+                document.getElementById("categoryDescriptionError").innerText = "category description required";
+              } else {
+                document.getElementById("categoryDescriptionError").innerText = "";
+              }
+        
+              return true;
+
+              if(!isValid){
+                return false
+              }else{
+                // Assuming you're using AJAX to make the request to the server
+            // This is just a basic example, make sure to adapt it to your actual code
+            $.ajax({
+              url: '/category',
+              method: 'POST',
+              data: categoryname,categorydescription,
+              success: function(response) {
+                if (response.success === false) {
+                    console.log('salert is false');
+                  // Show SweetAlert indicating that the category already exists
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'This category already exists',
+                  });
+                }
+              },
+              error: function(xhr, status, error) {
+                // Handle error
+                
+              }
+            });
+              }
+
+              
+
+            }
+          </script>
+          
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+          <script>
+            
+          </script>
+          
         
         <script src="/admin/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="/admin/js/vendors/bootstrap.bundle.min.js"></script>

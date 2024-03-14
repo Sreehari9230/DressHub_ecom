@@ -6,6 +6,7 @@ const category = require('../model/categoryModel')
 const loadcategory = async (req, res) => {
     try {
       const Categories = await category.find()
+
       res.render("admin/categorymanagement", {Category: Categories});
     } catch (error) {
       console.log(error.message);
@@ -14,24 +15,26 @@ const loadcategory = async (req, res) => {
 
   const AddCategory = async (req, res) => {
     try {
-      console.log('this is in');
-      const name = req.body.categoryname.toUpperCase();
-      
-      const description = req.body.categorydescription.toUpperCase();
-  
+      console.log('inside  add category controller');
 
+      const name = req.body.categoryname.toUpperCase(); 
+      // console.log(name, 'this is name');
+      const description = req.body.categorydescription.toUpperCase();
+      // console.log(description,'tjis is desc')
+
+      const Categories = await category.find()
       const Category = await category.findOne({ name: name });
   
       if (Category) {
-        return res.render("admin/categorymanagement", {
-          messages: { message: "This category already exists" },
-        });
+        // res.render("admin/categorymanagement", {Category: Categories},{ message: "This category already exists" },
+      res.json({success: false})
+        // );
       } else {
         const newData = new category({
           name: name,
           description: description,
         });
-  console.log('abcd')
+        console.log('abcd')
         const categoryData = await newData.save();
         res.redirect("/admin/category");
       }
@@ -93,7 +96,7 @@ const loadcategory = async (req, res) => {
       res.redirect('/admin/category')
     } catch (error) {
       console.log(error.message);
-      res.ststus(500).send("Internal server error")
+      res.status(500).send("Internal server error")
     }
   }
 

@@ -300,7 +300,8 @@
                                 </div> -->
                                 <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
                                     <a href="/admin/editproduct?productId=<%= product[i]._id %>" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
-                                    <a href="/admin/deleteproduct?id=<%= product[i]._id %>" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    <a href="#" class="btn btn-sm font-sm btn-light rounded" onclick="confirmDelete('<%= product[i]._id %>')"><i class="material-icons md-delete_forever"></i> Delete </a>
+                                    
                                 </div>
                             </div>
                             <!-- row .// -->
@@ -643,5 +644,31 @@
         <script src="/admin/js/vendors/jquery.fullscreen.min.js"></script>
         <!-- Main Script -->
         <script src="/admin/js/main.js" type="text/javascript"></script>
+
+
+
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <script>
+            function confirmDelete(productId) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this item!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        // Redirect to the delete URL
+                        window.location.href = "/admin/deleteproduct?id=" + productId;
+                    } 
+                    //     swal("Your item is safe!");
+                    // }
+                });
+            }
+        </script>
+
     </body>
 </html>

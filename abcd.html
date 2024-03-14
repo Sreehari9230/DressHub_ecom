@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swiper Slider</title>
+  <!-- Include Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Include Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <!-- Custom CSS -->
+  <style>
+    /* Add your custom styles here */
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 25rem; /* Adjust height as needed */
+      background-color: white;
+    }
+
+    /* Add more custom styles as needed */
+  </style>
+</head>
+<body>
+
+<section class="swiper-container js-swiper-slider slideshow bg-white" data-settings='{"autoplay":{"delay":5000},"navigation":{"nextEl":".slideshow__next","prevEl":".slideshow__prev"},"slidesPerView":1,"effect":"fade","loop":true}'>
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <div class="overflow-hidden position-relative h-100">
+        <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+          <div class="character_bg position-absolute position-center">
+            <img loading="lazy" src="/public/images/slider_mark.png" width="690" height="690" alt="hello" class="animate animate_fade animate_btt animate_delay-5 w-auto h-auto">
+          </div>
+          <img loading="lazy" src="/public/images/slider1.png" width="493" height="693" alt="" class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 w-auto h-auto">
+        </div>
+        <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+          <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">The Classics</h2>
+          <p class="fs-6 mb-4 pb-2 animate animate_fade animate_btt animate_delay-5">An exclusive selection of this season's trends.</p>
+          <a href="./shop1.html" class="btn btn-primary fw-medium animate animate_fade animate_btt animate_delay-7">Discover Now</a>
+        </div>
+      </div>
+    </div><!-- /.swiper-slide -->
+
+    <!-- Add more swiper-slide elements for other slides as needed -->
+  </div><!-- /.swiper-wrapper -->
+
+  <div class="container">
+    <div class="slideshow-navigation d-flex align-items-center position-absolute bottom-0 mb-5">
+      <div class="slideshow__prev border-0">
+        <!-- PREV -->
+      </div><!-- /.slideshow__prev -->
+      <div class="slideshow__next border-0">
+        <!-- NEXT -->
+      </div><!-- /.slideshow__next -->
+    </div><!-- /.slideshow-navigation -->
+  </div><!-- /.container -->
+</section><!-- /.slideshow -->
+
+<!-- Include Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+<!-- Include Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper('.swiper-container', JSON.parse(document.querySelector('.swiper-container').getAttribute('data-settings')));
+</script>
+
+</body>
+</html>

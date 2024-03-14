@@ -217,7 +217,7 @@
                         <input type="text" placeholder="Search Categories" class="form-control bg-white" />
                     </div> -->
                 </div>
-                <% if (category) { %>
+                <% if (category && category._id) { %>
                     <!-- Add this hidden input field for categoryid -->
                     <input type="hidden" id="categoryid" name="categoryid" value="<%= category._id %>">
                 <% } else { %>
@@ -231,7 +231,7 @@
                                 <form method="post">
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label" >Name</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="product_name" name="editCategoryName"/>
+                                        <input type="text" class="form-control" id="categoryName" name="editCategoryName" value="<%= category.name %>" required>
                                     </div>
                                     <!-- <div class="mb-4">
                                         <label for="product_slug" class="form-label">Slug</label>

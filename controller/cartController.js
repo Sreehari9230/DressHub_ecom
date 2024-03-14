@@ -191,9 +191,18 @@ const removeCart = async(req,res)=>{
     }
 }
 
+const loadCheckout = async(req,res)=>{
+  try {
+    res.render('user/checkout')
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   loadCart,
   AddtoCart,
   UpdateCart,
-  removeCart
+  removeCart,
+  loadCheckout
 };

@@ -1243,3 +1243,472 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <form name="checkout-form" id="orderplace" action="/ordercomplete">
+          <div class="checkout-form">
+            <div class="billing-info__wrapper">
+              <h4>BILLING DETAILS</h4>
+            
+              <div id="checkout_page" class="checkout-page animate__animated animate__fadeInUp">
+                
+                <div class="container custom_container">
+                   <div class="row">
+                   
+                      <div class="col-lg-8 col-12" id="check_existing_address">
+                       
+                        <div class="card rounded mb-2 ">
+                          <div class="card-header bg-white" id="chechout_existing_address">
+                            <h2 class="mb-0">
+                              <button class="btn btn-link btn-block text-left collapsed text-body p-0 font-weight-bolder" type="button" data-toggle="collapse" data-target="#check_existing" aria-expanded="false" aria-controls="check_existing">
+                                Select Existing Address<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                              </button>
+                            </h2>
+                          </div>
+                          <div id="check_existing" class="collapse show" aria-labelledby="chechout_existing_address" data-parent="#check_out_toggle">
+                            <div class="card-body">
+                              <div id="c_existing_address" class="page-content">
+                                <!-- Add code to display existing addresses here -->
+                                <!-- You can use radio buttons or another form of selection -->
+                                <label>Select an existing address:</label>
+                                <% addresses.forEach((value, index)=> { %>
+                                  <% if (value && typeof value==='object' ) { %>
+                                <div>
+                                  <input type="radio" id="existing_address_1" name="existing_address" value="<%= value._id%>" onclick="handleAddressSelection('<%= value._id%>')" <%if(value.isDefault){%>checked<%}%>>
+                                                  <label for="existing_address_1"><%=value.fname%> , <%= value.address%> <%= value.mobile %> ....</label>
+                                                  <input type="hidden" name="firstName" value="<%= value.fname %>">
+                                                  <input type="hidden" name="lastName" value="<%= value.lname %>">
+                                                  <input type="hidden" name="mobileNumber" value="<%= value.mobile %>">
+                                                  <input type="hidden" name="email" value="<%= value.email %>">
+                                                  <input type="hidden" name="address" value="<%= value.address %>">
+                                                  <input type="hidden" name="city" value="<%= value.city %>">
+                                                  <input type="hidden" name="postCode" value="<%= value.pin %>">
+                                                  <input type="hidden" name="addressId" value="<%= value._id %>">
+                                                 
+                                </div>
+                             
+                                <%}%>
+                                <% }) %>
+                                              <!-- Add New Address Option -->
+                                              <div>
+                                                  <input type="radio" id="add_new_address" name="existing_address" onclick="handleAddressSelection()"  <%if(addresses.length===0){%>Checked<%}%>>
+                                                  <label for="add_new_address">Add a new address</label>
+                                              </div>
+                                              <button type="" class="btn btn-primary mt-3 mb-3 float-right" onclick="proceedToShipping()">Proceed</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+                         <div class="accordion" id="check_out_toggle">
+                          
+                            <!-- card -->
+                            <div class="card rounded mb-2 " id="addAddress" style="display: none;">
+                               <div class="card-header bg-white" id="chechout_add">
+                                  <h2 class="mb-0">
+                                     <button class="btn btn-link btn-block text-left collapsed text-body p-0 font-weight-bolder" type="button" data-toggle="collapse" data-target="#check_add" aria-expanded="false" aria-controls="check_add">
+                         Address<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                                     </button>
+                                  </h2>
+                               </div>
+                               <div id="check_add" class="collapse" aria-labelledby="chechout_add" data-parent="#check_out_toggle">
+                                  <div class="card-body">
+                                     <div id="c_address" class="page-content">
+                                      <form id="addForm" class="needs-validation" method="post" novalidate >
+                                        <div class="form-group">
+                                            <label for="AddFname" class="font-weight-bolder" id="AddFname">First Name</label>
+                                            <input type="text" class="form-control" name="firstName" placeholder="First Name" >
+                                            <div class="invalid-feedback" id="add1">Please Enter your First Name.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AddLname" class="font-weight-bolder" id="AddLname">Last Name</label>
+                                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" >
+                                            <div class="invalid-feedback" id="add2">Please Enter your Last Name.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AddMobile" class="font-weight-bolder">Mobile</label>
+                                            <input type="number" class="form-control" name="mobileNumber" placeholder="Mobile Number" id="AddMobile" >
+                                            <div class="invalid-feedback" id="add3">Please Enter your Mobile Number.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AddEmail" class="font-weight-bolder">Email</label>
+                                            <input type="email" class="form-control" name="email" placeholder="Email" id="AddEmail" >
+                                            <div class="invalid-feedback" id="add4">Please Enter your Email.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AddAddress" class="font-weight-bolder">Address</label>
+                                            <textarea class="form-control form-control_gray" name="address" placeholder="Address" cols="30" rows="4" id="AddAddress"></textarea>
+                                            <div class="invalid-feedback" id="add5">Please Enter your Address.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AddCity" class="font-weight-bolder">Town/City</label>
+                                            <input type="text" class="form-control" name="city" placeholder="Town/City" id="AddCity" >
+                                            <div class="invalid-feedback" id="add6"> Please Enter your Town/City.</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AddPost" class="font-weight-bolder">Post Code</label>
+                                            <input type="text" class="form-control" name="postCode" placeholder="Post Code" id="AddPost">
+                                            <div class="invalid-feedback" id="add7">Please Enter your Post Code.</div>
+                                        </div>
+                                        <div>
+                                            <span class="text-danger">Make sure you have the right address, you can edit it only on the profile after you save and proceed!!!!!!!!!</span>
+                                            <button type="submit" name="submit" id="saveAndProceedBtn" class="f_13 btn btn-primary mt-3 mb-2 float-right" value="save" data-target="#check_add">Save And Proceed</button>
+                                        </div>
+                                    </form>
+                                    
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- card -->
+                            <div class="card rounded mb-2">
+                               <div class="card-header bg-white" id="checkout_shipping">
+                                  <h2 class="mb-0">
+                                     <button class="btn btn-link btn-block text-left collapsed text-body p-0 font-weight-bolder" type="button" data-toggle="collapse" data-target="#check_ship" aria-expanded="false" aria-controls="check_ship">
+                                     Shipping Method<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                                     </button>
+                                  </h2>
+                               </div>
+                               <div id="check_ship" class="collapse" aria-labelledby="checkout_shipping" data-parent="#check_out_toggle">
+                                  <div class="card-body">
+                                     <div id="ship_check" class="page-content">
+                                        <form>
+                                           <div class="form-group text-left">
+                                              <label class="font-weight-bolder">Shipping Method</label><br>
+                                              <span class="form-check d-inline-block">
+                                              <input class="form-check-input" type="radio" name="gridRadios" id="free_ship" checked>
+                                              <label class="form-check-label" for="free_ship">
+                                              Normal shipping
+                                              </label>
+                                              </span>
+                                              <span class="form-check d-inline-block ml-2">
+                                              <input class="form-check-input" type="radio" name="gridRadios" id="with_ship">
+                                              <label class="form-check-label" for="free_ship">
+                                                Express shipping  with one day delivery (An additional Rs. 200 will be included in the delivery charge)
+                                            </label>
+                                              </span>
+                                           </div>
+                                        </form>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- card -->
+                            <div class="card rounded mb-2">
+                               <div class="card-header bg-white" id="checkout_payment">
+                                  <h2 class="mb-0">
+                                     <button class="btn btn-link btn-block text-left collapsed text-body p-0 font-weight-bolder" type="button" data-toggle="collapse" data-target="#check_payment" aria-expanded="false" aria-controls="check_payment">
+                                     Payment<span class="float-right"><i class="fas fa-angle-down"></i></span>
+                                     </button>
+                                  </h2>
+                               </div>
+                               <div id="check_payment" class="collapse" aria-labelledby="checkout_payment" data-parent="#check_out_toggle">
+                                  <div class="card-body">
+                                     <div id="pay_check" class="page-content">
+                                        <form">
+                                           <div class="form-group text-left">
+                                              <label class="font-weight-bolder">payment Method</label><br>
+                                              <span class="form-check d-inline-block ml-2">
+                                                <input class="form-check-input" type="radio" name="paymentMethod" id="cash_on_delivery" checked>
+                                                <label class="form-check-label" for="cash_on_delivery">Cash on Delivery</label>
+                                            </span>
+                                            <span class="form-check d-inline-block ml-2">
+                                              <input class="form-check-input" type="radio" name="paymentMethod" id="upi_payment">
+                                              <label class="form-check-label" for="upi_payment">Online Payment</label>
+                                          </span>
+                                          <span class="form-check d-inline-block ml-2">
+                                            <input class="form-check-input" type="radio" name="paymentMethod" id="upi_payment">
+                                            <label class="form-check-label" for="upi_payment">Pay with Wallet</label>
+                                        </span>
+                                           </div>
+                                           <div class="text-center">
+                                              <!-- <button type="submit" class="btn btn-primary f_13">
+                                              save
+                                              </button> -->
+                                           </div>
+                                        </form>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                            <!-- card -->
+                            <div class="modal fade" id="statusErrorsModal" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+                              <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header justify-content-end">
+                                    <button id="closeBtnError" type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body text-center p-lg-4">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                                      <circle class="path circle" fill="none" stroke="#db3646" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+                                      <line class="path line" fill="none" stroke="#db3646" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3" />
+                                      <line class="path line" fill="none" stroke="#db3646" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" X2="34.4" y2="92.2" />
+                                    </svg>
+                                    <h4 class="text-danger mt-3" id="errorModalHead">Please Select a Valid Address!</h4>
+                                    <p class="mt-3" id="errorModalBody">You did not select a valid address.</p>
+                                    <button type="button" class="btn btn-sm mt-3 btn-danger" data-bs-dismiss="modal">Ok</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                         </div>
+                      </div>
+                 
+                   </div>
+                </div>
+             </div>
+            </div>
+            <div class="checkout__totals-wrapper">
+              <div class="sticky-content">
+                <div class="checkout__totals">
+                  <h3>Your Order</h3>
+                  <table class="checkout-cart-items">
+                    <thead>
+                      <tr>
+                        <th>PRODUCT</th>
+                        <th>SUBTOTAL</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% cartdata.product.forEach((product)=>{ %>
+                      <tr>
+                        <td>
+                          <%= product.name %> X   <%=product.quantity %>
+                  
+                        </td>
+                        <td>
+                          <%=product.total %>
+                        </td>
+                      </tr>
+                      <tr>
+                      
+                        <td>
+                      
+                         </td>
+                        <td>
+                          $29.90
+                        </td>
+                      </tr>
+                    </tbody>
+                    <% }) %>
+                  </table>
+                  <table class="checkout-totals">
+                   
+                    <tbody>
+                      <tr>
+                        <th>SUBTOTAL</th>
+                        <td><%= subtotal%></td>
+                      </tr>
+                      <tr>
+                        <th>SHIPPING</th>
+                        <td>Free shipping</td>
+                      </tr>
+                      <tr>
+                        <th>VAT</th>
+                        <td>$0</td>
+                      </tr>
+                      <tr>
+                        <th>TOTAL</th>
+                        <td> <%= subtotal%></td>
+                        <input type="hidden" value="<%= subtotal%>" name="subtotal">
+                      </tr>
+                   
+                    </tbody>
+                  </table>
+                  <button class="btn btn-primary btn-checkout" id="placeorder">PLACE ORDER</button>
+                  <button style="color: yellow; background-color: brown;" >SUIII</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section 5000="" class="swiper-container js-swiper-slider slideshow h-xs-25rem bg-white" data-settings="{
+          " autoplay":="" {="" "delay":="" },="" "navigation":="" "nextel":="" ".slideshow__next",="" "prevel":="" ".slideshow__prev"="" "slidesperview":="" 1,="" "effect":="" "fade",="" "loop":="" true="" }"="">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="overflow-hidden position-relative h-100">
+                <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+                  <div class="character_bg position-absolute position-center">
+                    <img loading="lazy" src="/images/slider_mark.png" width="690" height="690" alt="hello" class="animate animate_fade animate_btt animate_delay-5 w-auto h-auto">
+                  </div>
+                  <img loading="lazy" src="/images/slider1.png" width="493" height="693" alt="" class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 w-auto h-auto">
+                </div>
+                <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+                  <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">The Classics</h2>
+                  <p class="fs-6 mb-4 pb-2 animate animate_fade animate_btt animate_delay-5">An exclusive selection of this season's trends.</p>
+                  <a href="./shop1.html" class="btn-link btn-link_lg default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7">Discover Now</a>
+                </div>
+              </div>
+            </div><!-- /.slideshow-item -->
+    
+            <div class="swiper-slide">
+              <div class="overflow-hidden position-relative h-100">
+                <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+                  <div class="character_bg position-absolute position-center">
+                    <img loading="lazy" src="/images/slider_mark.png" width="560" height="560" alt="" class="animate animate_fade animate_btt animate_delay-5 w-auto h-auto">
+                  </div>
+                  <img loading="lazy" src="/images/slider2.png" width="490" height="690" alt="" class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 w-auto h-auto">
+                </div>
+                <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+                  <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">The Classics</h2>
+                  <p class="fs-6 mb-4 pb-2 animate animate_fade animate_btt animate_delay-5">An exclusive selection of this season's trends.</p>
+                  <a href="./shop1.html" class="btn-link btn-link_lg default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7">Discover Now</a>
+                </div>
+              </div>
+            </div><!-- /.slideshow-item -->
+    
+            <div class="swiper-slide">
+              <div class="overflow-hidden position-relative h-100">
+                <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+                  <div class="character_bg position-absolute position-center">
+                    <img loading="lazy" src="/images/slider_mark.png" width="690" height="690" alt="" class="animate animate_fade animate_btt animate_delay-5 w-auto h-auto">
+                  </div>
+                  <img loading="lazy" src="/images/slider3.png" alt="" width="675" height="733" class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 w-auto h-auto">
+                </div>
+                <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+                  <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">The Classics</h2>
+                  <p class="fs-6 mb-4 pb-2 animate animate_fade animate_btt animate_delay-5">An exclusive selection of this season's trends.</p>
+                  <a href="./shop1.html" class="btn-link btn-link_lg default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7">Discover Now</a>
+                </div>
+              </div>
+            </div><!-- /.slideshow-item -->
+          </div><!-- /.slideshow-wrapper js-swiper-slider -->
+    
+          <div class="container">
+            <div class="slideshow-navigation d-flex align-items-center position-absolute bottom-0 mb-5">
+              <div class="slideshow__prev border-0">
+                <!-- PREV -->
+              </div><!-- /.products-carousel__prev -->
+              <div class="slideshow__next border-0">
+                <!-- NEXT -->
+              </div><!-- /.products-carousel__next -->
+            </div>
+            <!-- /.products-pagination -->
+          </div><!-- /.container -->
+        </section><!-- /.slideshow -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section class="swiper-container js-swiper-slider slideshow h-xs-25rem bg-white" data-settings='{"autoplay":{"delay":5000},"navigation":{"nextEl":".slideshow__next","prevEl":".slideshow__prev"},"slidesPerView":1,"effect":"fade","loop":true}'>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="overflow-hidden position-relative h-100">
+                <div class="slideshow-character position-absolute bottom-0 pos_right-center">
+                  <div class="character_bg position-absolute position-center">
+                    <img loading="lazy" src="/images/slider_mark.png" width="690" height="690" alt="hello" class="animate animate_fade animate_btt animate_delay-5 w-auto h-auto">
+                  </div>
+                  <img loading="lazy" src="/images/slider1.png" width="493" height="693" alt="" class="slideshow-character__img animate animate_fade animate_btt animate_delay-9 w-auto h-auto">
+                </div>
+                <div class="slideshow-text container position-absolute start-50 top-50 translate-middle">
+                  <h2 class="h1 fw-normal mb-0 animate animate_fade animate_btt animate_delay-5">The Classics</h2>
+                  <p class="fs-6 mb-4 pb-2 animate animate_fade animate_btt animate_delay-5">An exclusive selection of this season's trends.</p>
+                  <a href="./shop1.html" class="btn-link btn-link_lg default-underline text-uppercase fw-medium animate animate_fade animate_btt animate_delay-7">Discover Now</a>
+                </div>
+              </div>
+            </div><!-- /.swiper-slide -->
+        
+            <!-- Repeat swiper-slide elements for other slides as needed -->
+          </div><!-- /.swiper-wrapper -->
+        
+          <div class="container">
+            <div class="slideshow-navigation d-flex align-items-center position-absolute bottom-0 mb-5">
+              <div class="slideshow__prev border-0">
+                <!-- PREV -->
+              </div><!-- /.products-carousel__prev -->
+              <div class="slideshow__next border-0">
+                <!-- NEXT -->
+              </div><!-- /.products-carousel__next -->
+            </div><!-- /.products-pagination -->
+          </div><!-- /.container -->
+        </section><!-- /.slideshow -->
+        

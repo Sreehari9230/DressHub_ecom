@@ -5,6 +5,7 @@ const userAuth = require('../middlewares/userAuth')
 const productController = require('../controller/productController')
 const cartController = require('../controller/cartController')
 const addressController = require('../controller/addressController')
+const orderController = require('../controller/orderController')
 // const app = express()
 // const path = require('path')
 
@@ -55,7 +56,7 @@ userRoute.post('/cart',userAuth.isLogin, cartController.AddtoCart);
 userRoute.post("/updatecart",userAuth.isLogin, cartController.UpdateCart);
 userRoute.delete("/removecart", userAuth.isLogin, cartController.removeCart);
 
-userRoute.get('/orderlist', userAuth.isLogin, userController.loadOrderlist)
+userRoute.get('/orderlist', userAuth.isLogin, orderController.loadOrderlist)
 
 
 userRoute.get('/address', userAuth.isLogin, addressController.loadAddress)
@@ -63,6 +64,8 @@ userRoute.get('/addaddress',userAuth.isLogin, addressController.loadAddAddress)
 userRoute.post('/addaddress', userAuth.isLogin, addressController.postAddress)
 userRoute.patch('/editaddress', userAuth.isLogin, addressController.editAddress)
 userRoute.delete('/deleteaddress', userAuth.isLogin, addressController.deleteAddress)
+
+userRoute.get('/checkout', userAuth.isLogin, cartController.loadCheckout)
 
 
 
