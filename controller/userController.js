@@ -52,7 +52,7 @@ const verifyRegister = async (req, res) => {
     const exitUser = await User.findOne({ email: req.body.email });
     let message = "";
     console.log(exitUser);
-    // console.log("id",req.body)
+    console.log("id",req.body)
     if (exitUser && exitUser.is_Verified) {
       const message = "Email already Registerd";
       console.log("Message:", message); // Debugging statement
@@ -60,7 +60,7 @@ const verifyRegister = async (req, res) => {
     } else if (exitUser && !exitUser.is_Verified) {
       const message =
         "Email already registerd but not varified. So send OTP to email and verify the email";
-      console.log("Message:", message);
+      // console.log("Message:", message);
       res.render("user/Register", { message });
     } else {
       const bodypassword = req.body.password;

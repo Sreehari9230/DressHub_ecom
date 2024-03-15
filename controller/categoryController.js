@@ -13,34 +13,45 @@ const loadcategory = async (req, res) => {
     }
   };
 
+  const loadAddCAtegory = async(req,res)=>{
+    try {
+      res.render('admin/addcategory',)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const AddCategory = async (req, res) => {
     try {
-      console.log('inside  add category controller');
-
+      console.log('inside add category controller');
+  
+      // Extracting category name and description from request body
       const name = req.body.categoryname.toUpperCase(); 
-      // console.log(name, 'this is name');
       const description = req.body.categorydescription.toUpperCase();
-      // console.log(description,'tjis is desc')
-
+  
+      // Fetching all existing categories
       const Categories = await category.find()
+      
+      // Checking if category with the same name already exists
       const Category = await category.findOne({ name: name });
   
       if (Category) {
-        // res.render("admin/categorymanagement", {Category: Categories},{ message: "This category already exists" },
-      res.json({success: false})
-        // );
+        // If category exists, render the addcategory template with error message
+        res.render("admin/addcategory", { Categories: Categories, message: "This category already exists" });
       } else {
+        // If category does not exist, create a new category and save it
         const newData = new category({
           name: name,
           description: description,
         });
-        console.log('abcd')
         const categoryData = await newData.save();
+        
+        // Redirect to category page after successfully adding category
         res.redirect("/admin/category");
       }
     } catch (error) {
       console.log(error);
-  
+      // Handling internal server error
       res.status(500).send("Internal Server Error");
     }
   };
@@ -53,50 +64,58 @@ const loadcategory = async (req, res) => {
         const Category = await category.findById(categoryId)
         console.log('category', Category);
         res.render('admin/editcategory', { category: Category})
-
     } catch (error) {
-      console.log(error.message);
-      res.status(500).send("Internal Server Errror")
+      console.log(error);
+      res.status(500).send("Internal Server Errror in loading edit category")
     }
   }
 
   //CATEGORY EDITING
   const editingcategory = async(req,res)=>{
     try {
+      console.log(req.body.categoryid, 'please onn varane');
       const id = req.body.categoryid
-      const name = req.body.editCategoryName
-      const description = req.body.editCategoryDescription
+      const categoryId = req.query.id
+      console.log(categoryId, 'nikkane ivdnn');
+      const Category = await category.findById(categoryId)    
+      const name = req.body.CategoryName.toUpperCase()
+      console.log(name);  
+      const description = req.body.CategoryDescription.toUpperCase()
+      console.log(description);
 
       const existingCategory = await category.findOne( { name: name } )
+      console.log(existingCategory,'there is a existing category');  
       
-
+      console.log('before if case');
       if(existingCategory && existingCategory._id.toString() !== id){
         return res.render("admin/editcategory", {
-          Category : {},
-          messages : { message: "This category already exists"}
-        })
+          messages: { message: "This category already exists" },
+          },
+          { category: Category}
+          );
       }
+      console.log('aftervthe if case');
 
-      const updatedCategory = await category.findOneAndUpdate(
+      const updatedCategory = await category.findByIdAndUpdate(
         id,
-        {
-          name:name,
-          description: description
-        },
+        { name:name, description: description},    
         { new: true}
       )
       console.log(updatedCategory);
 
-      if(!updatedCategory){
-        return res.render('admin/editcategory', {
-          category: {},
-          messages: { message: 'category not found'}
-        })
+      if (!updatedCategory) {
+        return res.render("admin/editcategory", {
+          messages: { message: "Category not found" },
+        },
+        { category: Category}
+        );
       }
+      console.log('after updated category before redirect');                                                                     
+
       res.redirect('/admin/category')
     } catch (error) {
       console.log(error.message);
-      res.status(500).send("Internal server error")
+      res.status(500).send("Internal server error in editing category")
     }
   }
 
@@ -142,6 +161,7 @@ const loadcategory = async (req, res) => {
 
   module.exports = {
     loadcategory,
+    loadAddCAtegory,
     AddCategory,
     editCategory,
     editingcategory,

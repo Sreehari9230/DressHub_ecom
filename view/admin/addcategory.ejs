@@ -210,28 +210,21 @@
             <section class="content-main">
                 <div class="content-header">
                     <div>
-                        <h2 class="content-title card-title">Edit category</h2>
-                        <!-- <p>Add, edit or delete a category</p> -->
+                        <h2 class="content-title card-title">Category Management</h2>
+                        <p>Add, edit or delete a category</p>
                     </div>
-                    <!-- <div>
+                    <div>
                         <input type="text" placeholder="Search Categories" class="form-control bg-white" />
-                    </div> -->
+                    </div>
                 </div>
-                <% if (category && category._id) { %>
-                    <!-- Add this hidden input field for categoryid -->
-                    <input type="hidden" id="categoryid" name="categoryid" value="<%= category._id %>">
-                <% } else { %>
-                    <!-- Handle the case where category is null or _id is undefined -->
-                    <p>Error loading category data.</p>
-                <% } %>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <form method="post" onsubmit="validateForm()" action="">
+                                <form method="post" onsubmit="validateForm()" >
                                     <div class="mb-4">
-                                        <label for="product_name" class="form-label" >Name</label>
-                                        <input type="text" class="form-control" id="categoryName" name="CategoryName" value="<%= category.name %>" required>
+                                        <label for="product_name" class="form-label" io >Name</label>
+                                        <input type="text" placeholder="Type here" class="form-control" id="categoryName" name="categoryname"/>
                                         <div id="categoryNameError" class="text-danger"></div>
                                     </div>
                                     <!-- <div class="mb-4">
@@ -247,12 +240,17 @@
                                     </div> -->
                                     <div class="mb-4">
                                         <label class="form-label" >Description</label>
-                                        <textarea class="form-control" id="categoryDescription" name="CategoryDescription" rows="3" required> <%= category.description %></textarea>
+                                        <textarea placeholder="Type here" class="form-control" name="categorydescription" id="categoryDescription"></textarea>
                                         <div id="categoryDescriptionError" class="text-danger"></div>
                                     </div>
                                     <div class="d-grid">
-                                        <button class="btn btn-primary">Edit category</button>
+                                        <button class="btn btn-primary">Create category</button>
                                     </div>
+                                    <% if (typeof message !== 'undefined') { %>
+                                        <h5 style="color: red; text-align: center;">
+                                            <%= message %>
+                                        </h5>
+                                    <% } %>
                                 </form>
                             </div>
                             
@@ -279,15 +277,37 @@
                 </div> -->
             </footer>
         </main>
-
-
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>        
+        <script>
+            function confirmDelete(categoryId) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this item!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        // Redirect to the delete URL
+                        window.location.href = "/admin/deletecategory?id=" + categoryId;
+                    } 
+                    //     swal("Your item is safe!");
+                    // }
+                });
+            }
+        </script>
+        
+        
         <script>
             function validateForm() {
+                // let isValid = true;
 
               var categoryName = document.getElementById("categoryName").value;
               var categoryDescription = document.getElementById("categoryDescription").value;
         
               if (/^\s*$/.test(categoryName)) {
+                // isValid = false
                 document.getElementById("categoryNameError").innerText = "category name is required";
                 return false;
               } else {
@@ -295,17 +315,52 @@
               }
         
               if (/^\s*$/.test(categoryDescription)) {
+                // isValid = false
                 document.getElementById("categoryDescriptionError").innerText = "category description required";
               } else {
                 document.getElementById("categoryDescriptionError").innerText = "";
               }
         
               return true;
+
+            //   if(!isValid){
+            //     return false
+            //   }else{
+            //     // Assuming you're using AJAX to make the request to the server
+            // // This is just a basic example, make sure to adapt it to your actual code
+            // $.ajax({
+            //   url: '/category',
+            //   method: 'POST',
+            //   data: categoryname,categorydescription,
+            //   success: function(response) {
+            //     if (response.success === false) {
+            //         console.log('salert is false');
+            //       // Show SweetAlert indicating that the category already exists
+            //       Swal.fire({
+            //         icon: 'error',
+            //         title: 'Oops...',
+            //         text: 'This category already exists',
+            //       });
+            //     }
+            //   },
+            //   error: function(xhr, status, error) {
+            //     // Handle error
+                
+            //   }
+            // });
+            //   }
             }
           </script>
+          
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-
+          <script>
+            
+          </script>
+          
+        
         <script src="/admin/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="/admin/js/vendors/bootstrap.bundle.min.js"></script>
         <script src="/admin/js/vendors/select2.min.js"></script>
@@ -313,5 +368,9 @@
         <script src="/admin/js/vendors/jquery.fullscreen.min.js"></script>
         <!-- Main Script -->
         <script src="/admin/js/main.js?v=1.1" type="text/javascript"></script>
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     </body>
 </html>

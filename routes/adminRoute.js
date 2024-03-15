@@ -50,7 +50,8 @@ adminRoute.post("/addproduct",adminAuth.isLogin,upload.array("productimages", 4)
 //categorymanagement
 adminRoute.get('/category',adminAuth.isLogin, categoryController.loadcategory)
 //addcategory
-adminRoute.post('/category',adminAuth.isLogin, categoryController.AddCategory)
+adminRoute.get('/addcategory',adminAuth.isLogin, categoryController.loadAddCAtegory)
+adminRoute.post('/addcategory',adminAuth.isLogin, categoryController.AddCategory)
 //deletecategory
 adminRoute.get('/deletecategory', adminAuth.isLogin, categoryController.deleteCategory)
 //editcategory

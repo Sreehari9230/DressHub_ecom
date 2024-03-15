@@ -14,17 +14,17 @@
         </ul>
         <div class="tab-content pt-2" id="login_register_tab_content">
             <div class="login-form">
-              <form name="register-form" class="needs-validation" novalidate action="" method="post"   >
+              <form name="register-form"  novalidate action="" method="post" onsubmit="return validateForm()">
                 <!--  -->
                 <div class="form-floating mb-3">
                     <input name="name" type="text" class="form-control form-control_gray" id="name" placeholder="Username" required>
                     <label for="name">Username</label>
-                    <div id="nameError" class="invalid-feedback" ></div>
+                    <div id="nameError"  style="color: red;"></div>
                 </div>
                 <div class="form-floating mb-3">
                     <input name="mobile" type="tel" class="form-control form-control_gray" id="mobileNumber" placeholder="Phone" required>
                     <label for="mobileNumber">Phone</label>
-                    <div id="mobileError" class="invalid-feedback"></div>
+                    <div id="mobileError" ></div>
                 </div>
             
                 <div class="pb-3"></div>
@@ -112,8 +112,9 @@
       </section>
     </main>
 
-    <script>
+    <!-- <script>
       function validateForm() {
+        console.log('the form is working');
           // Reset error messages
           document.getElementById('nameError').innerHTML = '';
           document.getElementById('emailError').innerHTML = '';
@@ -162,7 +163,117 @@
           // If all validations pass, return true to submit the form
           return true;
       }
-      </script>
+      </script> -->
+
+
+<script>
+  function validateForm() {
+    // Reset error messages
+    document.getElementById('nameError').innerHTML = '';
+    document.getElementById('emailError').innerHTML = '';
+    document.getElementById('mobileError').innerHTML = '';
+    document.getElementById('passwordError').innerHTML = '';
+    document.getElementById('confirmPasswordError').innerHTML = '';
+
+    // Get form values
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var mobileNumber = document.getElementById('mobileNumber').value.trim();
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Validate name
+    if (name === '') {
+        document.getElementById('nameError').innerHTML = 'Username is required';
+        return false;
+    }
+
+    // Validate email
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        document.getElementById('emailError').innerHTML = 'Invalid email address';
+        return false;
+    }
+
+    // Validate mobile number
+    var mobileRegex = /^\d+$/;
+    if (mobileNumber === '') {
+        document.getElementById('mobileError').innerHTML = 'Mobile number is required';
+        return false;
+    } else if (!mobileRegex.test(mobileNumber)) {
+        document.getElementById('mobileError').innerHTML = 'Mobile number should contain only numbers';
+        return false;
+    }
+
+    // Validate password length and special character
+    var passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[a-zA-Z0-9]).{6,}$/;
+    if (password.length < 6 || !passwordRegex.test(password)) {
+        document.getElementById('passwordError').innerHTML = 'Password must be at least 6 characters long and contain at least one special character';
+        return false;
+    }
+
+    // Validate password match
+    // if (password !== confirmPassword) {
+    //     document.getElementById('confirmPasswordError').innerHTML = 'Passwords do not match';
+    //     return false;
+    // }
+
+    // If all validations pass, return true to submit the form
+    return true;
+}
+
+</script>
+<!-- function validateForm() {
+  // Reset error messages
+  document.getElementById('nameError').innerHTML = '';
+  document.getElementById('emailError').innerHTML = '';
+  document.getElementById('mobileError').innerHTML = '';
+  document.getElementById('passwordError').innerHTML = '';
+  document.getElementById('confirmPasswordError').innerHTML = '';
+
+  // Get form values
+  var name = document.getElementById('name').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var mobileNumber = document.getElementById('mobileNumber').value.trim();
+  var password = document.getElementById('password').value;
+  var confirmPassword = document.getElementById('confirmPassword').value;
+
+  // Validate name
+  if (name === '') {
+      document.getElementById('nameError').innerHTML = 'Username is required';
+      return false;
+  }
+
+  // Validate email
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+      document.getElementById('emailError').innerHTML = 'Invalid email address';
+      return false;
+  }
+
+  // Validate mobile number
+  var mobileRegex = /^\d+$/;
+  if (mobileNumber !== '' && !mobileRegex.test(mobileNumber)) {
+      document.getElementById('mobileError').innerHTML = 'Mobile number should contain only numbers';
+      return false;
+  }
+
+  // Validate password length and special character
+  var passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[a-zA-Z0-9]).{6,}$/;
+  if (password.length < 6 || !passwordRegex.test(password)) {
+      document.getElementById('passwordError').innerHTML = 'Password must be at least 6 characters long and contain at least one special character';
+      return false;
+  }
+
+  // Validate password match
+  if (password !== confirmPassword) {
+      document.getElementById('confirmPasswordError').innerHTML = 'Passwords do not match';
+      return false;
+  }
+
+  // If all validations pass, return true to submit the form
+  return true;
+} -->
   
     <div class="mb-5 pb-xl-5"></div>
     

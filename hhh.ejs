@@ -1712,3 +1712,36 @@
           </div><!-- /.container -->
         </section><!-- /.slideshow -->
         
+
+
+
+
+
+
+
+
+
+
+        <form action="/admin/editcategory" method="post" class="mt-4">
+          <h2>Edit Category</h2>
+          <% if(category && category._id) { %>
+            <input type="hidden" id="categoryid" name="categoryid" value="<%= category._id %>">
+  
+            <div class="mb-3">
+              <label for="categoryName" class="form-label">Category Name</label>
+              <input type="text" class="form-control" id="categoryName" name="categoryName" value="<%= category.name %>"
+                required>
+              <div id="categoryNameError" class="text-danger"></div>
+            </div>
+            <div class="mb-3">
+              <label for="categoryDescription" class="form-label">Category Description</label>
+              <textarea class="form-control" id="categoryDescription" name="categoryDescription" rows="3"
+                required><%= category.description %></textarea>
+              <div id="categoryDescriptionError" class="text-danger"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Edit Category</button>
+            <% } else { %>
+              <p>Error: Category ID not found</p>
+              <% console.error("Category or category ID not found:", category); %>
+                <% } %>
+        </form>

@@ -220,40 +220,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-3">
-                                <form method="post" onsubmit="validateForm()" >
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label" io >Name</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="categoryName" name="categoryname"/>
-                                        <div id="categoryNameError" class="text-danger"></div>
-                                    </div>
-                                    <!-- <div class="mb-4">
-                                        <label for="product_slug" class="form-label">Slug</label>
-                                        <input type="text" placeholder="Type here" class="form-control" id="product_slug" />
-                                    </div> -->
-                                    <!-- <div class="mb-4">
-                                        <label class="form-label">Parent</label>
-                                        <select class="form-select">
-                                            <option>Fruit</option>
-                                            <option>Snack</option>
-                                        </select>
-                                    </div> -->
-                                    <div class="mb-4">
-                                        <label class="form-label" >Description</label>
-                                        <textarea placeholder="Type here" class="form-control" name="categorydescription" id="categoryDescription"></textarea>
-                                        <div id="categoryDescriptionError" class="text-danger"></div>
-                                    </div>
-                                    <div class="d-grid">
-                                        <button class="btn btn-primary">Create category</button>
-                                    </div>
-                                    <% if (typeof message !== 'undefined') { %>
-                                        <h5 style="color: red; text-align: center;">
-                                            <%= message %>
-                                        </h5>
-                                    <% } %>
-                                </form>
-                            </div>
-                            <div class="col-md-9">
+                            
+                            <div class="col-md-12">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead>
@@ -314,6 +282,7 @@
                                                     <td colspan="5"><h1>category not Found</h1></td>
                                                 </tr>
                                                 <% } %>
+                                                
                                             <!-- <tr>
                                                 <td class="text-center">
                                                     <div class="form-check">
@@ -477,6 +446,9 @@
                     </div>
                     <!-- card body .// -->
                 </div>
+                <div class="d-grid col-md-2">
+                    <button class="btn btn-primary"><a href="/admin/addcategory" style="color: white;">Create category</a></button>
+                </div>
                 <!-- card .// -->
             </section>
             <!-- content-main end// -->
@@ -518,13 +490,13 @@
         
         <script>
             function validateForm() {
-                let isValid = true;
+                // let isValid = true;
 
               var categoryName = document.getElementById("categoryName").value;
               var categoryDescription = document.getElementById("categoryDescription").value;
         
               if (/^\s*$/.test(categoryName)) {
-                isValid = false
+                // isValid = false
                 document.getElementById("categoryNameError").innerText = "category name is required";
                 return false;
               } else {
@@ -532,7 +504,7 @@
               }
         
               if (/^\s*$/.test(categoryDescription)) {
-                isValid = false
+                // isValid = false
                 document.getElementById("categoryDescriptionError").innerText = "category description required";
               } else {
                 document.getElementById("categoryDescriptionError").innerText = "";
@@ -540,32 +512,32 @@
         
               return true;
 
-              if(!isValid){
-                return false
-              }else{
-                // Assuming you're using AJAX to make the request to the server
-            // This is just a basic example, make sure to adapt it to your actual code
-            $.ajax({
-              url: '/category',
-              method: 'POST',
-              data: categoryname,categorydescription,
-              success: function(response) {
-                if (response.success === false) {
-                    console.log('salert is false');
-                  // Show SweetAlert indicating that the category already exists
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'This category already exists',
-                  });
-                }
-              },
-              error: function(xhr, status, error) {
-                // Handle error
+            //   if(!isValid){
+            //     return false
+            //   }else{
+            //     // Assuming you're using AJAX to make the request to the server
+            // // This is just a basic example, make sure to adapt it to your actual code
+            // $.ajax({
+            //   url: '/category',
+            //   method: 'POST',
+            //   data: categoryname,categorydescription,
+            //   success: function(response) {
+            //     if (response.success === false) {
+            //         console.log('salert is false');
+            //       // Show SweetAlert indicating that the category already exists
+            //       Swal.fire({
+            //         icon: 'error',
+            //         title: 'Oops...',
+            //         text: 'This category already exists',
+            //       });
+            //     }
+            //   },
+            //   error: function(xhr, status, error) {
+            //     // Handle error
                 
-              }
-            });
-              }
+            //   }
+            // });
+            //   }
 
               
 

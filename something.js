@@ -701,3 +701,69 @@ module.exports = {
   Listed,
   UnListed,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const editcategory = async (req, res) => {
+  try {
+    const categoryId = req.query.id;
+    const category = await categories.findById(categoryId);
+    res.render("admin/editcategory", { category: category });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+const editedcategory = async (req, res) => {
+  try {
+    const id = req.body.categoryid;
+    const name = req.body.categoryName.toUpperCase();
+    const description = req.body.categoryDescription.toUpperCase();
+
+    const existingCategory = await categories.findOne({ name: name });
+    if (existingCategory && existingCategory._id.toString() !== id) {
+      return res.render("admin/editcategory", {
+        messages: { message: "This category already exists" },
+      });
+    }
+
+    const updatedCategory = await categories.findByIdAndUpdate(
+      id,
+      { name: name, description: description },
+      { new: true }
+    );
+    
+    if (!updatedCategory) {
+      return res.render("admin/editcategory", {
+        messages: { message: "Category not found" },
+      });
+    }
+
+    res.redirect("/admin/category");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+
+
+
+
+
+
+
