@@ -380,6 +380,7 @@ const verifyResetPassword = async (req, res) => {
 
 const userDashboard = async (req, res) => {
   try {
+    
     console.log("id:", req.session.userId);
     const userData = await User.findById({ _id: req.session.userId });
     console.log("udata:", userData);
@@ -424,6 +425,40 @@ const loadproductdeatils = async (req, res) => {
 
 
 
+const loadUserDetails = async(req,res)=>{
+  try {
+    const userId = req.session.userId
+    const profiledata = [await User.findById({_id:userId})]
+    res.render('user/accountdetails',{userId,profiledata})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const editUserdetails = async(req,res)=>{
+  try {
+    const name  = req.body.Fullname
+    const email = req.body.Email
+    const mobile = req.body.mobile
+
+    const userId = req.session.userId
+
+    const existEmail = await User.findOne({email:email})
+    if(existEmail){
+      await User.findOne({_id:userId},{$set:{
+        name:name,
+        mobile:mobile,
+        email:email
+      }})
+    }
+    res.json({status:true})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 module.exports = {
   loadHome,
   loadRegister,
@@ -445,5 +480,6 @@ module.exports = {
   verifyResetPassword,
   loadShop,
   loadproductdeatils,
-
+  loadUserDetails,
+  editUserdetails,
 };

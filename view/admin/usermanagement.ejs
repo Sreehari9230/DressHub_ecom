@@ -214,6 +214,24 @@
                         <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
                     </div> -->
                 </div>
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group" >
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search by name, email and mobile" name="search" />
+                            <button class="btn btn-light bg" type="submit" value="Search" ><i class="material-icons md-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Search form -->
+<!-- <div class="col-search">
+    <form class="searchform" method="GET" action="/your-endpoint-for-search">
+        <div class="input-group" >
+            <input list="search_terms" type="text" class="form-control" placeholder="Search by name, email and mobile" name="search" />
+            <button class="btn btn-light bg" type="submit" value="Search" ><i class="material-icons md-search"></i></button>
+        </div>
+    </form>
+</div> -->
+                <br>
                 <div class="card mb-4">
                     <!-- <header class="card-header">
                         <div class="row gx-3">
@@ -251,7 +269,7 @@
                                         <th>   </th>
                                     </tr>
                                 </thead>
-                                <% if(Users.length > 0) %>
+                                <% if(Users.length > 0){ %>
                                 <% for(let i=0; i < Users.length; i++){ %>
                                 <tbody>
                                     <tr>
@@ -282,6 +300,9 @@
                                                 <% } %>
                                             </td>
                                             <% } %>
+                                            <% }else{ %>
+                                            
+                                                
                                         </td>
                                     </tr>
                                     <!-- <tr>
@@ -457,29 +478,42 @@
                                     </tr> -->
                                 </tbody>
                             </table>
+                            <h1>User not found</h1>
+                                                <% } %>
                             <!-- table-responsive.// -->
                         </div>
                     </div>
                     <!-- card-body end// -->
                 </div>
                 <!-- card end// -->
+                
                 <!-- <div class="pagination-area mt-15 mb-50">
                     <nav aria-label="Page navigation example">
+                       
                         <ul class="pagination justify-content-start">
-                            <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                            <li class="page-item"><a class="page-link" href="#">02</a></li>
-                            <li class="page-item"><a class="page-link" href="#">03</a></li>
-                            <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">16</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                            </li>
+                            <% for(let j=1;j<=totalPages;j++){ %>
+                            <li class="page-item active"><a class="page-link" href="?page=<%= j %>"><%= j %></a></li>
+                            <% } %>
                         </ul>
+                        
                     </nav>
                 </div> -->
-            </section>
-            <!-- content-main end// -->
+                <!-- Pagination area -->
+<div class="pagination-area mt-15 mb-50">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-start">
+            <% for(let j=1; j<=totalPages; j++){ %>
+                <li class="page-item <%= currentPage == j ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= j %>&search=<%= search %>"><%= j %></a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+</div>
+                   
+            </section>            <!-- content-main end// -->
             <footer class="main-footer font-xs">
+                
                 <!-- <div class="row pb-30 pt-15">
                     <div class="col-sm-6">
                         <script>

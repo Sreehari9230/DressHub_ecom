@@ -12,7 +12,6 @@
         <form name="checkout-form" action="" method="post" onsubmit="return validateForm()" >
           <div class="checkout-form">
             <div class="billing-info__wrapper">
-
                 <div class="rrow">
                     <div class="col-md-3">
                       <div class="form-floating my-3">
@@ -44,12 +43,12 @@
                       </div>
                       <div class="col-md-12">
                         <div class="mt-3">
-                          <textarea class="form-control form-control_gray" name="address" id="AddAddress" placeholder="Address" cols="30" rows="4"></textarea>
+                          <textarea class="form-control form-control_gray" name="address" id="AddAddress" placeholder="Address" cols="30" rows="4" ></textarea>
                           <div id="AddrressMessage" style="color: red;"></div>
                         </div>
                       </div>
                       <div class="form-floating mt-3 mb-3">
-                        <input name="city" type="text" class="form-control" id="AddCity" placeholder="City *">
+                        <input name="city" type="text" class="form-control" id="AddCity" placeholder="City *" required>
                         <label for="checkout_company_name">Town/City *</label>
                         <div id="CityMessage" style="color: red;"></div>
                       </div>

@@ -10,6 +10,7 @@ const loadCart = async (req, res) => {
     const userId = req.session.userId;
     const userIn = req.session.userId;
 
+
     if (userId) {
       const cartdata = await Cart.findOne({ user: userId }).populate({
         path: "product.productId",

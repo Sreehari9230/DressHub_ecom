@@ -61,8 +61,49 @@ const adminlogout = async (req, res) => {
 
 const LoadUserManagement = async (req, res) => {
   try {
-    const Users = await User.find();
-    res.render("admin/usermanagement", { Users: Users });
+    let search = ''; // Initialize search variable
+
+    // Check if search query is present in the request
+    if (req.query.search) {
+      search = req.query.search; // Assign search query to the search variable
+    }
+
+    // Pagination logic
+    let page = 1;
+    if (req.query.page) {
+      page = req.query.page;
+    }
+    const limit = 10;
+
+    // Fetching users from database based on search query
+    const Users = await User.find({
+      is_Admin: 0,
+      $or: [
+        { name: { $regex: '.*' + search + '.*', $options: 'i' } },
+        { email: { $regex: '.*' + search + '.*', $options: 'i' } },
+        { mobile: { $regex: '.*' + search + '.*', $options: 'i' } }
+      ]
+    })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+
+    // Count total number of users based on search query for pagination
+    const count = await User.find({
+      is_Admin: 0,
+      $or: [
+        { name: { $regex: '.*' + search + '.*', $options: 'i' } },
+        { email: { $regex: '.*' + search + '.*', $options: 'i' } },
+        { mobile: { $regex: '.*' + search + '.*', $options: 'i' } }
+      ]
+    }).countDocuments();
+
+    res.render("admin/usermanagement", {
+      Users: Users,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      search: search // Pass the search query to the template
+    });
   } catch (error) {
     console.log(error.message);
   }

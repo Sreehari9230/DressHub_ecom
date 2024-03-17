@@ -67,6 +67,10 @@ userRoute.delete('/deleteaddress', userAuth.isLogin, addressController.deleteAdd
 
 userRoute.get('/checkout', userAuth.isLogin, cartController.loadCheckout)
 
+userRoute.get('/userdetails', userAuth.isLogin, userController.loadUserDetails)
+userRoute.patch('/userdetails', userAuth.isLogin, userController.loadUserDetails)
+userRoute.patch("/editprofile", userAuth.isLogin, userController.editUserdetails);
+
 
 
 module.exports = userRoute;

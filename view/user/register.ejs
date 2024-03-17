@@ -14,52 +14,48 @@
         </ul>
         <div class="tab-content pt-2" id="login_register_tab_content">
             <div class="login-form">
-              <form name="register-form"  novalidate action="" method="post" onsubmit="return validateForm()">
-                <!--  -->
+              <form name="register-form" novalidate action="" method="post" onsubmit="return validateForm()">
+                <!-- Name field -->
                 <div class="form-floating mb-3">
                     <input name="name" type="text" class="form-control form-control_gray" id="name" placeholder="Username" required>
                     <label for="name">Username</label>
-                    <div id="nameError"  style="color: red;"></div>
+                    <div id="nameError" style="color: red;"></div>
                 </div>
+                <!-- Mobile field -->
                 <div class="form-floating mb-3">
                     <input name="mobile" type="tel" class="form-control form-control_gray" id="mobileNumber" placeholder="Phone" required>
                     <label for="mobileNumber">Phone</label>
-                    <div id="mobileError" ></div>
+                    <div id="mobileError" style="color: red;"></div>
                 </div>
-            
-                <div class="pb-3"></div>
-            
+                <!-- Email field -->
                 <div class="form-floating mb-3">
                     <input name="email" type="email" class="form-control form-control_gray" id="email" placeholder="Email address *" required>
                     <label for="email">Email address *</label>
-                    <div id="emailError" class="invalid-feedback"></div>
+                    <div id="emailError" style="color: red;"></div>
                 </div>
-            
-                <div class="pb-3"></div>
-            
+                <!-- Password field -->
                 <div class="form-floating mb-3">
                     <input name="password" type="password" class="form-control form-control_gray" id="password" placeholder="Password *" required>
                     <label for="password">Password *</label>
-                    <div id="passwordError" class="invalid-feedback"></div>
+                    <div id="passwordError" style="color: red;"></div>
                 </div>
+                <!-- Confirm Password field -->
                 <div class="form-floating mb-3">
                     <input name="confirmPassword" type="password" class="form-control form-control_gray" id="confirmPassword" placeholder="Confirm Password *" required>
                     <label for="confirmPassword">Confirm Password *</label>
-                    <div id="confirmPasswordError" class="invalid-feedback"></div>
+                    <div id="confirmPasswordError" style="color: red;"></div>
                 </div>
-            
+                <!-- Submit button -->
                 <button class="btn btn-primary w-100 text-uppercase" type="submit">Register</button>
-         
             
-
-                  <% if (typeof message !== 'undefined') { %>
+                <% if (typeof message !== 'undefined') { %>
                     <h5 style="color: red; text-align: center;">
                         <%= message %>
                     </h5>
                 <% } %>
                 <div class="customer-option mt-4 text-center">
-                  <span class="text-secondary">Already have an account?</span>
-                  <a href="/userlogin" class="btn-text js-show-register">Log in</a>
+                    <span class="text-secondary">Already have an account?</span>
+                    <a href="/userlogin" class="btn-text js-show-register">Log in</a>
                 </div>
             </form>
             

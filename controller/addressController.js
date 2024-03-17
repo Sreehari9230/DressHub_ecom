@@ -64,10 +64,11 @@ const postAddress = async (req,res)=>{
 
 const editAddress = async(req,res)=>{
     try {
+        const userIn = req.session.userId;
         const { id, addressFname, addressLname, addressValue, addressCity, addressEmail, addressPost, addressNumber } = req.body;
 
         // Find the address by its id
-        const user = await Address.findOne({ user: req.session.userId });
+        const user = await Address.findOne({ user: userIn });
         console.log(user)
 
         const address = user.address.find(

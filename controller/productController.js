@@ -162,7 +162,7 @@ const editProduct = async (req, res) => {
         for (let i = 0; i < req.files.length; i++) {
           const resizedpath = path.join(
             __dirname,
-            "../public/proImage",
+            "../public/productImages",
             req.files[i].filename
           );
           await sharp(req.files[i].path)

@@ -1,0 +1,137 @@
+
+<%- include("../layouts/header.ejs") %>
+
+<main>
+  <div class="mb-4 pb-4"></div>
+  <section class="my-account container">
+     <div class="mb-4 pb-4"></div>
+    <h2 class="page-title">Account Details</h2>
+    <div class="row">
+      <div class="col-lg-3">
+        <ul class="account-nav">
+          <li><a href="/userdashboard" class="menu-link menu-link_us-s">Dashboard</a></li>
+          <li><a href="/orderlist" class="menu-link menu-link_us-s">Orders</a></li>
+          <li><a href="/address" class="menu-link menu-link_us-s ">Addresses</a>
+          </li>
+          <li><a href="/userdetails" class="menu-link menu-link_us-s menu-link_active">Account Details</a></li>
+          <!-- <li><a href="./account_wishlist.html" class="menu-link menu-link_us-s">Change Password</a></li> -->
+          <li><a href="./account_wishlist.html" class="menu-link menu-link_us-s">Wishlist</a></li>
+          <li><a href="/userlogout" class="menu-link menu-link_us-s">Logout</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-9" id="relod">
+        <div class="my-account__address-item">
+         <div class="my-account__address-item__title">
+           <h5></h5>
+           
+         </div>
+         <div class="page-content my-account__address" >
+ 
+           <div class="my-account__address-list">
+   
+            
+             <div class="my-account__address-item" id="profileload">
+               <% profiledata.forEach((profiledata,index)=> { %>
+                 <div class="card mb-3" id="profile-card-<%= index %>">
+                   <div class="card-body address-card">
+                     <!-- Address Details -->
+                   
+                     <div id="user-edit-profile" class="user-message text-dark" style="display: none;">Account Details Updated Successfully</div>
+                     <!-- Editable Input Fields -->
+                     <div class="row mb-2">
+                       <div class="col">
+                        <label for="Fullname">Name</label>
+                         <input type="text" id="Fullname" class="form-control input-border input-small" placeholder="Full Name" value="<%=profiledata.name %>" disabled>
+                       </div>
+                      
+                     </div>
+                     <div class="row mb-2">
+                       <div class="col">
+                        <label for="mobile">Mobile</label>
+                         <input  id="mobile" class="form-control input-border input-small" placeholder="Mobile" value="<%=profiledata.mobile %>" disabled>
+                       </div>
+                      
+                     </div>
+                     <div class="row mb-2">
+                       
+                       <div class="col">
+                        <label for="Email">Email</label>
+                         <input type="text" id="Email" class="form-control input-border input-small" readonly placeholder="Email" value="<%=profiledata.email %>" disabled>
+                       </div>
+                     </div>
+                     <div class="mt-auto text-end">
+                       <!-- Buttons for Address Actions -->
+                       <button class="btn btn-primary btn-sm text-white" id="address-btn" onclick="editProfile('profile-card-<%=index %>','<%=profiledata._id%>')">Edit Profile</button>
+                     
+                     </div>
+                   </div>
+                 </div>
+             
+             <% }) %>
+               
+         
+             </div>
+           </div>
+         </div>
+       </div> 
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+
+
+<script>
+
+function editProfile(card,id) {
+    console.log("uukkuku", id);
+    $(`#${card} #user-edit-profile`).css('display', 'none');
+    if ($(`#${card} #address-btn`).text() === 'Edit Profile') {
+        console.log('if case is working')
+        $(`#${card} #address-btn`).text('Save Changes');
+        $(`#${card}`).find('*').prop('disabled', false);
+    
+        $(`#${card}`).find('*').prop('color', '#67865');
+    } else {
+        console.log('else case is working');
+        const Fullname = $(`#${card} #Fullname`).val();
+        const Email = $(`#${card} #Email`).val();
+        const Mobile = $(`#${card} #mobile`).val();
+        // console.log(Fullname)
+        // console.log(Email)
+        // console.log(Mobile)
+
+
+        fetch('/editprofile', { 
+
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id,
+               Fullname,
+               Mobile,
+               Email,
+            })
+        }).then((response) => {
+            console.log("opop", response);
+            if (response.status === 200) {
+                $(`#${card} #user-edit-profile`).css('display', 'block');
+                $(`#${card}`).find('*').prop('disabled', 'true');
+                $(`#${card} #address-btn`).text('Edit Profile');
+                setTimeout(() => {
+                    $('#profileload').load('/profile #profileload');
+                }, 1000);
+            }
+        }).catch((error) => {
+            console.log(error,'fetch errro');
+        });
+    }
+}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<%- include("../layouts/footer.ejs") %>
