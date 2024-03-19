@@ -509,3 +509,20 @@
 // let unique = [...new Set(nums)];
 // console.log(unique); // Output: [1, 2]
 // return unique;
+
+
+
+
+
+
+
+
+
+//  load orders 
+userRoute.get('/checkout',cartcontroller.Loadcheckout)
+userRoute.post("/checkout",ordercontroller.OrderPlace)
+userRoute.get('/ordercomplete',ordercontroller.OrderPlaced);
+userRoute.get('/orders',ordercontroller.orderlist);
+userRoute.get("/view",ordercontroller.orderview);
+userRoute.patch("/cancelorder",ordercontroller.ordercancel);
+userRoute.post("/return",ordercontroller.returnOrder);

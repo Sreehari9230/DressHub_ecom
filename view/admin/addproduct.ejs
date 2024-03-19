@@ -267,7 +267,7 @@
                                             <select class="form-control" name="productcategory" id="exampleInputCity1">
                                                 <option value="">Select Category</option>
                                                 <% Category.forEach(Category => { %>
-                                                <option value="<%= Category.name %>"><%= Category.name %></option>
+                                                <option value="<%= Category._id %>"><%= Category.name %></option>
                                                 <% }) %>
                                             </select>
                                         </div>

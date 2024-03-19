@@ -65,14 +65,25 @@ userRoute.post('/addaddress', userAuth.isLogin, addressController.postAddress)
 userRoute.patch('/editaddress', userAuth.isLogin, addressController.editAddress)
 userRoute.delete('/deleteaddress', userAuth.isLogin, addressController.deleteAddress)
 
-userRoute.get('/checkout', userAuth.isLogin, cartController.loadCheckout)
 
 userRoute.get('/userdetails', userAuth.isLogin, userController.loadUserDetails)
 userRoute.patch('/userdetails', userAuth.isLogin, userController.loadUserDetails)
 userRoute.patch("/editprofile", userAuth.isLogin, userController.editUserdetails);
 
 
+userRoute.get('/checkout', userAuth.isLogin, cartController.loadCheckout)
+userRoute.post("/checkout",userAuth.isLogin, orderController.placeOrder)
+userRoute.get('/ordercomplete',userAuth.isLogin, orderController.orderPlaced);
+
+
 
 module.exports = userRoute;
 
 
+// {
+//     productId: new ObjectId('65f7f915a1542de5ac0d26fb'),
+//     price: 10,
+//     quantity: 1,
+//     total: 10,
+//     _id: new ObjectId('65f7fe81a1c6e4435bb500bf')
+//   }

@@ -398,7 +398,7 @@ const loadShop = async (req, res) => {
     const userIn = req.session.userId;
     if(req.query.category) {
       query.category = req.query.category
-      console.log('lol', req.quer.category); 
+      console.log('lol', req.query.category); 
     }
     const [product, categories] = await Promise.all([
       products.find(),
@@ -415,6 +415,7 @@ const loadproductdeatils = async (req, res) => {
   try {
     const productId = req.query.id;
     const userIn = req.session.userId;
+    
     console.log("this is product id", productId);
     const product = await products.findOne({ _id: productId });
     res.render("user/productdetails", { product: product, userIn });

@@ -766,4 +766,210 @@ const editedcategory = async (req, res) => {
 
 
 
+const loadshop = async (req, res) => {
+  try {
+      let query = { is_Listed: true };
 
+      if (req.query.category) {
+          query.category = req.query.category;
+      }
+
+      let sortOption = {};
+      switch (req.query.sort) {
+      case "1":
+        // Featured
+        sortOption = { };
+        break;
+      case "2":
+        // Best selling
+        sortOption = { };
+        break;
+      case "3":
+        // Alphabetically, A-Z
+        sortOption = { name: 1 };
+        break;
+      case "4":
+        // Alphabetically, Z-A
+        sortOption = { name: -1 };
+        break;
+      case "5":
+        // Price, low to high
+        sortOption = { price: 1 };
+        break;
+      case "6":
+        // Price, high to low
+        sortOption = { price: -1 };
+        break;
+      case "7":
+        // Date, old to new
+        sortOption = { date: 1 };
+        break;
+      case "8":
+        // Date, new to old
+        sortOption = { date: -1 };
+        break;
+      default:
+        // Default Sorting
+        break;
+    }
+
+    if (req.query.searchKeyword) {
+      const searchQuery = req.query.searchKeyword;
+      query.name = { $regex: searchQuery, $options: "i" }; // Case-insensitive search
+  }
+
+  const productDetails = await Product.find(query).populate("category").sort(sortOption);
+  const products = productDetails.filter(product => product.category && product.category.is_Listed);
+
+  const categories = await Category.find({});
+  const userIn = req.session.userId;
+
+  res.render("user/shop", { products, categories, user: req.session.userId, userIn });
+} catch (error) {
+  console.log(error.message);
+}
+};
+
+
+const searchProducts = async (req, res) => {
+  try {
+      const query = req.query.searchKeyword;
+      const products = await Product.find({ name: { $regex: query, $options: "i" } }).populate("category");
+      const categories = await Category.find({});
+      res.render("user/shop", { products, categories, user: req.session.userId });
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Internal Server Error");
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+const OrderPlace = async (req, res) => {
+  try {
+      const userId = req.session.userId;
+
+
+      const { addressId, paymentMethod,subtotal} = req.body;
+
+console.log("the address id here",addressId,"the payment here",paymentMethod,"subtotal here",subtotal);
+      const cartdata = await Cart.findOne({ user: userId });
+
+      if (!addressId) {
+          return res.json({
+              success: false,
+              message: "Select the address and payment method before placing the order",
+          });
+      }
+
+      const userAddress = await Address.findOne({
+          "address._id": addressId,
+      });
+   
+     console.log(userAddress);
+      // Check if userAddress is not empty and has at least one address
+      if (!userAddress || userAddress.length === 0) {
+          return res.json({
+              success: false,
+              message: "Please select a valid address",
+          });
+      }
+
+      // Since userAddress is an array, use userAddress[0] if it exists
+      const addressObject =userAddress.address.filter((address)=> address._id==addressId);
+      console.log("address obect here ",addressObject);
+    
+
+      const userdata = await User.findOne({ _id: req.session.userId });
+
+      for (const cartProduct of cartdata.product) {
+          const productData = await Product.findOne({ _id: cartProduct.productId });
+
+          if (cartProduct.quantity > productData.quantity) {
+              return res.json({
+                  success: false,
+                  message: `Not enough stock available on: ${productData.name}`,
+              });
+          }
+      }
+
+      const expireDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+
+      const products = cartdata.product;
+      const orderStatus = paymentMethod === "CASH ON DELIVERY" ? "placed" : "pending";
+  
+      const NewOrder = new Order({
+        deliveryDetails:addressObject,
+          user: userdata._id,
+          username: userdata.name,
+          paymentMethod: paymentMethod,
+          product: products.map(product => ({
+              productId: product.productId,
+              name: product.name,
+              price: product.price,
+              category:product.category,
+              quantity: product.quantity,
+          })),
+          subtotal: subtotal,
+          status: orderStatus,
+          Date: Date.now(),
+          expiredate: expireDate,
+
+      });
+
+      const saveOrder = await NewOrder.save();
+      const orderId = saveOrder._id;
+      const totalamount = saveOrder.subtotal;
+
+      if (paymentMethod === "CASH ON DELIVERY") {
+          for (const cartProduct of cartdata.product) {
+              await Product.findOneAndUpdate(
+                  { _id: cartProduct.productId },
+                  { $inc: { quantity: -cartProduct.quantity } }
+              );
+          }
+      }
+
+      const DeleteCartItem = await Cart.findOneAndDelete({ user: userId });
+      
+      return res.redirect(`/ordercomplete?id=${orderId}`);
+
+  } catch (error) {
+      console.log(error);
+      return res.json({
+          success: false,
+          message: "Unexpected error occurred. Please try again later."
+      });
+  }
+};
+
+
+
+
+const OrderPlaced = async(req,res)=>{
+  try {
+  
+      const id =req.query.id;
+
+      const userId = req.session.userId;
+       const date = new Date();
+
+      const userData = await User.findOne({_id:userId});
+      const order = await Order.findOne({_id:id});
+ 
+      res.render("user/ordercomplete" ,{order:order,date,orderId:id})
+
+  } catch (error) {
+      console.log(error);
+  }
+}

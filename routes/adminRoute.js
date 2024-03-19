@@ -37,7 +37,7 @@ adminRoute.post('/',adminAuth.isLogout, adminController.verifyadminlogin)
 //dashboard
 adminRoute.get('/dashboard',adminAuth.isLogin, adminController.loadDashboard)
 //usermangement
-adminRoute.get('/usermanagement', adminController.LoadUserManagement)
+adminRoute.get('/usermanagement',adminAuth.isLogin, adminController.LoadUserManagement)
 adminRoute.get('/block', adminAuth.isLogin, adminController.blockUser)
 //productlist
 adminRoute.get('/productlist',adminAuth.isLogin, productController.loadProductlist)

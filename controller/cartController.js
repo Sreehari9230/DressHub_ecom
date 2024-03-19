@@ -92,6 +92,7 @@ const AddtoCart = async (req, res) => {
           $push: {
             product: {
               productId: productId, // Ensure correct property name
+              name:productData.name,
               price: productData.price,
               quantity: 1,
               total: productData.price,
@@ -194,7 +195,43 @@ const removeCart = async(req,res)=>{
 
 const loadCheckout = async(req,res)=>{
   try {
-    res.render('user/checkout')
+    console.log('One');
+    const userIn = req.session.userId;
+    console.log(userIn);
+    console.log('half');
+
+    const address = await Address.findOne({user:userIn})
+    console.log(address);
+    console.log('two');
+
+    const cartdata = await Cart.findOne({ user:userIn }).populate({
+      path:"product.productId",
+      model:"Product"
+    })
+    // const cartdata = await Cart.findOne({ user:userIn }).populate({
+    //   path:'product.productId',
+    //   model:'product'
+    // })
+    console.log('three');
+    
+    const addresses = address.address;
+
+    if (cartdata && cartdata.product) {
+      subtotal = cartdata.product?.reduce(
+        (acc, val) => acc + val.total,
+         0
+      );
+    }
+
+    const productId = req.body.productId; 
+    const productdata = await Product.findById(productId);
+
+    const existProduct = await Cart.findOne({
+      user: req.session.userId,
+      "product.productId": productId, 
+    });
+
+    res.render('user/checkout',{cartdata,addresses,subtotal})
   } catch (error) {
     
   }
