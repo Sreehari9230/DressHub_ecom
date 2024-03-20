@@ -38,17 +38,19 @@
         </div><!-- /.breadcrumb -->
 
         <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
-          <select class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="total-number">
-            <option selected="">Default Sorting</option>
-            <option value="1">Featured</option>
-            <option value="2">Best selling</option>
-            <option value="3">Alphabetically, A-Z</option>
-            <option value="3">Alphabetically, Z-A</option>
-            <option value="3">Price, low to high</option>
-            <option value="3">Price, high to low</option>
-            <option value="3">Date, old to new</option>
-            <option value="3">Date, new to old</option>
-          </select>
+          <form id="sortForm" method="GET">
+            <select id="sortSelect" class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="sort">
+              <option selected value="0">Default Sorting</option>
+              <!-- <option value="1">Featured</option>
+              <option value="2">Best selling</option> -->
+              <option value="3">Alphabetically, A-Z</option>
+              <option value="4">Alphabetically, Z-A</option>
+              <option value="5">Price, low to high</option>
+              <option value="6">Price, high to low</option>
+              <option value="7">Date, old to new</option>
+              <option value="8">Date, new to old</option>
+            </select>
+          </form>
 
           <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
 
@@ -76,7 +78,7 @@
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4" id="products-grid-1">
           <% if(product.length > 0){ %>
             <% for(let i=0;i<product.length;i++){ %>
-              <% if(product[i].is_Listed == true){ %>
+              <% if(product[i].is_Listed == true && product[i].category.is_Listed==0 ){ %>
           <div class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper">
@@ -96,7 +98,7 @@
               </div>
 
               <div class="pc__info position-relative">
-                <p class="pc__category"><%= product[i].category %></p>
+                <p class="pc__category"><%= product[i].category.name %></p>
                 <h6 class="pc__title"><a href="./product1_simple.html"><%= product[i].name %></a></h6>
                 <div class="product-card__price d-flex">
                   <span class="money price">$<%= product[i].price %></span>
@@ -136,6 +138,35 @@
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
+
+  <!-- sort -->
+  <script>
+    document.getElementById('sortForm').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+      const sortSelect = document.getElementById('sortSelect');
+      const selectedSort = sortSelect.options[sortSelect.selectedIndex].value;
+      const currentUrl = new URL(window.location.href="/shop");
+      currentUrl.searchParams.set('sort', selectedSort); 
+      window.location.href = currentUrl.href; 
+    });
+  </script>
+  <script>
+    document.getElementById('sortSelect').addEventListener('change', function(event) {
+      const selectedSort = event.target.value;
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('sort', selectedSort); 
+      window.location.href = currentUrl.href; 
+    });
+  </script>
+  <!-- search -->
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault(); 
+      const searchInput = document.getElementById('searchInput').value;
+      const searchUrl = `/search.html?search-keyword=${encodeURIComponent(searchInput)}`;
+      window.location.href = searchUrl; 
+    });
+  </script>
 
 
 

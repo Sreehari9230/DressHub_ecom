@@ -400,14 +400,76 @@ const loadShop = async (req, res) => {
       query.category = req.query.category
       console.log('lol', req.query.category); 
     }
-    const [product, categories] = await Promise.all([
-      products.find(),
-      category.find(),
-    ]);
+    // const [product, categories] = await Promise.all([
+    //   products.find(),
+    //   category.find(),
+    // ]);
 
-    res.render("user/shop", { product, categories, userIn });
+    let sortOption = {};
+      switch (req.query.sort) {
+      case "1":
+        // Featured
+        sortOption = { };
+        break;
+      case "2":
+        // Best selling
+        sortOption = { };
+        break;
+      case "3":
+        // Alphabetically, A-Z
+        sortOption = { name: 1 };
+        break;
+      case "4":
+        // Alphabetically, Z-A
+        sortOption = { name: -1 };
+        break;
+      case "5":
+        // Price, low to high
+        sortOption = { price: 1 };
+        break;
+      case "6":
+        // Price, high to low
+        sortOption = { price: -1 };
+        break;
+      case "7":
+        // Date, old to new
+        sortOption = { date: 1 };
+        break;
+      case "8":
+        // Date, new to old
+        sortOption = { date: -1 };
+        break;
+      default:
+        // Default Sorting
+        break;
+    }
+
+    if (req.query.searchKeyword) {
+      const searchQuery = req.query.searchKeyword;
+      query.name = { $regex: searchQuery, $options: "i" }; // Case-insensitive search
+  }
+
+    const product = await products.find(query).populate("category").sort(sortOption);
+    const filterproducts = product.filter(product => product.category && product.category.is_Listed);
+
+
+    const categories = await category.find({});
+
+    res.render("user/shop", { product, filterproducts, categories, userIn });
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+const searchProducts = async (req, res) => {
+  try {
+      const query = req.query.searchKeyword;
+      const productsdetails = await products.find({ name: { $regex: query, $options: "i" } }).populate("category");
+      const categories = await category.find({});
+      res.render("user/shop", { productsdetails, categories, user: req.session.userId });
+  } catch (error) {
+      console.log(error.message);
+      res.status(500).send("Internal Server Error");
   }
 };
 

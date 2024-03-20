@@ -1089,3 +1089,69 @@ const editedCategory = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
+
+
+const loadshop = async (req, res) => {
+  try {
+      let query = { is_Listed: true };
+
+      if (req.query.category) {
+          query.category = req.query.category;
+      }
+
+      let sortOption = {};
+      switch (req.query.sort) {
+      case "1":
+        // Featured
+        sortOption = { };
+        break;
+      case "2":
+        // Best selling
+        sortOption = { };
+        break;
+      case "3":
+        // Alphabetically, A-Z
+        sortOption = { name: 1 };
+        break;
+      case "4":
+        // Alphabetically, Z-A
+        sortOption = { name: -1 };
+        break;
+      case "5":
+        // Price, low to high
+        sortOption = { price: 1 };
+        break;
+      case "6":
+        // Price, high to low
+        sortOption = { price: -1 };
+        break;
+      case "7":
+        // Date, old to new
+        sortOption = { date: 1 };
+        break;
+      case "8":
+        // Date, new to old
+        sortOption = { date: -1 };
+        break;
+      default:
+        // Default Sorting
+        break;
+    }
+
+    if (req.query.searchKeyword) {
+      const searchQuery = req.query.searchKeyword;
+      query.name = { $regex: searchQuery, $options: "i" }; // Case-insensitive search
+  }
+
+  const productDetails = await Product.find(query).populate("category").sort(sortOption);
+  const products = productDetails.filter(product => product.category && product.category.is_Listed);
+
+  const categories = await Category.find({});
+  const userIn = req.session.userId;
+
+  res.render("user/shop", { products, categories, user: req.session.userId, userIn });
+} catch (error) {
+  console.log(error.message);
+}
+};
