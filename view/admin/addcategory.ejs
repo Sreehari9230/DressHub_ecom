@@ -221,7 +221,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <form method="post" onsubmit="validateForm()" >
+                                <form method="post" onsubmit="return validateForm()" >
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label" io >Name</label>
                                         <input type="text" placeholder="Type here" class="form-control" id="categoryName" name="categoryname"/>
@@ -301,13 +301,10 @@
         
         <script>
             function validateForm() {
-                // let isValid = true;
-
               var categoryName = document.getElementById("categoryName").value;
               var categoryDescription = document.getElementById("categoryDescription").value;
         
               if (/^\s*$/.test(categoryName)) {
-                // isValid = false
                 document.getElementById("categoryNameError").innerText = "category name is required";
                 return false;
               } else {
@@ -315,40 +312,13 @@
               }
         
               if (/^\s*$/.test(categoryDescription)) {
-                // isValid = false
                 document.getElementById("categoryDescriptionError").innerText = "category description required";
+                return false
               } else {
                 document.getElementById("categoryDescriptionError").innerText = "";
               }
         
               return true;
-
-            //   if(!isValid){
-            //     return false
-            //   }else{
-            //     // Assuming you're using AJAX to make the request to the server
-            // // This is just a basic example, make sure to adapt it to your actual code
-            // $.ajax({
-            //   url: '/category',
-            //   method: 'POST',
-            //   data: categoryname,categorydescription,
-            //   success: function(response) {
-            //     if (response.success === false) {
-            //         console.log('salert is false');
-            //       // Show SweetAlert indicating that the category already exists
-            //       Swal.fire({
-            //         icon: 'error',
-            //         title: 'Oops...',
-            //         text: 'This category already exists',
-            //       });
-            //     }
-            //   },
-            //   error: function(xhr, status, error) {
-            //     // Handle error
-                
-            //   }
-            // });
-            //   }
             }
           </script>
           

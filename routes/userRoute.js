@@ -56,7 +56,6 @@ userRoute.post('/cart',userAuth.isLogin, cartController.AddtoCart);
 userRoute.post("/updatecart",userAuth.isLogin, cartController.UpdateCart);
 userRoute.delete("/removecart", userAuth.isLogin, cartController.removeCart);
 
-userRoute.get('/orderlist', userAuth.isLogin, orderController.loadOrderlist)
 
 
 userRoute.get('/address', userAuth.isLogin, addressController.loadAddress)
@@ -70,7 +69,7 @@ userRoute.get('/userdetails', userAuth.isLogin, userController.loadUserDetails)
 userRoute.patch('/userdetails', userAuth.isLogin, userController.loadUserDetails)
 userRoute.patch("/editprofile", userAuth.isLogin, userController.editUserdetails);
 
-
+userRoute.get('/orderlist', userAuth.isLogin, orderController.loadOrderlist)
 userRoute.get('/checkout', userAuth.isLogin, cartController.loadCheckout)
 userRoute.post("/checkout",userAuth.isLogin, orderController.placeOrder)
 userRoute.get('/ordercomplete',userAuth.isLogin, orderController.orderPlaced);

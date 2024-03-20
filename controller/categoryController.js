@@ -62,8 +62,9 @@ const loadcategory = async (req, res) => {
         const categoryId = req.query.id
         console.log('this is category id', categoryId);
         const Category = await category.findById(categoryId)
+        console.log(Category);
         console.log('category', Category);
-        res.render('admin/editcategory', { category: Category})
+        res.render('admin/editcategory', {  Category})
     } catch (error) {
       console.log(error);
       res.status(500).send("Internal Server Errror in loading edit category")

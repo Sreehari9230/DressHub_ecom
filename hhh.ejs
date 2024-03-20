@@ -1773,3 +1773,22 @@
             <button class="btn-link fw-medium js-cols-size" data-target="products-grid" data-cols="4">4</button>
           </div>/.col-size -->
         </div>
+
+
+
+
+
+
+
+
+
+        <% if (Datas.Image && Array.isArray(Datas.Image) && Datas.Image.length > 0) { %>
+          <% for (let i = 0; i < Datas.Image.length; i++) { %>
+              <div class="image-container" id="pdtImage_<%= i %>">
+                  <img src="/productImages/<%= Datas.Image[i] %>" alt="product Image" width="70" height="70">
+                  <button style="background-color: red;" onclick="deleteImage(event, '<%= Datas.Image[i] %>', '<%= Datas._id %>')"><a href="#">Delete</a></button>
+              </div>
+          <% } %>
+      <% } else { %>
+          <p>No images available</p>
+      <% } %>

@@ -217,9 +217,9 @@
                         <input type="text" placeholder="Search Categories" class="form-control bg-white" />
                     </div> -->
                 </div>
-                <% if (category && category._id) { %>
+                <% if (Category && Category._id) { %>
                     <!-- Add this hidden input field for categoryid -->
-                    <input type="hidden" id="categoryid" name="categoryid" value="<%= category._id %>">
+                    <input type="hidden" id="categoryid" name="categoryid" value="<%= Category._id %>">
                 <% } else { %>
                     <!-- Handle the case where category is null or _id is undefined -->
                     <p>Error loading category data.</p>
@@ -228,11 +228,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3">
-                                <form method="post" onsubmit="validateForm()" action="">
+                                <form method="post"  action="" onsubmit="return validateForm()">
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label" >Name</label>
-                                        <input type="text" class="form-control" id="categoryName" name="CategoryName" value="<%= category.name %>" required>
+                                        <input type="text" class="form-control" id="categoryName" name="CategoryName" value="<%= Category.name %>" required>
                                         <div id="categoryNameError" class="text-danger"></div>
+                                        
                                     </div>
                                     <!-- <div class="mb-4">
                                         <label for="product_slug" class="form-label">Slug</label>
@@ -247,7 +248,7 @@
                                     </div> -->
                                     <div class="mb-4">
                                         <label class="form-label" >Description</label>
-                                        <textarea class="form-control" id="categoryDescription" name="CategoryDescription" rows="3" required> <%= category.description %></textarea>
+                                        <textarea class="form-control" id="categoryDescription" name="CategoryDescription" rows="3" required> <%= Category.description %></textarea>
                                         <div id="categoryDescriptionError" class="text-danger"></div>
                                     </div>
                                     <div class="d-grid">
@@ -281,7 +282,7 @@
         </main>
 
 
-        <script>
+        <!-- <script>
             function validateForm() {
 
               var categoryName = document.getElementById("categoryName").value;
@@ -296,6 +297,28 @@
         
               if (/^\s*$/.test(categoryDescription)) {
                 document.getElementById("categoryDescriptionError").innerText = "category description required";
+              } else {
+                document.getElementById("categoryDescriptionError").innerText = "";
+              }
+        
+              return true;
+            }
+          </script> -->
+          <script>
+            function validateForm() {
+              var categoryName = document.getElementById("categoryName").value;
+              var categoryDescription = document.getElementById("categoryDescription").value;
+        
+              if (/^\s*$/.test(categoryName)) {
+                document.getElementById("categoryNameError").innerText = "category name is required";
+                return false;
+              } else {
+                document.getElementById("categoryNameError").innerText = "";
+              }
+        
+              if (/^\s*$/.test(categoryDescription)) {
+                document.getElementById("categoryDescriptionError").innerText = "category description required";
+                return false
               } else {
                 document.getElementById("categoryDescriptionError").innerText = "";
               }

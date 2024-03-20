@@ -217,7 +217,7 @@
                     <div class="col-lg-6">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <form class="forms-sample" action="/admin/addproduct" method="post" enctype="multipart/form-data">
+                                <form class="forms-sample"  method="post" enctype="multipart/form-data" onsubmit="return validateForm()" >
                                     <div class="row mb-4">
                                         <div class="col-md-3">
                                             <h6>1. General info</h6>
@@ -228,12 +228,14 @@
                                                 <input type="hidden" class="form-control" name="id" value="<%=Datas._id %>">
                                                 <input type="text" class="form-control" name="productName" id="exampleInputName1" value="<%=Datas.name %>" placeholder="Product Name" required>
                                                 <!-- <input type="text" placeholder="Type here" class="form-control" name="productname"> -->
+                                                <div id="productError" class="text-danger"></div>
                                                 
                                             </div>
                                             <div class="mb-4">
                                                 <label class="form-label">Description</label>
                                                 <input type="text" class="form-control" name="description" id="exampleInputEmail3"
                                         value="<%= Datas.description %>" placeholder="Description" required>
+                                        <div id="productDescriptionError" class="text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -246,7 +248,8 @@
                                             <div class="mb-4">
                                                 <label class="form-label">Cost in USD</label>
                                                 <!-- <input type="text" placeholder="$00.0" class="form-control" name="productprice"> -->
-                                                <input  class="form-control" name="price" id="exampleInputPassword4" value="<%=Datas.price %>" placeholder="Price" required>
+                                                <input  class="form-control" name="price" id="product_price" value="<%=Datas.price %>" placeholder="Price" required>
+                                                <div id="priceError" class="text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -258,7 +261,8 @@
                                         <div class="col-md-9">
                                             <div class="mb-4">
                                                 <!-- <input type="text" placeholder="Type here" class="form-control" name="productquantity"> -->
-                                                <input  class="form-control" name="quantity" id="exampleInputPassword4" value="<%=Datas.quantity %>" placeholder="Quantity" required>
+                                                <input  class="form-control" name="quantity" id="product_qty" value="<%=Datas.quantity %>" placeholder="Quantity" required>
+                                                <div id="quantityError" class="text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -293,16 +297,22 @@
                                         <!-- <div id="productpreview">
 
                                         </div> -->
-                                        <% if (Datas.Image && Array.isArray(Datas.Image) && Datas.Image.length > 0) { %>
-                                            <% for (let i = 0; i < Datas.Image.length; i++) { %>
+                                        <% if(Datas.Image && Array.isArray(Datas.Image) && Datas.Image.length > 0) { %>
+                                            <% for(let i=0;i < Datas.Image.length;i++) { %>
                                                 <div class="image-container" id="pdtImage_<%= i %>">
-                                                    <img src="/productImages/<%= Datas.Image[i] %>" alt="product Image" width="70" height="70">
-                                                    <button style="background-color: red;" onclick="deleteImage(event, '<%= Datas.Image[i] %>', '<%= Datas._id %>')"><a href="#">Delete</a></button>
+                                                    <img src="/productImages/<%= Datas.Image[i] %>" alt="product Image" width="100" height="100">
+                                                    <button style="background-color: red;" onclick="deleteImage(event,'<%= Datas.Image[i] %>', '<%= Datas._id %>', '<%= i %>')">Delete</button>
                                                 </div>
                                             <% } %>
                                         <% } else { %>
-                                            <p>No images available</p>
+                                            <p>No Images Available</p>
                                         <% } %>
+                                        <div id="inputBoxContainer" style="display: none;">
+                                          
+                                            <div class="mb-3" id="hiddenInputBox" style="display: none;">
+                                                <input type="file" name="image" class="form-control bg-dark text-white file-upload-info" placeholder="Upload Image" style="margin-top: 5%;" multiple>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -375,24 +385,81 @@
 });
     </script>      -->
     <script>
-        async function deleteImage(event, img, prdtid) {
-         event.preventDefault();
-        
-         try {
-            
-            await fetch("/admin/deleteimage", {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ img, prdtid }),
+        async function deleteImage(event, img, prdtid, index) {
+            console.log('function is getting called');
+   event.preventDefault();
 
-            });
-        
-            window.location.reload();
-         } catch (error) {
-            console.error("Error:", error);
-         }
+   try {
+       await fetch("/admin/deleteimage", {
+           method: "DELETE",
+           headers: { 'Content-Type': "application/json" },
+           body: JSON.stringify({ img, prdtid }),
+       });
+
+       // Remove the image container
+       const imageContainer = document.getElementById(`pdtImage_${index}`);
+       if (imageContainer) {
+           imageContainer.remove();
+       }
+
+       // Display the input box for uploading new images
+       document.getElementById('inputBoxContainer').style.display = 'block';
+   } catch (error) {
+       console.log("this is sthe error Error", error);
+   }
+}
+       </script>
+
+       <!-- validation -->
+       <script>
+        function validateForm() {
+          const productName = document.getElementById('exampleInputName1').value.trim();
+          const description = document.getElementById('exampleInputEmail3').value.trim();
+          const quantity = document.getElementById('product_qty').value.trim();
+          const price = document.getElementById('product_price').value.trim();
+          const image = document.querySelector('input[name="image"]').value.trim();
+          const category = document.getElementById('exampleInputCity1').value;
+      
+          let isValid = true;
+      
+      
+          if (productName === '') {
+            document.getElementById('productError').innerText = 'Product Name is required';
+            isValid = false;
+          } else {
+            document.getElementById('productError').innerText = '';
+          }
+      
+      
+          if (description === '') {
+            document.getElementById('productDescriptionError').innerText = 'Description is required';
+            isValid = false;
+          } else {
+            document.getElementById('productDescriptionError').innerText = '';
+          }
+      
+      
+          if (quantity === '') {
+            document.getElementById('quantityError').innerText = 'Quantity is required';
+            isValid = false;
+          } else {
+            document.getElementById('quantityError').innerText = '';
+          }
+      
+          
+          if (price === '') {
+            document.getElementById('priceError').innerText = 'Price is required';
+            isValid = false;
+          } else {
+            document.getElementById('priceError').innerText = '';
+          }
+      
+ 
+         
+         
+          return isValid;
         }
-        </script>
+      </script>
     <script src="/admin/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/admin/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/admin/js/vendors/select2.min.js"></script>

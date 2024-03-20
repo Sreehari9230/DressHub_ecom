@@ -973,3 +973,119 @@ const OrderPlaced = async(req,res)=>{
       console.log(error);
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const editProduct = async (req, res) => {
+  try {
+    const id = req.body.id;
+    console.log("id", id);
+    const { productName, description, quantity, categories, price } = req.body;
+
+    const Datas = await products.findOne({ _id: id });
+    const productData = category.find({ is_Listed: 1 });
+    const imageData = [];
+    if (req.files) {
+      const existedImagecount = (await products.findById(id)).Image.length;
+
+      if (existedImagecount + req.files.length !== 4) {
+        return res.render("admin/editproduct", {
+          message: "4 images is enough",
+          productData,
+          Datas,
+        });
+      } else {
+        for (let i = 0; i < req.files.length; i++) {
+          const resizedpath = path.join(
+            __dirname,
+            "../public/productImage",
+            req.files[i].filename
+          );
+          await sharp(req.files[i].path)
+            .resize(800, 1200, { fit: "fill" })
+            .toFile(resizedpath);
+
+          imageData.push(req.files[i].filename);
+        }
+      }
+    }
+
+    const selectcategory = await category.findOne({
+      name: categories,
+      is_Listed: 1,
+    });
+
+    const updteProduct = await products.findByIdAndUpdate(
+      { _id: id },
+      {
+        name: productName,
+        description,
+        quantity: quantity,
+        price,
+        categories: selectcategory._id,
+        $push: { Image: { $each: imageData } },
+      },
+
+      {
+        new: true,
+      }
+    );
+
+    res.redirect("/admin/products");
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+
+
+const editedCategory = async (req, res) => {
+  try {
+    const id = req.body.categoryid;
+    const name = req.body.categoryName;
+    const description = req.body.categoryDescription;
+
+    const existingCategory = await Categories.findOne({ name: name });
+
+    if (existingCategory && existingCategory._id.toString() !== id) {
+      return res.render("admin/editcategory", {
+        category: {},
+        messages: { message: "This category already exists" },
+      });
+    }
+
+    const updatedCategory = await Categories.findByIdAndUpdate(
+      id,
+      {
+        name: name,
+        description: description,
+      },
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      return res.render("admin/editcategory", {
+        category: {},
+        messages: { message: "Category not found" },
+      });
+    }
+
+    res.redirect("/admin/category");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal server error");
+  }
+};

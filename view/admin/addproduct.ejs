@@ -217,7 +217,7 @@
                     <div class="col-lg-6">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <form class="forms-sample" action="/admin/addproduct" method="post" enctype="multipart/form-data">
+                                <form class="forms-sample" action="/admin/addproduct" method="post" enctype="multipart/form-data" onsubmit="return validateForm()" name="productForm">
                                     <div class="row mb-4">
                                         <div class="col-md-3">
                                             <h6>1. General info</h6>
@@ -225,11 +225,13 @@
                                         <div class="col-md-9">
                                             <div class="mb-4">
                                                 <label class="form-label">Product Name</label>
-                                                <input type="text" placeholder="Type here" class="form-control" name="productname">
+                                                <input type="text" placeholder="Type here" class="form-control" name="productname" id="exampleInputName1">
+                                                <div id="productError" class="text-danger"></div>
                                             </div>
                                             <div class="mb-4">
                                                 <label class="form-label">Description</label>
-                                                <textarea placeholder="Type here" class="form-control" rows="4" name="productdescription"></textarea>
+                                                <textarea placeholder="Type here" class="form-control" rows="4" name="productdescription" id="exampleInputEmail3"></textarea>
+                                                <div id="productDescriptionError" class="text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -241,7 +243,8 @@
                                         <div class="col-md-9">
                                             <div class="mb-4">
                                                 <label class="form-label">Cost in USD</label>
-                                                <input type="text" placeholder="$00.0" class="form-control" name="productprice">
+                                                <input type="text" placeholder="$00.0" class="form-control" name="productprice" id="product_price">
+                                                <div id="priceError" class="text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -252,7 +255,8 @@
                                         </div>
                                         <div class="col-md-9">
                                             <div class="mb-4">
-                                                <input type="text" placeholder="Type here" class="form-control" name="productquantity">
+                                                <input type="text" placeholder="Type here" class="form-control" name="productquantity" id="product_qty" >
+                                                <div id="quantityError" class="text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -268,8 +272,10 @@
                                                 <option value="">Select Category</option>
                                                 <% Category.forEach(Category => { %>
                                                 <option value="<%= Category._id %>"><%= Category.name %></option>
+                                                <div id="CategoryError" class="text-danger"></div>
                                                 <% }) %>
                                             </select>
+                                            <div id="CategoryError" class="text-danger"></div>
                                         </div>
                                         <!-- -------------------- -->
                                     </div>
@@ -281,7 +287,8 @@
                                         <div class="col-md-9">
                                             <div class="mb-4">
                                                 <label class="form-label">Images</label>
-                                                <input class="form-control" type="file" name="productimages" multiple="multiple" id="productimage">
+                                                <input class="form-control" type="file" name="productimages" multiple="multiple" id="productimage" >
+                                                <div id="ImageError" class="text-danger"></div>
                                             </div>
                                         </div>
                                         <div id="productpreview">
@@ -357,7 +364,81 @@
         }
     });
 });
-    </script>     
+    </script>  
+    
+    <!-- validation -->
+
+    <script>
+        function validateForm() {
+          // Reset error messages
+          document.getElementById("productError").innerHTML = "";
+          document.getElementById("productDescriptionError").innerHTML = "";
+          document.getElementById("quantityError").innerHTML = "";
+          document.getElementById("priceError").innerHTML = "";
+          document.getElementById("ImageError").innerHTML = "";
+          document.getElementById("CategoryError").innerHTML = "";
+      
+          // Get form inputs
+          var productName = document.forms["productForm"]["productname"].value.trim();
+          var description = document.forms["productForm"]["productdescription"].value.trim();
+          var quantity = document.forms["productForm"]["productquantity"].value.trim();
+          var price = document.forms["productForm"]["productprice"].value.trim();
+          var image = document.forms["productForm"]["productimages"].value.trim();
+          var category = document.forms["productForm"]["productcategory"].value.trim();
+      
+          // Flag to track if there are any errors
+          var hasError = false;
+      
+          // Validate product name
+          if (productName === "") {
+            document.getElementById("productError").innerHTML = "Product name is required";
+            hasError = true;
+          }
+      
+          // Validate description
+          if (description === "") {
+            document.getElementById("productDescriptionError").innerHTML = "Description is required";
+            hasError = true;
+          }
+      
+          // Validate quantity
+          if (quantity === "") {
+            document.getElementById("quantityError").innerHTML = "Quantity is required";
+            hasError = true;
+          } else if (isNaN(quantity)) {
+            document.getElementById("quantityError").innerHTML = "Quantity must be a  number";
+            hasError = true;
+          }
+      
+          // Validate price
+          if (price === "") {
+            document.getElementById("priceError").innerHTML = "Price is required";
+            hasError = true;
+          } else if (isNaN(price) || price <= 0) {
+            document.getElementById("priceError").innerHTML = "Price must be a positive number";
+            hasError = true;
+          }
+      
+          // Validate image
+          if (image === "") {
+            document.getElementById("ImageError").innerHTML = "Image is required";
+            hasError = true;
+          }
+      
+          // Validate category
+          if (category === "") {
+            document.getElementById("CategoryError").innerHTML = "Select Category";
+            hasError = true;
+          }
+      
+          // If there are errors, prevent form submission
+          if (hasError) {
+            return false;
+          }
+          return true;
+        }
+  
+      </script>
     <script src="/admin/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/admin/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="/admin/js/vendors/select2.min.js"></script>

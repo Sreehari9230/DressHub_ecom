@@ -64,7 +64,7 @@ const AddProduct = async (req, res) => {
     res.redirect("/admin/productlist");
   } catch (error) {
     console.error("Error adding product:", error);
-    res.status(500).send("Internal server error");
+    res.status(500).send("Internal server error from add product");
   }
 };
 
@@ -137,21 +137,22 @@ const LoadEditProduct = async (req, res) => {
     console.log("code is working");
   } catch (error) {
     console.log(error.message);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error from load edit product");
   }
 };
 
 const editProduct = async (req, res) => {
   try {
     const id = req.body.id;
-    console.log(id);
+    console.log("this is the id from editproduct",id);
     const { productName, description, quantity, categories, price } = req.body;
 
     const Datas = await products.findOne({ _id: id });
-    const productData = await category.find({ is_Listed: 1 });
+    const productData =  await category.find({ is_Listed: 1 });
     const imageData = [];
     if (req.files) {
       const existedimagecount = (await products.findById(id)).Image.length;
+
       if (existedimagecount + req.files.length !== 4) {
         return res.render("admin/editproduct", {
           message: "4 Images Only Needed",
@@ -186,7 +187,7 @@ const editProduct = async (req, res) => {
         description,
         quantity: quantity,
         price,
-        categories: selectcategory._id,
+        categories: selectcategory,
         $push: { Image: { $each: imageData } },
       },
       {
@@ -232,6 +233,9 @@ const deleteimage = async (req, res) => {
     res.status(500).send({ success: false, error: "Failed to delete image." });
   }
 };
+
+
+
 
 module.exports = {
   loadProductlist,
