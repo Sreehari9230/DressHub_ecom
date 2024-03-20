@@ -73,4 +73,11 @@ adminRoute.post("/Unlistproduct", adminAuth.isLogin, productController.unlistedp
 adminRoute.get("/deleteproduct", adminAuth.isLogin, productController.deleteProduct);
 
 
+
+adminRoute.get('/orders', adminAuth.isLogin, adminController.adminOrderlist)
+adminRoute.get('/orderstatus', adminAuth.isLogin, adminController.orderstatus)
+adminRoute.get('/ordercancel', adminAuth.isLogin, adminController.ordercancel)
+adminRoute.get('/orderdelivered', adminAuth.isLogin, adminController.orderdelivered)
+
+
 module.exports = adminRoute

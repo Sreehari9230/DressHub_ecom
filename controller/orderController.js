@@ -6,15 +6,6 @@ const Address = require('../model/addressModel')
 const Order = require('../model/orderModel')
 
 
-const loadOrderlist = async (req, res) => {
-    try {
-      const userIn = req.session.userId;
-      res.render("user/orders", { userIn });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
 
 const placeOrder = async (req,res)=>{
   try {
@@ -128,8 +119,66 @@ const orderPlaced = async(req,res)=>{
   }
 }
 
+
+const loadOrderlist = async (req, res) => {
+  try {
+    const userIn = req.session.userId;
+    const userId = req.session.userId;
+    const userData =  await User.findOne({_id:userId});
+    const  Orders  = await Order.find({user:userId}).sort({Date:-1});
+    res.render("user/orders", { userIn,userData,Orders });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const orderDetails = async(req,res)=>{
+  try {
+    const id = req.query.id;
+   
+    const userId = req.session.userId;
+    const userData = await User.findOne({_id:userId});
+    const orderdata = await Order.findById({_id:id}).populate("product.productId")
+    res.render("user/orderdetails",{orderdata,userData,userId})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const cancelOrder = async(req,res)=>{
+  try {
+    const userId = req.session.userId
+    const orderId = req.body.orderId
+    console.log(orderId)
+
+    const order = await Order.findById({_id:orderId})
+
+    const data = await Order.findByIdAndUpdate(
+      {user:userId,
+      _id:orderId},
+      {$set:{status:'cancelled'}},
+      {new:true},
+    )
+
+   if(data){
+    res.json({success:true})
+   }else{
+    res.json({
+      success:false,
+      message: "order not found"
+    })
+   } 
+    
+  } catch (error) {
+    console.log(error);
+    res.json({success:false,error:error.message});
+  }
+}
+
   module.exports = {
     loadOrderlist,
     placeOrder,
-    orderPlaced
+    orderPlaced,
+    orderDetails,
+    cancelOrder
   }

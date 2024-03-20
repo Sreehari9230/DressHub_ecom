@@ -11,9 +11,9 @@
         <meta property="og:url" content="" />
         <meta property="og:image" content="" />
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg" />
+        <link rel="shortcut icon" type="image/x-icon" href="/admin/imgs/theme/favicon.svg" />
         <!-- Template CSS -->
-        <link href="assets/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+        <link href="/admin/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
@@ -21,7 +21,7 @@
         <aside class="navbar-aside" id="offcanvas_aside">
             <div class="aside-top">
                 <a href="index.html" class="brand-wrap">
-                    <img src="assets/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+                    <img src="/public/images/logo.png" class="logo" alt="Nest Dashboard" />
                 </a>
                 <div>
                     <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
@@ -29,7 +29,7 @@
             </div>
             <nav>
                 <ul class="menu-aside">
-                    <li class="menu-item">
+                    <li class="menu-item ">
                         <a class="menu-link" href="index.html">
                             <i class="icon material-icons md-home"></i>
                             <span class="text">Dashboard</span>
@@ -41,24 +41,14 @@
                             <span class="text">Products</span>
                         </a>
                         <div class="submenu">
-                            <a href="page-products-list.html">Product List</a>
-                            <a href="page-products-grid.html">Product grid</a>
-                            <a href="page-products-grid-2.html">Product grid 2</a>
-                            <a href="page-categories.html">Categories</a>
+                            <a href="/admin/productlist">Product List</a>
+                            <a href="/admin/addproduct">Add Products</a>
+                            <!-- <a href="page-products-grid-2.html">Product grid 2</a>
+                            <a href="page-categories.html">Categories</a> -->
                         </div>
                     </li>
-                    <li class="menu-item has-submenu active">
-                        <a class="menu-link" href="page-orders-1.html">
-                            <i class="icon material-icons md-shopping_cart"></i>
-                            <span class="text">Orders</span>
-                        </a>
-                        <div class="submenu">
-                            <a href="page-orders-1.html" class="active">Order list 1</a>
-                            <a href="page-orders-2.html">Order list 2</a>
-                            <a href="page-orders-detail.html">Order detail</a>
-                        </div>
-                    </li>
-                    <li class="menu-item has-submenu">
+                    
+                    <!-- <li class="menu-item has-submenu">
                         <a class="menu-link" href="page-sellers-cards.html">
                             <i class="icon material-icons md-store"></i>
                             <span class="text">Sellers</span>
@@ -68,20 +58,20 @@
                             <a href="page-sellers-list.html">Sellers list</a>
                             <a href="page-seller-detail.html">Seller profile</a>
                         </div>
-                    </li>
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" href="page-form-product-1.html">
+                    </li> -->
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/category">
                             <i class="icon material-icons md-add_box"></i>
-                            <span class="text">Add product</span>
+                            <span class="text">Category Management</span>
                         </a>
-                        <div class="submenu">
+                        <!-- <div class="submenu">
                             <a href="page-form-product-1.html">Add product 1</a>
                             <a href="page-form-product-2.html">Add product 2</a>
                             <a href="page-form-product-3.html">Add product 3</a>
                             <a href="page-form-product-4.html">Add product 4</a>
-                        </div>
+                        </div> -->
                     </li>
-                    <li class="menu-item has-submenu">
+                    <!-- <li class="menu-item has-submenu">
                         <a class="menu-link" href="page-transactions-1.html">
                             <i class="icon material-icons md-monetization_on"></i>
                             <span class="text">Transactions</span>
@@ -90,36 +80,60 @@
                             <a href="page-transactions-1.html">Transaction 1</a>
                             <a href="page-transactions-2.html">Transaction 2</a>
                         </div>
-                    </li>
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" href="#">
+                    </li> -->
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/usermanagement">
                             <i class="icon material-icons md-person"></i>
-                            <span class="text">Account</span>
+                            <span class="text">User Management</span>
                         </a>
-                        <div class="submenu">
+                        <!-- <div class="submenu">
                             <a href="page-account-login.html">User login</a>
                             <a href="page-account-register.html">User registration</a>
                             <a href="page-error-404.html">Error 404</a>
-                        </div>
+                        </div> -->
                     </li>
-                    <li class="menu-item">
+
+                    <li class="menu-item  active">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_cart"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                        <!-- <div class="submenu">
+                            <a href="page-orders-1.html">Order list 1</a>
+                            <a href="page-orders-2.html">Order list 2</a>
+                            <a href="page-orders-detail.html">Order detail</a>
+                        </div> -->
+                    </li>
+                    
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/logout">
+                            <i class="icon material-icons md-person "></i>
+                            <span class="text">Logout</span>
+                        </a>
+                        <!-- <div class="submenu">
+                            <a href="page-account-login.html">User login</a>
+                            <a href="page-account-register.html">User registration</a>
+                            <a href="page-error-404.html">Error 404</a>
+                        </div> -->
+                    </li>
+                    <!-- <li class="menu-item">
                         <a class="menu-link" href="page-reviews.html">
                             <i class="icon material-icons md-comment"></i>
                             <span class="text">Reviews</span>
                         </a>
-                    </li>
-                    <li class="menu-item">
+                    </li> -->
+                    <!-- <li class="menu-item">
                         <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i> <span class="text">Brands</span> </a>
-                    </li>
-                    <li class="menu-item">
+                    </li> -->
+                    <!-- <li class="menu-item">
                         <a class="menu-link" disabled href="#">
                             <i class="icon material-icons md-pie_chart"></i>
                             <span class="text">Statistics</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <hr />
-                <ul class="menu-aside">
+                <!-- <ul class="menu-aside">
                     <li class="menu-item has-submenu">
                         <a class="menu-link" href="#">
                             <i class="icon material-icons md-settings"></i>
@@ -136,13 +150,13 @@
                             <span class="text"> Starter page </span>
                         </a>
                     </li>
-                </ul>
+                </ul> -->
                 <br />
                 <br />
             </nav>
         </aside>
         <main class="main-wrap">
-            <header class="main-header navbar">
+            <!-- <header class="main-header navbar">
                 <div class="col-search">
                     <form class="searchform">
                         <div class="input-group">
@@ -195,7 +209,7 @@
                         </li>
                     </ul>
                 </div>
-            </header>
+            </header> -->
             <section class="content-main">
                 <div class="content-header">
                     <div>
@@ -207,7 +221,7 @@
                     </div>
                 </div>
                 <div class="card mb-4">
-                    <header class="card-header">
+                    <!-- <header class="card-header">
                         <div class="row gx-3">
                             <div class="col-lg-4 col-md-6 me-auto">
                                 <input type="text" placeholder="Search..." class="form-control" />
@@ -228,304 +242,109 @@
                                 </select>
                             </div>
                         </div>
-                    </header>
+                    </header> -->
                     <!-- card-header end// -->
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col" class="text-end">Action</th>
+                                        <th>S.No</th>
+                                        <th>Order ID</th>
+                                        <th>Price</th>
+                                        <th>PaymentMethod</th>
+                                        <th>Status</th>
+                                        <th class="action-column">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>0901</td>
-                                        <td><b>Marvin McKinney</b></td>
-                                        <td>marvin@example.com</td>
-                                        <td>$9.00</td>
-                                        <td><span class="badge rounded-pill alert-warning">Pending</span></td>
-                                        <td>03.12.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
+                                    <% if(Orders.length> 0){ %>
+                                      <% for(let i=0; i < Orders.length; i++){ %>
+                                        <tr>
+                                          <td>
+                                            <%= i + 1 %>
+                                          </td>
+                                          <td>
+                                            <%= Orders[i]._id %>
+                                          </td>
+                                          <td>
+                                            $<%= Orders[i].subtotal  %>
+                                          </td>
+                                          <td>
+                                            <%= Orders[i].paymentMethod %>
+                                          </td>
+                                          <td>
+                                            <% if (
+                                            Orders[i].status === 'placed' ||
+                                            Orders[i].status === 'delivered' ||
+                                            Orders[i].status === 'waiting for approvel' ||
+                                            Orders[i].status === 'Return Approved'
+                                            ){ %>
+                                              <a href="/admin/orderstatus?id=<%= Orders[i]._id %>">
+                                                <span class="status-label status-placed">
+                                                <%= Orders[i].status %>
+                                            </span></a>
+                                            <%}else if(Orders[i].status === 'cancelled') {%>
+                                              <a>
+                                                <span class="status-canceled px-3 py-1 text-xs font-semibold leading-tight text-gray-800 bg-gray-200 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                                    <%= Orders[i].status %>
+                                                </span>
+                                            </a>
+                                            <%}else if(Orders[i].status === 'pending') {%>
+                                            <a href="/admin/orderstatus?id=<%= Orders[i]._id %>">
+                                              <span class="status-canceled px-3 py-1 text-xs font-semibold leading-tight text-gray-800 bg-gray-200 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                                  <%= Orders[i].status %>
+                                              </span>
+                                          </a>
+                                          <% } %>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2323</td>
-                                        <td><b>Leslie Alexander</b></td>
-                                        <td>leslie@example.com</td>
-                                        <td>$46.61</td>
-                                        <td><span class="badge rounded-pill alert-warning">Pending</span></td>
-                                        <td>21.02.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1233</td>
-                                        <td><b>Esther Howard</b></td>
-                                        <td>esther@example.com</td>
-                                        <td>$12.00</td>
-                                        <td><span class="badge rounded-pill alert-danger">Canceled</span></td>
-                                        <td>03.07.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>1233</td>
-                                        <td><b>Esther Howard</b></td>
-                                        <td>esther@example.com</td>
-                                        <td>$12.00</td>
-                                        <td><span class="badge rounded-pill alert-danger">Canceled</span></td>
-                                        <td>03.07.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2323</td>
-                                        <td><b>Jenny Wilson</b></td>
-                                        <td>jenny@example.com</td>
-                                        <td>$589.99</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>22.05.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2112</td>
-                                        <td><b>Marvin McKinney</b></td>
-                                        <td>marvin@example.com</td>
-                                        <td>$16.58</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>23.04.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7897</td>
-                                        <td><b>Albert Flores</b></td>
-                                        <td>albert@example.com</td>
-                                        <td>$10.00</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>13.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2323</td>
-                                        <td><b>Wade Warren</b></td>
-                                        <td>wade@example.com</td>
-                                        <td>$105.55</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>23.09.2019</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2324</td>
-                                        <td><b>Jane Cooper</b></td>
-                                        <td>jane@example.com</td>
-                                        <td>$710.68</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>28.04.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2325</td>
-                                        <td><b>Savannah Nguyen</b></td>
-                                        <td>savannah@example.com</td>
-                                        <td>$710.68</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>23.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2326</td>
-                                        <td><b>Guy Hawkins</b></td>
-                                        <td>guy@example.com</td>
-                                        <td>$767.50</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>28.04.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2327</td>
-                                        <td><b>Darrell Steward</b></td>
-                                        <td>darrel@example.com</td>
-                                        <td>$406.27</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>14.07.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2328</td>
-                                        <td><b>Jane Cooper</b></td>
-                                        <td>jane@example.com</td>
-                                        <td>$601.13</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>18.03.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2329</td>
-                                        <td><b>Darlene Robertson</b></td>
-                                        <td>deriene@example.com</td>
-                                        <td>$948.55</td>
-                                        <td><span class="badge rounded-pill alert-success">Received</span></td>
-                                        <td>03.07.2020</td>
-                                        <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                            <!-- dropdown //end -->
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                        <td>
+                                          <% if(Orders[i].status == 'cancelled'){ %>
+                                            <a class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                              Canceled
+                                          </a>
+                                          <%}else if(
+                                            Orders[i].status !== 'delivered' &&
+                                            Orders[i].status !== 'waiting for approvel' &&
+                                            Orders[i].status !== 'Return Approved' &&
+                                            Orders[i].status !== 'pending'
+                                          ){ %>
+                                            <a href="/admin/ordercancel?id=<%= Orders[i]._id%>">
+                                              <span class="btn btn-sm font-sm btn-light rounded">Cancel</span>
+                                              </a>
+                                              <% if(
+                                                Orders[i].status == 'placed' ||
+                                                Orders[i].status == 'delivered' &&
+                                                Orders[i].status !== 'delivered' &&
+                                                Orders[i].status !== 'pending'
+                                              ) { %>
+                                               <a href="/admin/orderdelivered?id=<%= Orders[i]._id%>">
+                                              <span class="btn btn-sm font-sm rounded btn-brand">Delivered</span>
+                                          </a>
+                                          <%}%>
+                                          <% } else if(Orders[i].status == 'Return Approved') { %>
+                                            <a class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                              Approved
+                                              </a>
+                                          <% }else if(
+                                            Orders[i].status !== 'delivered' &&
+                                            Orders[i].status !== 'pending'
+                                            
+                                          ) { %>
+                                            <a href="/admin/orderdelivered?id=<%= Orders[i]._id%>">
+                                              <span class="btn-primary">Approve</span>
+                                          </a>
+                                          <% } %>
+                                          </td>
+                                         
+                                        </tr>
+                                        <% } %>
+                                          <% } else { %>
+                                            <tr>
+                                              <td colspan="5">Orders Not Found</td>
+                                            </tr>
+                                            <% } %>
+                                  </tbody>
                             </table>
                         </div>
                         <!-- table-responsive //end -->
@@ -533,7 +352,7 @@
                     <!-- card-body end// -->
                 </div>
                 <!-- card end// -->
-                <div class="pagination-area mt-15 mb-50">
+                <!-- <div class="pagination-area mt-15 mb-50">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-start">
                             <li class="page-item active"><a class="page-link" href="#">01</a></li>
@@ -546,10 +365,10 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
             </section>
             <!-- content-main end// -->
-            <footer class="main-footer font-xs">
+            <!-- <footer class="main-footer font-xs">
                 <div class="row pb-30 pt-15">
                     <div class="col-sm-6">
                         <script>
@@ -561,14 +380,14 @@
                         <div class="text-sm-end">All rights reserved</div>
                     </div>
                 </div>
-            </footer>
+            </footer> -->
         </main>
-        <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
-        <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/vendors/select2.min.js"></script>
-        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
-        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
-        <!-- Main Script -->
-        <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+        <script src="/admin/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/admin/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/admin/js/vendors/select2.min.js"></script>
+    <script src="/admin/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/admin/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/admin/js/main.js?v=1.1" type="text/javascript"></script>
     </body>
 </html>

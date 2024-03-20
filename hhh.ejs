@@ -1792,3 +1792,124 @@
       <% } else { %>
           <p>No images available</p>
       <% } %>
+
+
+
+      <div class="col-md-12">
+                              
+
+        <% orderdata.product.forEach((value,index)=>{ %>
+        <div class="return-details" class="col-md-12">
+          <p>Order ID : <span> #<%= value._id %></span></p>
+            <img src="/public/uploadImg/<%= value.productId.Image[0] %>" width="150" height="150" alt="">
+    
+           
+           <br>
+           <br>
+          
+            <p> <strong>Product Name : </strong><%= value.name %></p>
+            <p><strong>Price :  </strong>$<%= value.price %></p>
+            <p><strong>Qty</strong> : <%= value.quantity %></h6>
+            <p><strong>Total</strong> :  <span>$</span><%= value.price * value.quantity %></p>
+          
+        </div>
+        <%}) %>
+    </div>
+
+
+
+    <div class="card-body">
+      <% orderdata.product.forEach((value,index)=>{ %>
+      <div class="media">
+          <div class="sq align-self-center "> <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="/public/productImages/<%= value.productId.Image[0] %>" width="135" height="135" /> </div>
+          <div class="media-body my-auto text-right">
+              <div class="row  my-auto flex-column flex-md-row">
+                  <div class="col my-auto"> <h6 class="mb-0"> Jack Jacs</h6>  </div>
+                  <div class="col-auto my-auto"> <small>Golden Rim </small></div>
+                  <div class="col my-auto"> <small>Size : M</small></div>
+                  <div class="col my-auto"> <small>Qty : 1</small></div>
+                  <div class="col my-auto"><h6 class="mb-0">&#8377;3,600.00</h6>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <%}) %>
+      <hr class="my-3 ">
+
+  </div>
+
+
+
+
+
+  <div class="card-body">
+    <% orderdata.product.forEach((value,index)=>{ %>
+    <div class="media">
+        <!-- Image on the left -->
+        <div class="sq align-self-center">
+            <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="/public/productImages/<%= value.productId.Image[0] %>" width="135" height="135" />
+        </div>
+        <!-- Details on the right -->
+        <div class="media-body my-auto text-right">
+            <div class="row my-auto flex-column flex-md-row">
+                <div class="col my-auto">
+                    <h6 class="mb-0"> Jack Jacs</h6>
+                </div>
+                <div class="col-auto my-auto">
+                    <small>Golden Rim</small>
+                </div>
+                <div class="col my-auto">
+                    <small>Size : M</small>
+                </div>
+                <div class="col my-auto">
+                    <small>Qty : 1</small>
+                </div>
+                <div class="col my-auto">
+                    <h6 class="mb-0">&#8377;3,600.00</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }) %>
+    <hr class="my-3 ">
+</div>
+
+
+
+
+<div class="checkout__totals-wrapper">
+  <div class="sticky-content">
+      <div class="checkout__totals">
+        <h4>BILLING DETAILS</h4>
+          <table class="checkout-cart-items">
+              <thead>
+                  <p>  <strong>Order placed on :  <%=
+                     orderdata.Date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      });
+                      %></strong></p>
+                  <p>  <strong>Paid by <%= orderdata.paymentMethod %> </strong></p>
+                  <div class="payment-details">
+                      <p><strong>Order Amount:  $ <%= orderdata.subtotal %> </strong></p>
+                      <p><strong>Delivery :   $0</strong></p>
+                      <p> <strong>Order SubTotal:$<%= orderdata.subtotal %></p>
+                      <p>Order Status: <strong> <%= orderdata.status %></strong></p>
+
+                  </div>
+                  <p>Payment Mode: <%= orderdata.paymentMethod %></p>
+                  <div class="delivery-details">
+                      <p>Deliver to:</p>
+                      <p>Name : <%= orderdata.deliveryDetails.fname %></p>
+                      <p> Address : <%= orderdata.deliveryDetails.address %></p>
+                      <p>City : <%= orderdata.deliveryDetails.city %></p>
+                      <p> PIN : <%= orderdata.deliveryDetails.pin %></p>
+                      <p>Phone : <%= orderdata.deliveryDetails.mobile %> </p>
+                  </div>
+              
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>

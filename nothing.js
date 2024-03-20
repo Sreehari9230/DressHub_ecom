@@ -519,10 +519,18 @@
 
 
 //  load orders 
-userRoute.get('/checkout',cartcontroller.Loadcheckout)
-userRoute.post("/checkout",ordercontroller.OrderPlace)
-userRoute.get('/ordercomplete',ordercontroller.OrderPlaced);
+// userRoute.get('/checkout',cartcontroller.Loadcheckout)
+// userRoute.post("/checkout",ordercontroller.OrderPlace)
+// userRoute.get('/ordercomplete',ordercontroller.OrderPlaced);
 userRoute.get('/orders',ordercontroller.orderlist);
 userRoute.get("/view",ordercontroller.orderview);
 userRoute.patch("/cancelorder",ordercontroller.ordercancel);
-userRoute.post("/return",ordercontroller.returnOrder);
+// userRoute.post("/return",ordercontroller.returnOrder);
+
+
+
+//admin
+adminRoute.get("/orders",adminAuth.isLogin,adminController.orderlist); 
+adminRoute.get("/orderstatus",adminAuth.isLogin,adminController.orderstatus);
+adminRoute.get("/ordercancel",adminController.ordercancel);
+adminRoute.get("/orderdelivered",adminController.orderdelivered);

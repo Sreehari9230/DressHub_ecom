@@ -74,6 +74,9 @@ userRoute.get('/checkout', userAuth.isLogin, cartController.loadCheckout)
 userRoute.post("/checkout",userAuth.isLogin, orderController.placeOrder)
 userRoute.get('/ordercomplete',userAuth.isLogin, orderController.orderPlaced);
 
+userRoute.get('/orderdetails', userAuth.isLogin, orderController.orderDetails)
+userRoute.patch('/cancelorder', userAuth.isLogin, orderController.cancelOrder)
+
 
 
 module.exports = userRoute;

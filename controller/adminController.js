@@ -1,5 +1,6 @@
 const User = require("../model/userModel");
 const bcrypt = require("bcrypt");
+const Order = require('../model/orderModel')
 
 //LOAD LOGIN PAGE
 
@@ -139,6 +140,85 @@ const blockUser = async (req, res) => {
   }
 };
 
+const adminOrderlist = async(req,res)=>{
+  try {
+    const Orders = await Order.find().sort({Date:-1});
+    res.render('admin/orderlist',{Orders})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const orderstatus = async(req,res)=>{
+  try {
+    const id = req.query
+
+    const orders = await Order.findById({_id:id});
+
+    if(orders.status === 'placed'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'pending'}},
+      )
+      res.redirecy("/admin/orders")
+    }
+
+    if(orders.status == 'pending'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'placed'}}
+      )
+      res.redirect("/admin/orders")
+    }else{
+      res.redirect("/admin/orders")
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const ordercancel = async(req,res)=>{
+  try {
+    const id = req.query.id;
+    const orders = await Order.findById({_id:id})
+
+    if(orders){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'cancelled'}}
+      )
+    }
+    res.redirect('/admin/orders')
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const orderdelivered = async(req,res)=>{
+  try {
+    const id = req.query.id;
+    const orders = await Order.findById({_id:id})
+
+    if(orders.status == 'placed'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'delivered'}}
+      )
+    }
+    if(orders.status == 'waiting for approval'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'Return Approved'}}
+      )
+      res.redirect('/admin/orders')
+    }else{
+      res.redirect('/admin/orders')
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   adminLogin,
   verifyadminlogin,
@@ -146,4 +226,9 @@ module.exports = {
   adminlogout,
   LoadUserManagement,
   blockUser,
+  adminOrderlist,
+  orderstatus,
+  ordercancel,
+  orderdelivered
+
 };

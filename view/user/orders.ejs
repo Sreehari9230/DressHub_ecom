@@ -4,7 +4,7 @@
     <div class="mb-4 pb-4"></div>
     <section class="my-account container">
       <h2 class="page-title">Orders</h2>
-      <div class="row">
+      <div class="row" id="reload">
         <div class="col-lg-3">
           <ul class="account-nav">
             <li><a href="/userdashboard" class="menu-link menu-link_us-s">Dashboard</a></li>
@@ -17,34 +17,169 @@
         </div>
         <div class="col-lg-9">
           <div class="page-content my-account__orders-list">
+            <% if(Orders && Orders.length > 0 ) { %>
             <table class="orders-table">
-              <thead>
-                <tr>
-                  <th>Order</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Total</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#2416</td>
-                  <td>October 1, 2023</td>
-                  <td>On hold</td>
-                  <td>$1,200.65 for 3 items</td>
-                  <td><button class="btn btn-primary">VIEW</button></td>
-                </tr>
-                
-              </tbody>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>OrderID</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Payment Method</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% Orders.forEach((order,index)=>{ %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= order.id %></td>
+                        <% if(order.Date) { %>
+                        <td><%= order.Date.toISOString().substring(0, 10) %></td>
+                        <% }else{ %>
+                        <td>N/A</td>
+                        <% } %>
+                        <td><%= order.status %></td>
+                        <td>$<%= order.subtotal %></td>
+                        <td><%= order.paymentMethod %></td>
+                        <td>
+                            <a href="/orderdetails?id=<%=order._id %>"><button style="width: 141px; height: 70px;" class="btn btn-primary ">View details</button></a>
+                            <br>
+                            <% if(order.status !== 'cancelled' && order.status !== 'delivered' && order.status !== 'Return Approved' && order.status !== 'Waiting for Approval' && order.status !== 'pending') { %>
+                              <br>
+                            <button onclick="cancelorder('<%=order._id %>')" class="btn btn-danger" style="width: 141px;">Cancel</button>
+                            <% } %>
+                            <% if(order.status == 'delivered') { %>
+                              <br>
+                            <button onclick="returnOrder('<%=order._id %>')" class="btn btn-light" style="width: 141px;">Return</button>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    <% } else { %>
+                    <tr>
+                        <td colspan="7">ORDERS NOT FOUND</td>
+                    </tr>
+                    <% } %>
+                </tbody>
             </table>
-          </div>
+        </div>
         </div>
       </div>
     </section>
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
+  <style>
+    .btn-primar {
+     color: #fff;
+     background-color: #000000;
+     border-color: #ffffff;
+      }
+ 
+     .my-account .orders-table tbody td .btin {
+       width: 100%;
+         height: 3.125rem;
+         font-size: 0.875rem; }
+         .col-lg-9-d {
+       flex: 0 0 auto;
+       width: 100%; }
+       .custom-width {
+    width: 200px; /* Adjust the width as needed */
+}
+ </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  const cancelorder = async (orderId) => {
+   try {
+     const result = await Swal.fire({
+       title: "Are you sure?",
+       text: "Do you want to cancel this order?",
+       icon: 'warning',
+       showCancelButton: true,
+       confirmButtonText: "Confirm",
+       cancelButtonText: "Cancel",
+       reverseButtons: true,
+     });
+ 
+     if (result.isConfirmed) {
+       const response = await fetch("/cancelorder", {
+         method: 'PATCH',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({ orderId: orderId })
+       });
+ 
+       if (response.ok) {
+         const responseData = await response.json(); // Fix here: response instead of res
+         if (responseData.success) {
+           Swal.fire('Cancelled!', 'Your order has been cancelled.', 'success')
+             .then(() => {
+               console.log("order cancelled successfully");
+               window.location.href = '/orderlist';
+             });
+         } else {
+           Swal.fire('Error!', 'Failed to cancel order.', 'error');
+           console.log("order cancel failed");
+         }
+       } else {
+         Swal.fire('Error!', `HTTP error: ${response.status}`, 'error');
+         console.log("error occurred", response.status);
+       }
+     }
+   } catch (error) {
+     console.error("Error occurred:", error);
+   }
+ }
+ 
+ 
+//    function returnOrder(orderId) {
+//    console.log("the order id is getting", orderId);
+//    Swal.fire({
+//      title: "Are you sure?",
+//      text: "You won't be able to revert this!",
+//      icon: "warning",
+//      showCancelButton: true,
+//      confirmButtonColor: "#3085d6",
+//      cancelButtonColor: "#d33",
+//      confirmButtonText: "Yes, Do it!",
+//      cancelButtonText: "Cancel",
+//    }).then((result) => {
+//      if (result.isConfirmed) {
+//        fetch('/return', {
+//            method: 'POST',
+//            headers: {
+//              'Content-Type': 'application/json'
+//            },
+//            body: JSON.stringify({
+//              orderId: orderId
+//            })
+//          })
+//          .then((response) => response.json())
+//          .then((response) => {
+//            if (response.datelimit) {
+//              Swal.fire({
+//                icon: 'error',
+//                title: 'Oops...',
+//                text: 'Return Date expired'
+//              })
+//            } else if (response.return) {
+//              location.reload();
+//            }
+//          })
+//          .catch((error) => {
+//            console.error("error occurred in fetch:", error.message)
+//          })
+//      }
+//    })
+//  }
+ 
+ </script>
 
   <%- include("../layouts/footer.ejs") %>
   

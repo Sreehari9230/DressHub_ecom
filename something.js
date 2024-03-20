@@ -1155,3 +1155,115 @@ const loadshop = async (req, res) => {
   console.log(error.message);
 }
 };
+
+
+
+
+const ordercancel = async(req,res)=>{
+  try {
+     const userId = req.session.userId;
+     const orderId = req.body.orderId;
+   
+     const order = await Order.findById({_id:orderId});
+
+const data = await Order.findByIdAndUpdate(
+  {user:userId,
+  _id:orderId},
+  {$set:{status:'cancelled'}},
+  {new:true},
+)
+if(data){
+  res.json({success:true})
+}else{
+  res.json({
+      success:false,
+      message:"order is not found",
+  })
+}
+  } catch (error) {
+      console.log(error.message);
+      res.json({success:false,error:error.message});
+  }
+}
+
+
+
+const orderstatus = async(req,res)=>{
+  try {
+    const id = req.query.id;
+
+    const orders = await Order.findById({_id:id});
+
+    if(orders.status == 'placed'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'pending'}},
+      );
+      res.redirect("/admin/orders")
+    }
+    if(orders.status == 'pending'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'placed'}}
+      );
+      res.redirect("/admin/orders")
+    }else{
+      res.redirect("/admin/orders")
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+
+
+
+
+
+const ordercancel = async(req,res)=>{
+  try {
+    const id = req.query.id;
+ const orders = await Order.findById({_id:id});
+
+ if(orders){
+  await Order.findByIdAndUpdate(
+    {_id:id},
+    {$set:{status:'cancelled'}},
+  )
+ }
+   res.redirect('/admin/orders');
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+const orderdelivered = async(req,res)=>{
+  try {
+    const id = req.query.id;
+  
+    const orders = await Order.findById({_id:id});
+
+
+    if(orders.status == 'placed'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'delivered'}},
+      )
+    }
+    if(orders.status == 'waiting for approvel'){
+      await Order.findByIdAndUpdate(
+        {_id:id},
+        {$set:{status:'Return Approved'}}
+      )
+      res.redirect('/admin/orders')
+    }else{
+      res.redirect('/admin/orders')
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
