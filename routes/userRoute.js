@@ -20,15 +20,14 @@ userRoute.use(express.urlencoded({ extended: true }));
 
 userRoute.get('/', userController.loadHome)
 // userRoute.get('/home',userAuth.isLogin, userController.afterlogin)
-
 userRoute.get('/userRegister',userAuth.isLogout, userController.loadRegister)
 userRoute.post('/userRegister',userController.verifyRegister)
 
 
 userRoute.get('/verifyotp',userAuth.isLogout, userController.loadOtp)
-userRoute.get('/sentOtp',userController.getSentOtp)
-userRoute.post("/verifyotp", userController.verifyOtp);
-userRoute.post("/resendotp",userController.resentOtp);
+userRoute.get('/sentOtp',userAuth.isLogout, userController.getSentOtp)
+userRoute.post("/verifyotp",userAuth.isLogout, userController.verifyOtp);
+userRoute.post("/resendotp",userAuth.isLogout, userController.resentOtp);
 
 userRoute.get('/userlogin',userAuth.isLogout, userController.loadLogin)
 userRoute.post('/userlogin',userAuth.isLogout, userController.verifyLogin)
@@ -76,6 +75,10 @@ userRoute.get('/ordercomplete',userAuth.isLogin, orderController.orderPlaced);
 
 userRoute.get('/orderdetails', userAuth.isLogin, orderController.orderDetails)
 userRoute.patch('/cancelorder', userAuth.isLogin, orderController.cancelOrder)
+
+
+
+userRoute.get('/changepassword', userAuth.isLogin, userController.changepassword)
 
 
 

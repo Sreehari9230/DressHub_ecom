@@ -59,7 +59,7 @@ const verifyRegister = async (req, res) => {
       res.render("user/Register", { message });
     } else if (exitUser && !exitUser.is_Verified) {
       const message =
-        "Email already registerd but not varified. So send OTP to email and verify the email";
+        "Email already registerd but not varified. So use another email";
       // console.log("Message:", message);
       res.render("user/Register", { message });
     } else {
@@ -122,7 +122,6 @@ const verifyOtp = async (req, res) => {
     console.log("hii", req.body);
     console.log("jkdkljkjk");
     const email = req.body.email;
-    // console.log(email)
     const enteredOtp =
       req.body.one + req.body.two + req.body.three + req.body.four;
 
@@ -130,16 +129,13 @@ const verifyOtp = async (req, res) => {
     console.log(OtpRecord);
 
     if (!OtpRecord) {
-      return res.render("user/verifyotp", { message: `OTP not found`, email });
+      return res.status(400).send({ success: false, message: `OTP not found` });
     }
 
     const expiresAt = OtpRecord.expiresAt;
 
     if (expiresAt < Date.now()) {
-      return res.render("user/verifyotp", {
-        message: "otp expired",
-        email,
-      });
+      return res.status(400).send({ success: false, message: "otp expired" });
     }
 
     const { otp: hashedOTP } = OtpRecord;
@@ -147,11 +143,8 @@ const verifyOtp = async (req, res) => {
     console.log(validOTP);
     if (validOTP) {
       const userData = await User.findOne({ email: email });
-      // console.log(userData);
       if (!userData) {
-        return res
-          .status(400)
-          .json({ success: false, message: "User not found" });
+        return res.status(400).send({ success: false, message: "User not found" });
       }
 
       await User.findByIdAndUpdate(
@@ -164,25 +157,23 @@ const verifyOtp = async (req, res) => {
 
       console.log("hello");
 
-      res.json({ success: true });
-      // res.redirect('user/login')
+      return res.status(200).send({ success: true });
     } else {
-      //JSON RESPONSE FORINVALID OTP
-      return res.status(400).json({ success: false, message: "Invalid OTP" });
+      return res.status(400).send({ success: false, message: "Invalid OTP" });
     }
   } catch (error) {
     console.log("error in otp verification", error.message);
-    //JSON RESPONSE FOR INTERNAL SERVER ERROR
-    return res
-      .status(500)
-      .json({ success: false, message: "internal server error" });
+    return res.status(500).send({ success: false, message: "internal server error" });
   }
 };
+
+
+
 // // //RESENT OTP
 const resentOtp = async (req, res) => {
   try {
-    console.log(req.body);
     const email = req.body.email;
+    console.log(emai);
     const userData = await User.findOne({ email: email });
     await sendOtpVerificationMail(userData, res);
     return res.json({ success: true });
@@ -521,6 +512,15 @@ const editUserdetails = async(req,res)=>{
 }
 
 
+const changepassword = async(req,res)=>{
+  try {
+    res.render('user/changepassword')
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 
 module.exports = {
   loadHome,
@@ -545,4 +545,5 @@ module.exports = {
   loadproductdeatils,
   loadUserDetails,
   editUserdetails,
+  changepassword
 };

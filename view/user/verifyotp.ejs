@@ -399,12 +399,12 @@
         <div class="overflow-hidden">
           <ul class="navigation__list list-unstyled position-relative">
             <li class="navigation__item">
-              <a href="/home" class="navigation__link js-nav-right d-flex align-items-center">Home<svg class="ms-auto"
+              <a href="/" class="navigation__link js-nav-right d-flex align-items-center">Home<svg class="ms-auto"
                   width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
                   <use href="#icon_next_sm"></use>
                 </svg></a>
               <div class="sub-menu position-absolute top-0 start-100 w-100 d-none">
-                <a href="/home" class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
+                <a href="/" class="navigation__link js-nav-left d-flex align-items-center border-bottom mb-2"><svg
                     class="me-2" width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg">
                     <use href="#icon_prev_sm"></use>
                   </svg>Home</a>
@@ -613,7 +613,7 @@
       <nav class="navigation">
         <ul class="navigation__list list-unstyled d-flex">
           <li class="navigation__item">
-            <a href="/home" class="navigation__link">Home</a>
+            <a href="/" class="navigation__link">Home</a>
             <!-- <div class="box-menu" style="width: 600px;">
             </div>/.box-menu -->
           </li>
@@ -767,8 +767,8 @@
         <div id="expirationMessage" style="margin-bottom: 10px; display: none;">
         <span id="countdown" style="display: block; margin-bottom: 20px;"></span>
         <span class="text-secondary">Didn't receive code?</span>
-        <button class="genric-btn success-border radius" type="button" id="resendOTPBtn" style="width: 100%; height: 40px; background-color: #ffffff; color: #000000;border: 1px solid #000000; border-radius: 5px; cursor: pointer;">RESEND OTP</button>
-      </div>
+        <button class="genric-btn success-border radius" type="button" id="resendLink"
+          style="width: 100%; height: 40px; background-color: #ffffff; color: #000000; border: 1px solid #000000; border-radius: 5px; cursor: pointer;">RESEND OTP</button>
 
         <script>
           // Wait for the DOM content to be loaded
@@ -839,7 +839,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener('DOMContentLoaded', function () {
       let countdown = 60;
       const otpForm = document.getElementById('otpForm');
-      const resendButton = document.getElementById('resendOTPBtn');
+      const resendButton = document.getElementById('resendLink');
       const timerDisplay = document.getElementById('timerDisplay');
       const userMessage = document.getElementById('user-message');
       let timer;
@@ -870,17 +870,15 @@ document.addEventListener("DOMContentLoaded", function() {
       startTimer();
 
       resendButton.addEventListener('click', function () {
-        if (countdown <= 0) {
-          fetch('/sendOtp');   
-          countdown = 60;
-          updateTimerDisplay();
-          resendButton.disabled = true;
-          resendButton.classList.remove('afterTimer');
-          userMessage.style.display = 'block';
+    fetch('/sentOtp');
+    countdown = 60; // Reset countdown to 60 seconds
+    updateTimerDisplay(); // Update timer display with the new countdown value
+    resendButton.disabled = true;
+    resendButton.classList.remove('afterTimer');
+    userMessage.style.display = 'block';
 
-          startTimer();
-        }
-      });
+    startTimer(); // Start the timer again
+});
     })
       </script>
     
@@ -927,7 +925,7 @@ document.addEventListener("DOMContentLoaded", function() {
                           errorMessageElement.textContent = data.message;
                       }
                       
-                      // Highlight the invalid OTP input fields (if needed)
+                      // Highlight the invalid OTP input fields (if needed)essageElement
                       const otpInputs = document.querySelectorAll('.otp-input');
                       otpInputs.forEach(input => {
                           input.style.borderColor = 'red';
@@ -955,17 +953,19 @@ document.addEventListener("DOMContentLoaded", function() {
       
               // Make a fetch request to resend OTP
               try {
-                  const response = await fetch('/resend-otp', {
+                  const response = await fetch('/resendotp', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({ email: email }) // Include email in the request body
                   });
-      
+                  console.log(response.ok)
                   if (response.ok) {
+                    
                       // Display success message within the form
                       successMessageElement.textContent = 'OTP resent successfully';
+                      console.log(successMessageElement.textContent);
                   } else {
                       // Handle error response
                       console.error('Failed to resend OTP');

@@ -91,8 +91,7 @@
                       <a href="/productdetails?id=<%= product[i]._id %>"><img loading="lazy" src="productImages/<%= product[i].Image[0]%>" width="330" height="400" alt="Product image" class="pc__img"></a>
                     </div><!-- /.pc__img-wrapper -->
                   </div>
-                  <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_prev_sm"></use></svg></span>
-                  <span class="pc__img-next"><svg width="7" height="11" viewBox="0 0 7 11" xmlns="http://www.w3.org/2000/svg"><use href="#icon_next_sm"></use></svg></span>
+                  
                 </div>
                 <!-- <button class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button> -->
               </div>
@@ -134,12 +133,26 @@
         
 
         <div class="mb-4 mb-xl-5"></div>
+        <div class="container" id="pagination">
+        <div class="pagination-area mt-15 mb-50">
+          <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-start">
+                <%# for(let j=1; j<=totalPages; j++){ %> 
+                      <li class="page-item">
+                          <a class="page-link" href="">1</a>
+                      </li>
+                 <%# } %>       
+              </ul>
+          </nav>
+      </div>
+    </div>
     </section><!-- /.shop-main container -->
   </main>
 
   <div class="mb-5 pb-xl-5"></div>
 
   <!-- sort -->
+
   <script>
     document.getElementById('sortForm').addEventListener('submit', function(event) {
       event.preventDefault(); 
@@ -167,6 +180,13 @@
       window.location.href = searchUrl; 
     });
   </script>
+  <style>
+    .container #pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  </style>
 
 
 

@@ -267,6 +267,11 @@
                                     <div class="d-grid">
                                         <button class="btn btn-primary">Edit category</button>
                                     </div>
+                                    <% if (typeof messages !== 'undefined' && messages.message) { %>
+                                        <h5 style="color: red; text-align: center;">
+                                            <%= messages.message %>
+                                        </h5>
+                                    <% } %>
                                 </form>
                             </div>
                             

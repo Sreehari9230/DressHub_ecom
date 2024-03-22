@@ -203,6 +203,10 @@ const loadCheckout = async(req,res)=>{
     const address = await Address.findOne({user:userIn})
     console.log(address);
     console.log('two');
+    if(!address){
+      console.log('redirecting')
+      res.redirect('/addaddress')
+    }
 
     const cartdata = await Cart.findOne({ user:userIn }).populate({
       path:"product.productId",

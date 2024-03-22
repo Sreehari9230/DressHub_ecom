@@ -1267,3 +1267,62 @@ const orderdelivered = async(req,res)=>{
     console.log(error);
   }
 }
+
+
+
+const editCategory = async (req, res) => {
+  try {
+    const categoryId = req.query.id;
+   
+    const category = await Categories.findOne({ _id: categoryId });
+
+  
+
+    res.render("admin/editcategory", { category });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+
+
+
+const editedCategory = async (req, res) => {
+  try {
+    const id = req.body.categoryid;
+    const name = req.body.categoryName;
+    const description = req.body.categoryDescription;
+
+    const existingCategory = await Categories.findOne({ name: name });
+
+    if (existingCategory && existingCategory._id.toString() !== id) {
+      return res.render("admin/editcategory", {
+        category: {},
+        messages: { message: "This category already exists" },
+      });
+    }
+
+    const updatedCategory = await Categories.findByIdAndUpdate(
+      id,
+      {
+        name: name,
+        description: description,
+      },
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      return res.render("admin/editcategory", {
+        category: {},
+        messages: { message: "Category not found" },
+      });
+    }
+
+    res.redirect("/admin/category");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal server error");
+  }
+};
