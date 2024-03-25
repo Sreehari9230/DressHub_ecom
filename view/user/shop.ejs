@@ -40,7 +40,7 @@
         <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
           <form id="sortForm" method="GET">
             <select id="sortSelect" class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="sort">
-              <option selected value="0">Default Sorting</option>
+              <option  value="0">Default Sorting</option>
               <!-- <option value="1">Featured</option>
               <option value="2">Best selling</option> -->
               <option value="3">Alphabetically, A-Z</option>
@@ -78,7 +78,7 @@
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4" id="products-grid-1">
           <% if(product.length > 0){ %>
             <% for(let i=0;i<product.length;i++){ %>
-              <% if(product[i].is_Listed == true && product[i].category.is_Listed==0 ){ %>
+              <% if(product[i].is_Listed == true && product[i].category.is_Listed== 1 ){ %>
           <div class="product-card-wrapper">
             <div class="product-card mb-3 mb-md-4 mb-xxl-5">
               <div class="pc__img-wrapper">

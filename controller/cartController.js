@@ -235,7 +235,7 @@ const loadCheckout = async(req,res)=>{
       "product.productId": productId, 
     });
 
-    res.render('user/checkout',{cartdata,addresses,subtotal})
+    res.render('user/checkout',{cartdata,addresses,subtotal,userIn})
   } catch (error) {
     
   }

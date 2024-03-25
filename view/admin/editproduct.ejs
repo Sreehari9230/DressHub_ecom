@@ -314,7 +314,7 @@
                                             <% for(let i=0;i < Datas.Image.length;i++) { %>
                                                 <div class="image-container" id="pdtImage_<%= i %>">
                                                     <img src="/productImages/<%= Datas.Image[i] %>" alt="product Image" width="100" height="100">
-                                                    <button style="background-color: red;" onclick="deleteImage(event,'<%= Datas.Image[i] %>', '<%= Datas._id %>', '<%= i %>')">Delete</button>
+                                                    <button class="btn btn-sm font-sm btn-light rounded" style="background-color: red;" onclick="deleteImage(event,'<%= Datas.Image[i] %>', '<%= Datas._id %>', '<%= i %>')">Delete</button>
                                                 </div>
                                             <% } %>
                                         <% } else { %>
@@ -399,27 +399,33 @@
     </script>      -->
     <script>
         async function deleteImage(event, img, prdtid, index) {
-            console.log('function is getting called');
-   event.preventDefault();
+    event.preventDefault(); // Prevent default action of the button click
 
-   try {
-       await fetch("/admin/deleteimage", {
-           method: "DELETE",
-           headers: { 'Content-Type': "application/json" },
-           body: JSON.stringify({ img, prdtid }),
-       });
+    try {
+        // Send a DELETE request to the server to delete the image
+        const response = await fetch("/admin/deleteimage", {
+            method: "DELETE",
+            headers: { 'Content-Type': "application/json" },
+            body: JSON.stringify({ img, prdtid }),
+        });
 
-       // Remove the image container
-       const imageContainer = document.getElementById(`pdtImage_${index}`);
-       if (imageContainer) {
-           imageContainer.remove();
-       }
+        if (!response.ok) {
+            throw new Error('Failed to delete image');
+        }
 
-       // Display the input box for uploading new images
-       document.getElementById('inputBoxContainer').style.display = 'block';
-   } catch (error) {
-       console.log("this is sthe error Error", error);
-   }
+        // Remove the image container from the DOM
+        const imageContainer = document.getElementById(`pdtImage_${index}`);
+        if (imageContainer) {
+            imageContainer.remove();
+        } else {
+            console.log(`Image container with index ${index} not found`);
+        }
+
+        // Display the input box for uploading new images
+        document.getElementById('inputBoxContainer').style.display = 'block';
+    } catch (error) {
+        console.error("An error occurred while deleting the image:", error);
+    }
 }
        </script>
 
@@ -448,7 +454,7 @@
             document.getElementById('productDescriptionError').innerText = 'Description is required';
             isValid = false;
           } else {
-            document.getElementById('productDescriptionError').innerText = '';
+            document.getElementById('productDescriptionError').innerText = 'cbcbc';
           }
       
       

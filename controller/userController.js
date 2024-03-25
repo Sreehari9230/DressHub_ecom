@@ -424,11 +424,11 @@ const loadShop = async (req, res) => {
         break;
       case "7":
         // Date, old to new
-        sortOption = { date: 1 };
+        sortOption = { date: -1 };
         break;
       case "8":
         // Date, new to old
-        sortOption = { date: -1 };
+        sortOption = { date: 1 };
         break;
       default:
         // Default Sorting
@@ -489,27 +489,31 @@ const loadUserDetails = async(req,res)=>{
   }
 }
 
-const editUserdetails = async(req,res)=>{
+const editUserdetails = async (req, res) => {
   try {
-    const name  = req.body.Fullname
-    const email = req.body.Email
-    const mobile = req.body.mobile
+    const name = req.body.Fullname;
+    const email = req.body.Email;
+    const mobile = req.body.mobile;
 
-    const userId = req.session.userId
+    const userId = req.session.userId;
 
-    const existEmail = await User.findOne({email:email})
-    if(existEmail){
-      await User.findOne({_id:userId},{$set:{
-        name:name,
-        mobile:mobile,
-        email:email
-      }})
+    const existEmail = await User.findOne({ email: email });
+    if (existEmail) {
+      await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          name: name,
+          mobile: mobile,
+          email: email
+        }
+      );
     }
-    res.json({status:true})
+    res.json({ status: true });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ status: false, error: "Failed to update user details." });
   }
-}
+};
 
 
 const changepassword = async(req,res)=>{

@@ -10,7 +10,7 @@ const CategoryModel = new mongoose.Schema({
     },
      is_Listed: {
         type: Number,
-        default: 0,
+        default: 1,
     },
 })
 

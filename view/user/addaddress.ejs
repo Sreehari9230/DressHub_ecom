@@ -16,14 +16,14 @@
                     <div class="col-md-3">
                       <div class="form-floating my-3">
                         <input type="text" class="form-control" id="AddFname" name="firstName" placeholder="Fname" required>
-                        <label for="checkout_first_name">First Name</label>
+                        <label for="AddFname">First Name</label>
                         <div id="FnameMessage" style="color: red;"></div>
                       </div>
                     </div>
                     <div class="col-md-3">
                       <div class="form-floating my-3">
                         <input type="text" class="form-control" id="AddLname" name="lastName" placeholder="Name" required>
-                        <label for="checkout_last_name">Last Name</label>
+                        <label for="AddLname">Last Name</label>
                         <div id="LnameMessage" style="color: red;"></div>
                       </div>
                     </div>
@@ -32,13 +32,13 @@
                     <div class="col-md-6">
                       <div class="form-floating mt-3 mb-3">
                         <input type="tel" class="form-control" id="AddMobile" name="mobileNumber" placeholder="Mobile Number" required>
-                        <label for="checkout_company_name">Phone *</label>
+                        <label for="AddMobile">Phone *</label>
                         <div id="MobileMessage" style="color: red;"></div>
                         <small class="text-muted">This number will be used for delivery.</small>
                       </div>
                       <div class="form-floating mt-3 mb-3">
                         <input  name="email" type="email" class="form-control" id="AddEmail" placeholder="Email *">
-                        <label for="checkout_company_name">Email*</label>
+                        <label for="AddEmail">Email*</label>
                         <div id="EmailMessage" style="color: red;"></div>
                       </div>
                       <div class="col-md-12">
@@ -63,7 +63,7 @@
                         <label class="form-check-label" for="default_address">Set as Default Address</label>
                     </div> -->
     
-                      <button class="btn btn-primary w-100 text-uppercase" type="submit" >Add</button>
+                      <button class="btn btn-primary w-100 text-uppercase" type="submit" >Add Address</button>
     
     
                     </div>
@@ -82,85 +82,103 @@
 
 
   </body>
+  <script>
+    function validateForm() {
+  // Your validation checks go here
+  var firstName = document.getElementById('AddFname').value.trim();
+  if (!firstName) {
+    document.getElementById('FnameMessage').innerHTML = "First name cannot be empty or just spaces";
+    return false;
+  }
+  
+  // Other validation checks go here
+  return true;
+}
+  </script>
 
   <script>
     function validateForm() {
-        // Get the values of form inputs
-        var firstName = document.getElementById('AddFname').value.trim();
-        var lastName = document.getElementById('AddLname').value.trim();
-        var mobile = document.getElementById('AddMobile').value.trim();
-        var email = document.getElementById('AddEmail').value.trim();
-        var address = document.getElementById('AddAddress').value.trim();
-        var city = document.getElementById('AddCity').value.trim();
-        var pin = document.getElementById('AddPost').value.trim();
+    // Reset error messages
+    document.getElementById('FnameMessage').innerHTML = ''
+    document.getElementById('LnameMessage').innerHTML = ''
+    document.getElementById('MobileMessage').innerHTML = ''
+    document.getElementById('EmailMessage').innerHTML = ''
+    document.getElementById('AddressMessage').innerHTML = ''
+    document.getElementById('CityMessage').innerHTML = ''
+    document.getElementById('PostMessage').innerHTML = ''
 
-        // Get the elements to display validation messages
-        var firstNameMessage = document.getElementById('FnameMessage');
-        var lastNameMessage = document.getElementById('LnameMessage');
-        var mobileMessage = document.getElementById('MobileMessage');
-        var emailMessage = document.getElementById('EmailMessage');
-        var addressMessage = document.getElementById('AddressMessage');
-        var cityMessage = document.getElementById('CityMessage');
-        var pinMessage = document.getElementById('PostMessage');
 
-        // Check if the first name value is only spaces
-        if (!firstName) {
-            firstNameMessage.innerHTML = "First name cannot be empty or just spaces";
-            return false;
-        } else {
-            firstNameMessage.innerHTML = ""; // Clear previous messages
-        }
+    // Get the values of form inputs
+    var firstName = document.getElementById('AddFname').value.trim();
+    var lastName = document.getElementById('AddLname').value.trim();
+    var mobile = document.getElementById('AddMobile').value.trim();
+    var email = document.getElementById('AddEmail').value.trim();
+    var address = document.getElementById('AddAddress').value.trim();
+    var city = document.getElementById('AddCity').value.trim();
+    var pin = document.getElementById('AddPost').value.trim();
 
-        // Check if the last name value is only spaces
-        if (!lastName) {
-            lastNameMessage.innerHTML = "Last name cannot be empty or just spaces";
-            return false;
-        } else {
-            lastNameMessage.innerHTML = ""; // Clear previous messages
-        }
 
-        // Check if the mobile number value is only spaces or contains non-numeric characters
-        if (!mobile || !/^\d+$/.test(mobile)) {
-            mobileMessage.innerHTML = "Mobile number should be a valid number";
-            return false;
-        } else {
-            mobileMessage.innerHTML = ""; // Clear previous messages
-        }
 
-        // Check if the email value is empty or not a valid email format
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            emailMessage.innerHTML = "Please enter a valid email address";
-            return false;
-        } else {
-            emailMessage.innerHTML = ""; // Clear previous messages
-        }
-
-        // Check if the address value is only spaces
-        if (!address) {
-            addressMessage.innerHTML = "Address cannot be empty or just spaces";
-            return false;
-        } else {
-            addressMessage.innerHTML = ""; // Clear previous messages
-        }
-
-        // Check if the city value is only spaces
-        if (!city) {
-            cityMessage.innerHTML = "City cannot be empty or just spaces";
-            return false;
-        } else {
-            cityMessage.innerHTML = ""; // Clear previous messages
-        }
-
-        // Check if the PIN value is only spaces or contains non-numeric characters
-        if (!pin || !/^\d+$/.test(pin)) {
-            pinMessage.innerHTML = "PIN should be a valid number";
-            return false;
-        } else {
-            pinMessage.innerHTML = ""; // Clear previous messages
-        }
-
-        return true; // Allow the form submission
+    // Check if the first name value is only spaces
+    if (!firstName) {
+      // document.getElementById('FnameMessage').innerHTML = "First name cannot be empty or just spaces";
+      document.getElementById('FnameMessage').innerHTML = "First name cannot be empty or just spaces";
+        return false;
+    } else {
+        firstNameMessage.innerHTML = "dsdfsdfsdf"; // Clear previous messages
     }
+
+    // Check if the last name value is only spaces
+    if (!lastName) {
+        lastNameMessage.innerHTML = "Last name cannot be empty or just spaces";
+        return false;
+    } else {
+        lastNameMessage.innerHTML = ""; // Clear previous messages
+    }
+
+    // Check if the mobile number value is only spaces or contains non-numeric characters
+    if (!mobile || !/^\d+$/.test(mobile)) {
+        mobileMessage.innerHTML = "Mobile number should be a valid number";
+        return false;
+    } else {
+        mobileMessage.innerHTML = ""; // Clear previous messages
+    }
+
+    // Check if the email value is empty or not a valid email format
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        emailMessage.innerHTML = "Please enter a valid email address";
+        return false;
+    } else {
+        emailMessage.innerHTML = ""; // Clear previous messages
+    }
+
+    // Check if the address value is only spaces
+    if (!address) {
+        addressMessage.innerHTML = "Address cannot be empty or just spaces";
+        return false;
+    } else {
+        addressMessage.innerHTML = ""; // Clear previous messages
+    }
+
+    // Check if the city value is only spaces
+    if (!city) {
+        cityMessage.innerHTML = "City cannot be empty or just spaces";
+        return false;
+    } else {
+        cityMessage.innerHTML = "lkjhgfdsa"; // Clear previous messages
+    }
+
+    // Check if the PIN value is only spaces or contains non-numeric characters
+    if (!pin || !/^\d+$/.test(pin)) {
+        pinMessage.innerHTML = "PIN should be a valid number";
+        return false;
+    } else {
+        pinMessage.innerHTML = ""; // Clear previous messages
+    }
+
+    return true; // Allow the form submission
+}
+
 </script>
 
 

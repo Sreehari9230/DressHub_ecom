@@ -275,9 +275,9 @@
                                                     
                                                     <div class="dropdown">
                                                         <% if (Category[i].is_Listed == 1) { %>
-                                                            <a href="/admin/categoryList?id=<%= Category[i]._id %>" class="btn btn-sm font-sm rounded btn-brand" style="background-color: red;"> <i>UnList</i> </a>
+                                                            <a href="/admin/categoryUnList?id=<%= Category[i]._id %>" class="btn btn-sm font-sm rounded btn-brand" style="background-color: red;"> <i>UnList</i> </a>
                                                         <% } else { %>
-                                                            <a href="/admin/categoryUnList?id=<%= Category[i]._id %>" class="btn btn-sm font-sm rounded btn-brand" style="background-color: #3bb77e;"> <i>List</i> </a> 
+                                                            <a href="/admin/categoryList?id=<%= Category[i]._id %>" class="btn btn-sm font-sm rounded btn-brand" style="background-color: #3bb77e;"> <i>List</i> </a> 
                                                         <% } %>       
                                                             
                                                         <!-- <div class="dropdown-menu">

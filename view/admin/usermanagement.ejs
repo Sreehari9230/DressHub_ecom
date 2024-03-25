@@ -510,17 +510,16 @@
                     </nav>
                 </div> -->
                 <!-- Pagination area -->
-<div class="pagination-area mt-15 mb-50">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-start">
-            <% for(let j=1; j<=totalPages; j++){ %>
-                <li class="page-item <%= currentPage == j ? 'active' : '' %>">
-                    <a class="page-link" href="?page=<%= j %>&search=<%= search %>"><%= j %></a>
-                </li>
-            <% } %>
-        </ul>
-    </nav>
-</div>
+                <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% for(let j=1; j<=totalPages; j++){ %>
+                                <li class="page-item <%= currentPage == j ? 'active' : '' %>">
+                                <a class="page-link" href="?page=<%= j %>&search=<%= search %>"><%= j %></a>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
                    
             </section>            <!-- content-main end// -->
             <footer class="main-footer font-xs">

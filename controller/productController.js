@@ -80,7 +80,7 @@ const listproduct = async (req, res) => {
   }
 };
 
-const unlistedproduct = async (req, res) => {
+const unlistproduct = async (req, res) => {
   try {
     const productId = req.body.id;
     console.log(productId, "asdfghj");
@@ -242,7 +242,7 @@ module.exports = {
   loadAddproduct,
   AddProduct,
   listproduct,
-  unlistedproduct,
+  unlistproduct,
   deleteProduct,
   LoadEditProduct,
   editProduct,

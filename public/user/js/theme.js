@@ -1137,7 +1137,7 @@ function pureFadeOut(e) {
 
   class Uomo {
     constructor() {
-      this.initCookieConsient();
+      // this.initCookieConsient();
       this.initAccessories();
       this.initMultiSelect();
       this.initBsTooltips();

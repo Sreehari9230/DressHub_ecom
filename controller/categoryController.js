@@ -142,7 +142,7 @@ const loadcategory = async (req, res) => {
     try {
       await category.findByIdAndUpdate(
         { _id: req.query.id },
-        { $set: { is_Listed: 0 } }
+        { $set: { is_Listed: 1 } }
       );
     
       res.redirect("/admin/category");
@@ -156,7 +156,7 @@ const loadcategory = async (req, res) => {
     try {
       await category.findByIdAndUpdate(
         { _id: req.query.id },
-        { $set: { is_Listed: 1 } }
+        { $set: { is_Listed: 0 } }
       );
       res.redirect("/admin/category");
     } catch (error) {

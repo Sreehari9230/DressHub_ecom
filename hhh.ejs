@@ -1913,3 +1913,194 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+<!-- Edit product -->
+
+<form class="forms-sample" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+  <div class="form-group">
+    <label for="exampleInputName1">Product Name</label>
+    <input type="hidden" class="form-control" name="id" value="<%=Datas.id %>">
+    <input type="text" class="form-control" name="productName" id="exampleInputName1"
+      placeholder="Product Name" value="<%= Datas.name %>">
+    <div id="productError" class="text-danger"></div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail3">Description</label>
+    <input type="text" class="form-control" name="description" id="exampleInputEmail3"
+      placeholder="Description" value="<%= Datas.description %>">
+    <div id="productDescriptionError" class="text-danger"></div>
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity</label>
+    <input type="number" class="form-control" name="quantity" id="product_qty" placeholder="Quantity"
+      value="<%= Datas.quantity %>">
+    <div id="quantityError" class="text-danger"></div>
+  </div>
+  <div class="form-group">
+    <label for="price">Price</label>
+    <input type="number" class="form-control" name="price" id="product_price" placeholder="Price"
+      value="<%= Datas.price %>">
+    <div id="priceError" class="text-danger"></div>
+  </div>
+
+
+  <div class="form-group">
+    <label>File upload</label>
+    <% if(Datas.Image && Array.isArray(Datas.Image) && Datas.Image.length > 0) { %>
+        <% for(let i=0;i < Datas.Image.length;i++) { %>
+            <div class="image-container" id="pdtImage_<%= i %>">
+                <img src="/productImage/<%= Datas.Image[i] %>" alt="product Image" width="100" height="100">
+                <button style="background-color: red;" onclick="deleteImage(event,'<%= Datas.Image[i] %>', '<%= Datas._id %>', '<%= i %>')">Delete</button>
+            </div>
+        <% } %>
+    <% } else { %>
+        <p>No Images Available</p>
+    <% } %>
+    <div id="inputBoxContainer" style="display: none;">
+      
+        <div class="mb-3" id="hiddenInputBox" style="display: none;">
+            <input type="file" name="image" class="form-control bg-dark text-white file-upload-info" placeholder="Upload Image" style="margin-top: 5%;" multiple>
+        </div>
+    </div>
+</div>
+
+
+  <div class="form-group">
+    <label for="exampleInputCity1">Category</label>
+    <select class="form-control" name="categories" id="exampleInputCity1">
+      <option value="">Select Category</option>
+      <% productData.forEach(product=> { %>
+        <option value="<%= product.name %>">
+          <%= product.name %>
+        </option>
+        <% }) %>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary mr-2">Submit</button>
+  <button class="btn btn-dark"><a href="/admin/products">Cancel</a></button>
+</form>
+
+
+
+<!-- script -->
+<script>
+  async function deleteImage(event, img, prdtid, index) {
+     event.preventDefault();
+ 
+     try {
+         await fetch("/admin/deleteimage", {
+             method: "DELETE",
+             headers: { 'Content-Type': "application/json" },
+             body: JSON.stringify({ img, prdtid }),
+         });
+ 
+      
+         const imageContainer = document.getElementById(`pdtImage_${index}`);
+         if (imageContainer) {
+             imageContainer.remove();
+         }
+ 
+       
+         document.getElementById('inputBoxContainer').style.display = 'block';
+         
+       
+         const hiddenInputBox = document.getElementById('hiddenInputBox');
+         const clonedInputBox = hiddenInputBox.cloneNode(true);
+         clonedInputBox.style.display = 'block';
+         document.getElementById('inputBoxContainer').appendChild(clonedInputBox);
+     } catch (error) {
+         console.log("Error", error);
+     }
+ }
+ </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function validateForm() {
+    // Reset error messages
+    document.getElementById('nameError').innerHTML = '';
+    document.getElementById('emailError').innerHTML = '';
+    document.getElementById('mobileError').innerHTML = '';
+    document.getElementById('passwordError').innerHTML = '';
+    document.getElementById('confirmPasswordError').innerHTML = '';
+
+    // Get form values
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var mobileNumber = document.getElementById('mobileNumber').value.trim();
+    var password = document.getElementById('password').value;
+    var confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Validate name
+    if (name === '') {
+        document.getElementById('nameError').innerHTML = 'Username is required';
+        return false;
+    }
+
+    // Validate email
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        document.getElementById('emailError').innerHTML = 'Invalid email address';
+        return false;
+    }
+
+    // Validate mobile number
+    var mobileRegex = /^\d+$/;
+    if (mobileNumber === '') {
+        document.getElementById('mobileError').innerHTML = 'Mobile number is required';
+        return false;
+    } else if (!mobileRegex.test(mobileNumber)) {
+        document.getElementById('mobileError').innerHTML = 'Mobile number should contain only numbers';
+        return false;
+    }
+
+    // Validate password length and special character
+    var passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[a-zA-Z0-9]).{6,}$/;
+    if (password.length < 6 || !passwordRegex.test(password)) {
+        document.getElementById('passwordError').innerHTML = 'Password must be at least 6 characters long and contain at least one special character';
+        return false;
+    }
+
+    // Validate password match
+    // if (password !== confirmPassword) {
+    //     document.getElementById('confirmPasswordError').innerHTML = 'Passwords do not match';
+    //     return false;
+    // }
+
+    // If all validations pass, return true to submit the form
+    return true;
+}
+
+</script>
