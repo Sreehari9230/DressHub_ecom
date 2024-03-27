@@ -385,6 +385,7 @@ const userDashboard = async (req, res) => {
 //load shop
 const loadShop = async (req, res) => {
   try {
+    const userIn = req.session.userId
       // Get the page number from the query parameter, default to page 1
       const page = parseInt(req.query.page) || 1;
 
@@ -466,7 +467,7 @@ const loadShop = async (req, res) => {
       const categories = await category.find({});
 
       // Render the page with products, filtered products, categories, total pages, and current page
-      res.render("user/shop", { product, filterproducts, categories, totalPages, currentPage: page });
+      res.render("user/shop", { product, filterproducts, categories, totalPages, currentPage: page, userIn });
   } catch (error) {
       console.log(error.message);
   }
