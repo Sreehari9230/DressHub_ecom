@@ -255,6 +255,7 @@
                                         <th>PaymentMethod</th>
                                         <th>Status</th>
                                         <th class="action-column">Actions</th>
+                                        <th>View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -332,10 +333,14 @@
                                             
                                           ) { %>
                                             <a href="/admin/orderdelivered?id=<%= Orders[i]._id%>">
-                                              <span class="btn-primary">Approve</span>
+                                              <span class="btn btn-sm font-sm rounded btn-brand">Approve</span>
                                           </a>
                                           <% } %>
                                           </td>
+                                          <td>
+                                            <span class="btn btn-sm font-sm rounded btn-brand">View Details</span>
+                                            </td>
+                                          
                                          
                                         </tr>
                                         <% } %>

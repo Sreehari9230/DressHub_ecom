@@ -385,84 +385,95 @@ const userDashboard = async (req, res) => {
 //load shop
 const loadShop = async (req, res) => {
   try {
-    let query = { is_Listed: true };
-    const userIn = req.session.userId;
-    if(req.query.category) {
-      query.category = req.query.category
-      console.log('lol', req.query.category); 
-    }
-    // const [product, categories] = await Promise.all([
-    //   products.find(),
-    //   category.find(),
-    // ]);
+      // Get the page number from the query parameter, default to page 1
+      const page = parseInt(req.query.page) || 1;
 
-    let sortOption = {};
+      // Number of products per page
+      const limit = 1;
+
+      // Define the query object to filter products
+      let query = { is_Listed: true };
+
+      // If a category filter is applied, add it to the query
+      if (req.query.category) {
+          query.category = req.query.category;
+      }
+
+      // If a search query is provided, add it to the query
+      if (req.query.search) {
+          query.$or = [
+              { name: { $regex: req.query.search, $options: 'i' } }, // Case-insensitive search on product name
+              { description: { $regex: req.query.search, $options: 'i' } } // Case-insensitive search on product description
+          ];
+      }
+
+      // Define the sort option based on the selected sort parameter
+      let sortOption = {};
       switch (req.query.sort) {
-      case "1":
-        // Featured
-        sortOption = { };
-        break;
-      case "2":
-        // Best selling
-        sortOption = { };
-        break;
-      case "3":
-        // Alphabetically, A-Z
-        sortOption = { name: 1 };
-        break;
-      case "4":
-        // Alphabetically, Z-A
-        sortOption = { name: -1 };
-        break;
-      case "5":
-        // Price, low to high
-        sortOption = { price: 1 };
-        break;
-      case "6":
-        // Price, high to low
-        sortOption = { price: -1 };
-        break;
-      case "7":
-        // Date, old to new
-        sortOption = { date: -1 };
-        break;
-      case "8":
-        // Date, new to old
-        sortOption = { date: 1 };
-        break;
-      default:
-        // Default Sorting
-        break;
-    }
+          case "1":
+              // Featured
+              sortOption = {};
+              break;
+          case "2":
+              // Best selling
+              sortOption = {};
+              break;
+          case "3":
+              // Alphabetically, A-Z
+              sortOption = { name: 1 };
+              break;
+          case "4":
+              // Alphabetically, Z-A
+              sortOption = { name: -1 };
+              break;
+          case "5":
+              // Price, low to high
+              sortOption = { price: 1 };
+              break;
+          case "6":
+              // Price, high to low
+              sortOption = { price: -1 };
+              break;
+          case "7":
+              // Date, old to new
+              sortOption = { date: -1 };
+              break;
+          case "8":
+              // Date, new to old
+              sortOption = { date: 1 };
+              break;
+          default:
+              // Default Sorting
+              break;
+      }
 
-    if (req.query.searchKeyword) {
-      const searchQuery = req.query.searchKeyword;
-      query.name = { $regex: searchQuery, $options: "i" }; // Case-insensitive search
-  }
+      // Count total number of products matching the query
+      const totalProducts = await products.countDocuments(query);
 
-    const product = await products.find(query).populate("category").sort(sortOption);
-    const filterproducts = product.filter(product => product.category && product.category.is_Listed);
+      // Calculate total number of pages
+      const totalPages = Math.ceil(totalProducts / limit);
 
+      // Calculate number of products to skip based on current page and limit
+      const skip = (page - 1) * limit;
 
-    const categories = await category.find({});
+      // Fetch products based on query, sort option, skip, and limit
+      const product = await products.find(query).populate("category").sort(sortOption).skip(skip).limit(limit);
 
-    res.render("user/shop", { product, filterproducts, categories, userIn });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+      // Filter products to ensure category is listed
+      const filterproducts = product.filter(product => product.category && product.category.is_Listed);
 
-const searchProducts = async (req, res) => {
-  try {
-      const query = req.query.searchKeyword;
-      const productsdetails = await products.find({ name: { $regex: query, $options: "i" } }).populate("category");
+      // Fetch all categories
       const categories = await category.find({});
-      res.render("user/shop", { productsdetails, categories, user: req.session.userId });
+
+      // Render the page with products, filtered products, categories, total pages, and current page
+      res.render("user/shop", { product, filterproducts, categories, totalPages, currentPage: page });
   } catch (error) {
       console.log(error.message);
-      res.status(500).send("Internal Server Error");
   }
 };
+
+
+
 
 const loadproductdeatils = async (req, res) => {
   try {

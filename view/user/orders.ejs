@@ -139,46 +139,46 @@
  }
  
  
-//    function returnOrder(orderId) {
-//    console.log("the order id is getting", orderId);
-//    Swal.fire({
-//      title: "Are you sure?",
-//      text: "You won't be able to revert this!",
-//      icon: "warning",
-//      showCancelButton: true,
-//      confirmButtonColor: "#3085d6",
-//      cancelButtonColor: "#d33",
-//      confirmButtonText: "Yes, Do it!",
-//      cancelButtonText: "Cancel",
-//    }).then((result) => {
-//      if (result.isConfirmed) {
-//        fetch('/return', {
-//            method: 'POST',
-//            headers: {
-//              'Content-Type': 'application/json'
-//            },
-//            body: JSON.stringify({
-//              orderId: orderId
-//            })
-//          })
-//          .then((response) => response.json())
-//          .then((response) => {
-//            if (response.datelimit) {
-//              Swal.fire({
-//                icon: 'error',
-//                title: 'Oops...',
-//                text: 'Return Date expired'
-//              })
-//            } else if (response.return) {
-//              location.reload();
-//            }
-//          })
-//          .catch((error) => {
-//            console.error("error occurred in fetch:", error.message)
-//          })
-//      }
-//    })
-//  }
+   function returnOrder(orderId) {
+   console.log("the order id is getting", orderId);
+   Swal.fire({
+     title: "Are you sure?",
+     text: "You won't be able to revert this!",
+     icon: "warning",
+     showCancelButton: true,
+     confirmButtonColor: "#3085d6",
+     cancelButtonColor: "#d33",
+     confirmButtonText: "Yes, Do it!",
+     cancelButtonText: "Cancel",
+   }).then((result) => {
+     if (result.isConfirmed) {
+       fetch('/return', {
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({
+             orderId: orderId
+           })
+         })
+         .then((response) => response.json())
+         .then((response) => {
+           if (response.datelimit) {
+             Swal.fire({
+               icon: 'error',
+               title: 'Oops...',
+               text: 'Return Date expired'
+             })
+           } else if (response.return) {
+             location.reload();
+           }
+         })
+         .catch((error) => {
+           console.error("error occurred in fetch:", error.message)
+         })
+     }
+   })
+ }
  
  </script>
 

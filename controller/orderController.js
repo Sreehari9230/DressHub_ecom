@@ -175,10 +175,33 @@ const cancelOrder = async(req,res)=>{
   }
 }
 
+const returnOrder = async (req,res)=>{
+  try {
+    const userId = req.session.userId
+    const orderId = req.body.orderId
+
+    const orders = await Order.findById({_id:orderId})
+
+    if(Date.now()>orders.expiredate){
+      res.json({datelimit:true});
+    }else{
+      await Order.findByIdAndUpdate(
+        {_id:orderId},
+        {$set:{status:'waiting for approvel'}}
+        );
+      res.json({return:true})
+  }
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+
   module.exports = {
     loadOrderlist,
     placeOrder,
     orderPlaced,
     orderDetails,
-    cancelOrder
+    cancelOrder,
+    returnOrder
   }

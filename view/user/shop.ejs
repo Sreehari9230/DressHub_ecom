@@ -40,19 +40,33 @@
         <div class="shop-acs d-flex align-items-center justify-content-between justify-content-md-end flex-grow-1">
           <form id="sortForm" method="GET">
             <select id="sortSelect" class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Sort Items" name="sort">
-              <option  value="0">Default Sorting</option>
-              <!-- <option value="1">Featured</option>
-              <option value="2">Best selling</option> -->
-              <option value="3">Alphabetically, A-Z</option>
-              <option value="4">Alphabetically, Z-A</option>
-              <option value="5">Price, low to high</option>
-              <option value="6">Price, high to low</option>
-              <option value="7">Date, old to new</option>
-              <option value="8">Date, new to old</option>
+                <option value="0">Default Sorting</option>
+                <!-- <option value="1">Featured</option>
+                <option value="2">Best selling</option> -->
+                <option value="3">Alphabetically, A-Z</option>
+                <option value="4">Alphabetically, Z-A</option>
+                <option value="5">Price, low to high</option>
+                <option value="6">Price, high to low</option>
+                <option value="7">Date, old to new</option>
+                <option value="8">Date, new to old</option>
             </select>
-          </form>
+        </form>
 
           <div class="shop-asc__seprator mx-3 bg-light d-none d-md-block order-md-0"></div>
+          
+          <form id="filterForm" method="GET">
+            <select id="categorySelect" class="shop-acs__select form-select w-auto border-0 py-0 order-1 order-md-0" aria-label="Filter Items by Category" name="category">
+                <option value="" >All Categories</option>
+                
+              
+                <% categories.forEach(category => { %>
+                    <option value="<%= category._id %>"><%= category.name %></option>
+                <% }); %>
+            </select>
+        </form>
+        
+       
+
 
           <!-- <div class="col-size align-items-center order-1 d-none d-lg-flex">
             <span class="text-uppercase fw-medium me-2">View</span>
@@ -64,15 +78,18 @@
           <!-- <div class="shop-asc__seprator mx-3 bg-light d-none d-lg-block order-md-1"></div> -->
 
           <div class="shop-filter d-flex align-items-center order-0 order-md-3">
-            <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside" data-aside="shopFilter">
+            <!-- <button class="btn-link btn-link_f d-flex align-items-center ps-0 js-open-aside" data-aside="shopFilter">
               <svg class="d-inline-block align-middle me-2" width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg"><use href="#icon_filter"></use></svg>
               <span class="text-uppercase fw-medium d-inline-block align-middle">Filter</span>
-            </button>
+            </button> -->
           </div><!-- /.col-size d-flex align-items-center ms-auto ms-md-3 -->
         </div><!-- /.shop-acs -->
       </div><!-- /.d-flex justify-content-between -->
+
+      <!-- filter -->
       
-      <div class="products-grid">
+      
+      <div class="products-grid" id="products-grid">
         
         <!-- <h2 class="section-title fw-normal mb-3 pb-2">List Style v1</h2> -->
         <div class="row row-cols-2 row-cols-lg-3 row-cols-xl-4" id="products-grid-1">
@@ -134,18 +151,22 @@
 
         <div class="mb-4 mb-xl-5"></div>
         <div class="container" id="pagination">
-        <div class="pagination-area mt-15 mb-50">
-          <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-start">
-                <%# for(let j=1; j<=totalPages; j++){ %> 
-                      <li class="page-item">
-                          <a class="page-link" href="">1</a>
-                      </li>
-                 <%# } %>       
-              </ul>
-          </nav>
+          <div class="pagination-area mt-15 mb-50">
+              <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-start" id="paginationList">
+                      <% for(let i = 1; i <= totalPages; i++) { %>
+                          <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                              <a class="page-link" href="/shop?page=<%= i %>"><%= i %></a>
+                          </li>
+                          <!-- Add some space or separator here -->
+                          <span>&nbsp;&nbsp;</span> <!-- Example: Using space -->
+                          <!-- OR -->
+                          <!-- <li class="separator"></li> --> <!-- Example: Using separator list item -->
+                      <% } %>
+                  </ul>
+              </nav>
+          </div>
       </div>
-    </div>
     </section><!-- /.shop-main container -->
   </main>
 
@@ -154,32 +175,70 @@
   <!-- sort -->
 
   <script>
-    document.getElementById('sortForm').addEventListener('submit', function(event) {
-      event.preventDefault(); 
-      const sortSelect = document.getElementById('sortSelect');
-      const selectedSort = sortSelect.options[sortSelect.selectedIndex].value;
-      const currentUrl = new URL(window.location.href="/shop");
-      currentUrl.searchParams.set('sort', selectedSort); 
-      window.location.href = currentUrl.href; 
-    });
-  </script>
-  <script>
-    document.getElementById('sortSelect').addEventListener('change', function(event) {
-      const selectedSort = event.target.value;
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.set('sort', selectedSort); 
-      window.location.href = currentUrl.href; 
-    });
-  </script>
-  <!-- search -->
-  <script>
-    document.getElementById('searchForm').addEventListener('submit', function(event) {
-      event.preventDefault(); 
-      const searchInput = document.getElementById('searchInput').value;
-      const searchUrl = `/search.html?search-keyword=${encodeURIComponent(searchInput)}`;
-      window.location.href = searchUrl; 
-    });
-  </script>
+    function sortFormSubmit(event) {
+        event.preventDefault();
+        const sortSelect = document.getElementById('sortSelect');
+        const selectedSort = sortSelect.options[sortSelect.selectedIndex].value;
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('sort', selectedSort);
+        fetchProducts(currentUrl.href);
+    }
+
+    function sortSelectChange(event) {
+        const selectedSort = event.target.value;
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('sort', selectedSort);
+        fetchProducts(currentUrl.href);
+    }
+
+    function fetchProducts(url) {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const newDocument = parser.parseFromString(html, 'text/html');
+                const productsGrid = newDocument.getElementById('products-grid');
+                document.getElementById('products-grid').replaceWith(productsGrid);
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    }
+
+    // Add event listeners to the form and select
+    document.getElementById('sortForm').addEventListener('submit', sortFormSubmit);
+    document.getElementById('sortSelect').addEventListener('change', sortSelectChange);
+</script>
+
+<script>
+  document.getElementById('categorySelect').addEventListener('change', function() {
+      const categoryValue = this.value;
+      const url = new URL(window.location.href);
+      const filterForm = document.getElementById('filterForm');
+      
+      if (categoryValue !== '') {
+          url.searchParams.set('category', categoryValue);
+      } else {
+          url.searchParams.delete('category');
+      }
+
+      fetchProducts(url.href);
+  });
+
+  function fetchProducts(url) {
+      fetch(url)
+          .then(response => response.text())
+          .then(html => {
+              const parser = new DOMParser();
+              const newDocument = parser.parseFromString(html, 'text/html');
+              const productsGrid = newDocument.getElementById('products-grid');
+              document.getElementById('products-grid').replaceWith(productsGrid);
+          })
+          .catch(error => console.error('Error fetching products:', error));
+  }
+</script>
+
+
+
+
   <style>
     .container #pagination {
   display: flex;

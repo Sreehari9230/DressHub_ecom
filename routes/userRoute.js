@@ -75,6 +75,7 @@ userRoute.get('/ordercomplete',userAuth.isLogin, orderController.orderPlaced);
 
 userRoute.get('/orderdetails', userAuth.isLogin, orderController.orderDetails)
 userRoute.patch('/cancelorder', userAuth.isLogin, orderController.cancelOrder)
+userRoute.post('/return', userAuth.isLogin, orderController.returnOrder)
 
 
 

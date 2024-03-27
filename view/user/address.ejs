@@ -144,7 +144,7 @@
 
 
   <!-- Customer Login Form -->
- 
+  
   <!-- Go To Top -->
   <div id="scrollTop" class="visually-hidden end-0"></div>
 
@@ -199,6 +199,7 @@ function editAddress(card, id) {
         }).then((response) => {
             console.log("opop", response);
             if (response.status === 200) {
+              console.log('if is workin')
                 $(`#${card} #user-edit-address`).css('display', 'block');
                 $(`#${card}`).find('*').prop('disabled', 'true');
                 $(`#${card} #address-btn`).text('Edit Address');
